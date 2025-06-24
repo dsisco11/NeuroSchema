@@ -1,0 +1,659 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/layers.schema.json",
+  "title": "NeuroFormat Layers Schema",
+  "description": "Schema definitions for NeuroFormat neural network layer types and their specifications",
+  "definitions": {
+    "layer_type": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "linear",
+            "dense",
+            "conv1d",
+            "conv2d",
+            "conv3d",
+            "conv_transpose1d",
+            "conv_transpose2d",
+            "conv_transpose3d",
+            "batch_norm1d",
+            "batch_norm2d",
+            "batch_norm3d",
+            "layer_norm",
+            "group_norm",
+            "instance_norm",
+            "dropout",
+            "dropout2d",
+            "dropout3d",
+            "max_pool1d",
+            "max_pool2d",
+            "max_pool3d",
+            "avg_pool1d",
+            "avg_pool2d",
+            "avg_pool3d",
+            "adaptive_avg_pool1d",
+            "adaptive_avg_pool2d",
+            "adaptive_avg_pool3d",
+            "global_avg_pool",
+            "relu",
+            "leaky_relu",
+            "gelu",
+            "swish",
+            "sigmoid",
+            "tanh",
+            "softmax",
+            "log_softmax",
+            "embedding",
+            "positional_encoding",
+            "attention",
+            "multi_head_attention",
+            "self_attention",
+            "cross_attention",
+            "transformer_block",
+            "rnn",
+            "lstm",
+            "gru",
+            "residual_block",
+            "skip_connection"
+          ],
+          "description": "Built-in neural network layer types"
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_]*:[a-zA-Z][a-zA-Z0-9_]*$",
+          "description": "Third-party extension layer types using namespace:layer format (e.g., 'custom:transformer_variant')"
+        }
+      ],
+      "description": "Layer type - either a built-in neural network layer or a namespaced extension"
+    },
+    "linear_layer": {
+      "type": "object",
+      "required": ["type", "inputs", "outputs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["linear", "dense"]
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype", "shape"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "input"
+              },
+              "dtype": {
+                "type": "string",
+                "enum": ["float16", "float32", "float64"]
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 },
+                "description": "Input shape where last dimension is in_features"
+              }
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype", "shape"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "output"
+              },
+              "dtype": {
+                "type": "string",
+                "description": "Output dtype matches input dtype"
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 },
+                "description": "Output shape where last dimension is out_features"
+              }
+            }
+          }
+        },
+        "attributes": {
+          "type": "object",
+          "required": ["in_features", "out_features"],
+          "properties": {
+            "in_features": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of input features"
+            },
+            "out_features": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of output features"
+            },
+            "bias": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to include bias term"
+            }
+          }
+        },
+        "weights": {
+          "type": "object",
+          "required": ["weight"],
+          "properties": {
+            "weight": {
+              "type": "object",
+              "required": ["shape", "dtype"],
+              "properties": {
+                "shape": {
+                  "type": "array",
+                  "items": { "type": "integer" },
+                  "description": "Weight tensor shape [out_features, in_features]"
+                },
+                "dtype": {
+                  "type": "string",
+                  "enum": ["float16", "float32", "float64"]
+                }
+              }
+            },
+            "bias": {
+              "type": "object",
+              "properties": {
+                "shape": {
+                  "type": "array",
+                  "items": { "type": "integer" },
+                  "description": "Bias tensor shape [out_features]"
+                },
+                "dtype": {
+                  "type": "string",
+                  "enum": ["float16", "float32", "float64"]
+                }
+              },
+              "description": "Optional bias weights"
+            }
+          }
+        }
+      }
+    },
+    "convolution_layer": {
+      "type": "object",
+      "required": ["type", "inputs", "outputs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "conv1d",
+            "conv2d",
+            "conv3d",
+            "conv_transpose1d",
+            "conv_transpose2d",
+            "conv_transpose3d"
+          ]
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype", "shape"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "input"
+              },
+              "dtype": {
+                "type": "string",
+                "enum": ["float16", "float32", "float64"]
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 },
+                "description": "Input shape [batch, channels, spatial_dims...]"
+              }
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype", "shape"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "output"
+              },
+              "dtype": {
+                "type": "string",
+                "description": "Output dtype matches input dtype"
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 },
+                "description": "Output shape after convolution"
+              }
+            }
+          }
+        },
+        "attributes": {
+          "type": "object",
+          "required": ["in_channels", "out_channels", "kernel_size"],
+          "properties": {
+            "in_channels": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of input channels"
+            },
+            "out_channels": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of output channels"
+            },
+            "kernel_size": {
+              "oneOf": [
+                { "type": "integer", "minimum": 1 },
+                {
+                  "type": "array",
+                  "items": { "type": "integer", "minimum": 1 }
+                }
+              ],
+              "description": "Size of the convolving kernel"
+            },
+            "stride": {
+              "oneOf": [
+                { "type": "integer", "minimum": 1, "default": 1 },
+                {
+                  "type": "array",
+                  "items": { "type": "integer", "minimum": 1 }
+                }
+              ],
+              "description": "Stride of the convolution"
+            },
+            "padding": {
+              "oneOf": [
+                { "type": "integer", "minimum": 0, "default": 0 },
+                {
+                  "type": "array",
+                  "items": { "type": "integer", "minimum": 0 }
+                },
+                { "type": "string", "enum": ["valid", "same"] }
+              ],
+              "description": "Padding added to input"
+            },
+            "dilation": {
+              "oneOf": [
+                { "type": "integer", "minimum": 1, "default": 1 },
+                {
+                  "type": "array",
+                  "items": { "type": "integer", "minimum": 1 }
+                }
+              ],
+              "description": "Spacing between kernel elements"
+            },
+            "groups": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "description": "Number of blocked connections from input to output channels"
+            },
+            "bias": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to include bias term"
+            }
+          }
+        },
+        "weights": {
+          "type": "object",
+          "required": ["weight"],
+          "properties": {
+            "weight": {
+              "type": "object",
+              "required": ["shape", "dtype"],
+              "properties": {
+                "shape": {
+                  "type": "array",
+                  "items": { "type": "integer" },
+                  "description": "Weight tensor shape [out_channels, in_channels/groups, kernel_dims...]"
+                },
+                "dtype": {
+                  "type": "string",
+                  "enum": ["float16", "float32", "float64"]
+                }
+              }
+            },
+            "bias": {
+              "type": "object",
+              "properties": {
+                "shape": {
+                  "type": "array",
+                  "items": { "type": "integer" },
+                  "description": "Bias tensor shape [out_channels]"
+                },
+                "dtype": {
+                  "type": "string",
+                  "enum": ["float16", "float32", "float64"]
+                }
+              },
+              "description": "Optional bias weights"
+            }
+          }
+        }
+      }
+    },
+    "normalization_layer": {
+      "type": "object",
+      "required": ["type", "inputs", "outputs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "batch_norm1d",
+            "batch_norm2d",
+            "batch_norm3d",
+            "layer_norm",
+            "group_norm",
+            "instance_norm"
+          ]
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype", "shape"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "input"
+              },
+              "dtype": {
+                "type": "string",
+                "enum": ["float16", "float32", "float64"]
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 }
+              }
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype", "shape"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "output"
+              },
+              "dtype": {
+                "type": "string",
+                "description": "Output dtype matches input dtype"
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 },
+                "description": "Output shape matches input shape"
+              }
+            }
+          }
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "num_features": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of features for batch/instance norm"
+            },
+            "num_groups": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of groups for group norm"
+            },
+            "normalized_shape": {
+              "type": "array",
+              "items": { "type": "integer", "minimum": 1 },
+              "description": "Input shape from an expected input for layer norm"
+            },
+            "eps": {
+              "type": "number",
+              "minimum": 0,
+              "default": 1e-5,
+              "description": "Value added to the denominator for numerical stability"
+            },
+            "momentum": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "default": 0.1,
+              "description": "Momentum for running statistics (batch norm only)"
+            },
+            "affine": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to use learnable affine parameters"
+            },
+            "track_running_stats": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to track running statistics (batch norm only)"
+            }
+          }
+        }
+      }
+    },
+    "attention_layer": {
+      "type": "object",
+      "required": ["type", "inputs", "outputs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "attention",
+            "multi_head_attention",
+            "self_attention",
+            "cross_attention"
+          ]
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype", "shape"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": ["query", "key", "value", "input"]
+              },
+              "dtype": {
+                "type": "string",
+                "enum": ["float16", "float32", "float64"]
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 },
+                "description": "Input shape [batch, seq_len, embed_dim] or similar"
+              }
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype", "shape"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": ["output", "attention_weights"]
+              },
+              "dtype": {
+                "type": "string",
+                "description": "Output dtype matches input dtype"
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 }
+              }
+            }
+          }
+        },
+        "attributes": {
+          "type": "object",
+          "required": ["embed_dim"],
+          "properties": {
+            "embed_dim": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Total dimension of the model"
+            },
+            "num_heads": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "description": "Number of parallel attention heads"
+            },
+            "dropout": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "default": 0.0,
+              "description": "Dropout probability"
+            },
+            "bias": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to include bias in linear projections"
+            },
+            "batch_first": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, input and output tensors are [batch, seq, feature]"
+            },
+            "causal": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to apply causal masking"
+            }
+          }
+        }
+      }
+    },
+    "activation_layer": {
+      "type": "object",
+      "required": ["type", "inputs", "outputs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "relu",
+            "leaky_relu",
+            "gelu",
+            "swish",
+            "sigmoid",
+            "tanh",
+            "softmax",
+            "log_softmax"
+          ]
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype", "shape"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "input"
+              },
+              "dtype": {
+                "type": "string",
+                "enum": ["float16", "float32", "float64"]
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 }
+              }
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype", "shape"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "output"
+              },
+              "dtype": {
+                "type": "string",
+                "description": "Output dtype matches input dtype"
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 },
+                "description": "Output shape matches input shape"
+              }
+            }
+          }
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "negative_slope": {
+              "type": "number",
+              "default": 0.01,
+              "description": "Negative slope for LeakyReLU"
+            },
+            "dim": {
+              "type": "integer",
+              "description": "Dimension along which to apply softmax"
+            },
+            "approximate": {
+              "type": "string",
+              "enum": ["none", "tanh"],
+              "default": "none",
+              "description": "GELU approximation method"
+            }
+          }
+        }
+      }
+    },
+    "layer_specification": {
+      "oneOf": [
+        { "$ref": "#/definitions/linear_layer" },
+        { "$ref": "#/definitions/convolution_layer" },
+        { "$ref": "#/definitions/normalization_layer" },
+        { "$ref": "#/definitions/attention_layer" },
+        { "$ref": "#/definitions/activation_layer" }
+      ],
+      "description": "Complete specification for a neural network layer including inputs, outputs, and attributes"
+    }
+  }
+}
