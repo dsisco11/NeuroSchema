@@ -4,6 +4,18 @@
   "title": "NeuroFormat Operators Schema",
   "description": "Schema definitions for NeuroFormat operator types and their specifications",
   "definitions": {
+    "anyfloat": {
+      "$ref": "neuro.schema.json#/definitions/anyfloat"
+    },
+    "anyint": {
+      "$ref": "neuro.schema.json#/definitions/anyint"
+    },
+    "anyuint": {
+      "$ref": "neuro.schema.json#/definitions/anyuint"
+    },
+    "anynumeric": {
+      "$ref": "neuro.schema.json#/definitions/anynumeric"
+    },
     "operator_type": {
       "oneOf": [
         {
@@ -66,7 +78,7 @@
             "required": ["name", "dtype"],
             "properties": {
               "name": { "type": "string" },
-              "dtype": { "type": "string" },
+              "dtype": { "$ref": "#/definitions/anynumeric" },
               "shape": { "type": "array", "items": { "type": "integer" } },
               "description": { "type": "string" }
             }
@@ -82,7 +94,7 @@
             "required": ["name", "dtype"],
             "properties": {
               "name": { "type": "string" },
-              "dtype": { "type": "string" },
+              "dtype": { "$ref": "#/definitions/anynumeric" },
               "shape": { "type": "array", "items": { "type": "integer" } },
               "description": { "type": "string" }
             }
@@ -129,7 +141,7 @@
             "required": ["name", "dtype"],
             "properties": {
               "name": { "type": "string" },
-              "dtype": { "type": "string" },
+              "dtype": { "$ref": "#/definitions/anynumeric" },
               "shape": { "type": "array", "items": { "type": "integer" } },
               "description": { "type": "string" }
             }
@@ -144,7 +156,7 @@
             "required": ["name", "dtype"],
             "properties": {
               "name": { "type": "string" },
-              "dtype": { "type": "string" },
+              "dtype": { "$ref": "#/definitions/anynumeric" },
               "shape": { "type": "array", "items": { "type": "integer" } },
               "description": { "type": "string" }
             }
@@ -169,7 +181,7 @@
             "required": ["name", "dtype"],
             "properties": {
               "name": { "type": "string" },
-              "dtype": { "type": "string" },
+              "dtype": { "$ref": "#/definitions/anynumeric" },
               "shape": { "type": "array", "items": { "type": "integer" } },
               "description": { "type": "string" }
             }
@@ -184,7 +196,7 @@
             "required": ["name", "dtype"],
             "properties": {
               "name": { "type": "string" },
-              "dtype": { "type": "string" },
+              "dtype": { "$ref": "#/definitions/anynumeric" },
               "shape": { "type": "array", "items": { "type": "integer" } },
               "description": { "type": "string" }
             }
@@ -225,7 +237,7 @@
             "required": ["name", "dtype"],
             "properties": {
               "name": { "type": "string" },
-              "dtype": { "type": "string" },
+              "dtype": { "$ref": "#/definitions/anynumeric" },
               "shape": { "type": "array", "items": { "type": "integer" } },
               "description": { "type": "string" }
             }
@@ -240,7 +252,7 @@
             "required": ["name", "dtype"],
             "properties": {
               "name": { "type": "string" },
-              "dtype": { "type": "string" },
+              "dtype": { "$ref": "#/definitions/anynumeric" },
               "shape": { "type": "array", "items": { "type": "integer" } },
               "description": { "type": "string" }
             }
@@ -274,7 +286,7 @@
             "required": ["name", "dtype"],
             "properties": {
               "name": { "type": "string" },
-              "dtype": { "type": "string" },
+              "dtype": { "$ref": "#/definitions/anynumeric" },
               "shape": { "type": "array", "items": { "type": "integer" } },
               "description": { "type": "string" }
             }
@@ -288,7 +300,7 @@
             "required": ["name", "dtype"],
             "properties": {
               "name": { "type": "string" },
-              "dtype": { "type": "string" },
+              "dtype": { "$ref": "#/definitions/anynumeric" },
               "shape": { "type": "array", "items": { "type": "integer" } },
               "description": { "type": "string" }
             }

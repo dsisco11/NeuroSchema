@@ -219,6 +219,38 @@
     }
   },
   "definitions": {
+    "anyint": {
+      "type": "string",
+      "enum": ["int8", "int16", "int32", "int64"],
+      "description": "Any signed integer type regardless of bit width"
+    },
+    "anyuint": {
+      "type": "string",
+      "enum": ["uint8", "uint16", "uint32", "uint64"],
+      "description": "Any unsigned integer type regardless of bit width"
+    },
+    "anyfloat": {
+      "type": "string",
+      "enum": ["float16", "float32", "float64"],
+      "description": "Any floating-point type regardless of bit width"
+    },
+    "anynumeric": {
+      "type": "string",
+      "enum": [
+        "int8",
+        "int16",
+        "int32",
+        "int64",
+        "uint8",
+        "uint16",
+        "uint32",
+        "uint64",
+        "float16",
+        "float32",
+        "float64"
+      ],
+      "description": "Any numeric type (integer, unsigned integer, or floating-point)"
+    },
     "data_type": {
       "type": "string",
       "enum": [

@@ -4,6 +4,18 @@
   "title": "NeuroFormat Layers Schema",
   "description": "Schema definitions for NeuroFormat neural network layer types and their specifications",
   "definitions": {
+    "anyfloat": {
+      "$ref": "neuro.schema.json#/definitions/anyfloat"
+    },
+    "anyint": {
+      "$ref": "neuro.schema.json#/definitions/anyint"
+    },
+    "anyuint": {
+      "$ref": "neuro.schema.json#/definitions/anyuint"
+    },
+    "anynumeric": {
+      "$ref": "neuro.schema.json#/definitions/anynumeric"
+    },
     "layer_type": {
       "oneOf": [
         {
@@ -88,8 +100,7 @@
                 "const": "input"
               },
               "dtype": {
-                "type": "string",
-                "enum": ["float16", "float32", "float64"]
+                "$ref": "#/definitions/anyfloat"
               },
               "shape": {
                 "type": "array",
@@ -151,29 +162,25 @@
             "weight": {
               "type": "object",
               "required": ["shape", "dtype"],
-              "properties": {
-                "shape": {
+              "properties": {                "shape": {
                   "type": "array",
                   "items": { "type": "integer" },
                   "description": "Weight tensor shape [out_features, in_features]"
                 },
                 "dtype": {
-                  "type": "string",
-                  "enum": ["float16", "float32", "float64"]
+                  "$ref": "#/definitions/anyfloat"
                 }
               }
             },
             "bias": {
               "type": "object",
-              "properties": {
-                "shape": {
+              "properties": {                "shape": {
                   "type": "array",
                   "items": { "type": "integer" },
                   "description": "Bias tensor shape [out_features]"
                 },
                 "dtype": {
-                  "type": "string",
-                  "enum": ["float16", "float32", "float64"]
+                  "$ref": "#/definitions/anyfloat"
                 }
               },
               "description": "Optional bias weights"
@@ -204,14 +211,12 @@
           "items": {
             "type": "object",
             "required": ["name", "dtype", "shape"],
-            "properties": {
-              "name": {
+            "properties": {              "name": {
                 "type": "string",
                 "const": "input"
               },
               "dtype": {
-                "type": "string",
-                "enum": ["float16", "float32", "float64"]
+                "$ref": "#/definitions/anyfloat"
               },
               "shape": {
                 "type": "array",
@@ -320,29 +325,25 @@
             "weight": {
               "type": "object",
               "required": ["shape", "dtype"],
-              "properties": {
-                "shape": {
+              "properties": {                "shape": {
                   "type": "array",
                   "items": { "type": "integer" },
                   "description": "Weight tensor shape [out_channels, in_channels/groups, kernel_dims...]"
                 },
                 "dtype": {
-                  "type": "string",
-                  "enum": ["float16", "float32", "float64"]
+                  "$ref": "#/definitions/anyfloat"
                 }
               }
             },
             "bias": {
               "type": "object",
-              "properties": {
-                "shape": {
+              "properties": {                "shape": {
                   "type": "array",
                   "items": { "type": "integer" },
                   "description": "Bias tensor shape [out_channels]"
                 },
                 "dtype": {
-                  "type": "string",
-                  "enum": ["float16", "float32", "float64"]
+                  "$ref": "#/definitions/anyfloat"
                 }
               },
               "description": "Optional bias weights"
@@ -356,8 +357,7 @@
       "required": ["type", "inputs", "outputs"],
       "properties": {
         "type": {
-          "type": "string",
-          "enum": [
+          "type": "string",          "enum": [
             "batch_norm1d",
             "batch_norm2d",
             "batch_norm3d",
@@ -379,8 +379,7 @@
                 "const": "input"
               },
               "dtype": {
-                "type": "string",
-                "enum": ["float16", "float32", "float64"]
+                "$ref": "#/definitions/anyfloat"
               },
               "shape": {
                 "type": "array",
@@ -478,14 +477,12 @@
           "items": {
             "type": "object",
             "required": ["name", "dtype", "shape"],
-            "properties": {
-              "name": {
+            "properties": {              "name": {
                 "type": "string",
                 "enum": ["query", "key", "value", "input"]
               },
               "dtype": {
-                "type": "string",
-                "enum": ["float16", "float32", "float64"]
+                "$ref": "#/definitions/anyfloat"
               },
               "shape": {
                 "type": "array",
@@ -587,10 +584,8 @@
               "name": {
                 "type": "string",
                 "const": "input"
-              },
-              "dtype": {
-                "type": "string",
-                "enum": ["float16", "float32", "float64"]
+              },              "dtype": {
+                "$ref": "#/definitions/anyfloat"
               },
               "shape": {
                 "type": "array",
