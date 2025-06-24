@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/neuro-format/schemas/neuro-schema-2025-1.json",
-  "title": "NeuroFormat Schema",
-  "description": "JSON Schema for NeuroFormat neural network model definitions",
+  "$id": "https://raw.githubusercontent.com/neuro-graph/schemas/2025-1/neuro.schema.json",
+  "title": "NeuroGraph Schema",
+  "description": "JSON Schema for NeuroGraph neural network model definitions",
   "type": "object",
   "required": ["metadata", "inputs", "outputs", "export"],
   "properties": {
@@ -136,7 +136,7 @@
           {
             "properties": {
               "value": {
-                "$ref": "#/definitions/reference_object",
+                "$ref": "#/definitions/output_reference",
                 "description": "Reference to the source of this output value"
               }
             }
@@ -191,7 +191,7 @@
           },
           "value": {
             "oneOf": [
-              { "$ref": "#/definitions/reference_object" },
+              { "$ref": "#/definitions/data_reference" },
               { "$ref": "#/definitions/base64_value" },
               { "$ref": "#/definitions/hex_value" },
               { "type": "array" },
@@ -306,17 +306,60 @@
         }
       }
     },
-    "reference_object": {
+    "node_reference": {
+      "type": "string",
+      "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*(\\/[a-zA-Z_][a-zA-Z0-9_]*)*$",
+      "description": "Path reference to a named node (input, definition, or local node within a subgraph). Simple name for local references, or path-like notation for nested references."
+    },
+    "data_reference": {
       "type": "object",
       "required": ["ref"],
       "properties": {
         "ref": {
           "type": "string",
-          "pattern": "^[a-zA-Z_][a-zA-Z0-9_/]*$",
+          "pattern": "^variables\\/[a-zA-Z_][a-zA-Z0-9_]*$",
+          "description": "Path reference to a data object in the variables section"
+        }
+      },
+      "description": "Reference to a data object defined in the variables section"
+    },
+    "weight_reference": {
+      "type": "object",
+      "required": ["ref"],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "pattern": "^(variables\\/[a-zA-Z_][a-zA-Z0-9_]*|weights\\/[a-zA-Z_][a-zA-Z0-9_]*)$",
+          "description": "Path reference to weight data in variables or weights section"
+        }
+      },
+      "description": "Reference to weight data defined in the variables or weights section"
+    },
+    "output_reference": {
+      "type": "object",
+      "required": ["ref"],
+      "properties": {
+        "ref": {
+          "$ref": "#/definitions/node_reference",
+          "description": "Path reference to a node output"
+        },
+        "output": {
+          "type": "string",
+          "description": "Specific output name for nodes with multiple outputs (optional)"
+        }
+      },
+      "description": "Reference to the output of a specific node, optionally specifying which output for multi-output nodes"
+    },
+    "reference_object": {
+      "type": "object",
+      "required": ["ref"],
+      "properties": {
+        "ref": {
+          "$ref": "#/definitions/node_reference",
           "description": "Path reference to another object in the document"
         }
       },
-      "description": "Reference to values defined elsewhere in the file"
+      "description": "Generic reference object (deprecated - use specific reference types)"
     },
     "base64_value": {
       "type": "object",
@@ -423,7 +466,7 @@
             },
             "weights": {
               "oneOf": [
-                { "$ref": "#/definitions/reference_object" },
+                { "$ref": "#/definitions/weight_reference" },
                 { "$ref": "#/definitions/hex_value" }
               ],
               "description": "Default weights for the node definition"
@@ -447,19 +490,16 @@
             {
               "$ref": "architectures.schema.json#/definitions/architecture_type"
             },
-            { "$ref": "#/definitions/reference_object" }
+            { "$ref": "#/definitions/node_reference" }
           ],
-          "description": "Type of the node operation or reference to a node definition"
+          "description": "Type of the node operation or reference to a node definition declared in the definitions section"
         },
         "arguments": {
           "type": "array",
           "items": {
-            "oneOf": [
-              { "type": "string" },
-              { "$ref": "#/definitions/reference_object" }
-            ]
+            "$ref": "#/definitions/node_reference"
           },
-          "description": "Input arguments for this node invocation"
+          "description": "Input arguments for this node invocation - references to input tensors, other nodes, or definitions"
         },
         "attributes": {
           "type": "object",
@@ -467,7 +507,7 @@
         },
         "weights": {
           "oneOf": [
-            { "$ref": "#/definitions/reference_object" },
+            { "$ref": "#/definitions/weight_reference" },
             { "$ref": "#/definitions/hex_value" }
           ],
           "description": "Specific weights for this node invocation"
@@ -490,7 +530,7 @@
             {
               "$ref": "architectures.schema.json#/definitions/architecture_type"
             },
-            { "$ref": "#/definitions/reference_object" }
+            { "$ref": "#/definitions/node_reference" }
           ],
           "description": "Type of the operation or reference to definition"
         },
@@ -502,7 +542,7 @@
         },
         "value": {
           "oneOf": [
-            { "$ref": "#/definitions/reference_object" },
+            { "$ref": "#/definitions/data_reference" },
             { "type": "array" },
             { "type": "number" }
           ]
@@ -510,12 +550,9 @@
         "arguments": {
           "type": "array",
           "items": {
-            "oneOf": [
-              { "type": "string" },
-              { "$ref": "#/definitions/reference_object" }
-            ]
+            "$ref": "#/definitions/node_reference"
           },
-          "description": "Arguments for the operation"
+          "description": "Arguments for the operation - references to input tensors, other nodes, or definitions"
         },
         "attributes": {
           "type": "object",

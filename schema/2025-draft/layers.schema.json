@@ -162,7 +162,8 @@
             "weight": {
               "type": "object",
               "required": ["shape", "dtype"],
-              "properties": {                "shape": {
+              "properties": {
+                "shape": {
                   "type": "array",
                   "items": { "type": "integer" },
                   "description": "Weight tensor shape [out_features, in_features]"
@@ -174,7 +175,8 @@
             },
             "bias": {
               "type": "object",
-              "properties": {                "shape": {
+              "properties": {
+                "shape": {
                   "type": "array",
                   "items": { "type": "integer" },
                   "description": "Bias tensor shape [out_features]"
@@ -211,7 +213,8 @@
           "items": {
             "type": "object",
             "required": ["name", "dtype", "shape"],
-            "properties": {              "name": {
+            "properties": {
+              "name": {
                 "type": "string",
                 "const": "input"
               },
@@ -325,7 +328,8 @@
             "weight": {
               "type": "object",
               "required": ["shape", "dtype"],
-              "properties": {                "shape": {
+              "properties": {
+                "shape": {
                   "type": "array",
                   "items": { "type": "integer" },
                   "description": "Weight tensor shape [out_channels, in_channels/groups, kernel_dims...]"
@@ -337,7 +341,8 @@
             },
             "bias": {
               "type": "object",
-              "properties": {                "shape": {
+              "properties": {
+                "shape": {
                   "type": "array",
                   "items": { "type": "integer" },
                   "description": "Bias tensor shape [out_channels]"
@@ -357,7 +362,8 @@
       "required": ["type", "inputs", "outputs"],
       "properties": {
         "type": {
-          "type": "string",          "enum": [
+          "type": "string",
+          "enum": [
             "batch_norm1d",
             "batch_norm2d",
             "batch_norm3d",
@@ -477,7 +483,8 @@
           "items": {
             "type": "object",
             "required": ["name", "dtype", "shape"],
-            "properties": {              "name": {
+            "properties": {
+              "name": {
                 "type": "string",
                 "enum": ["query", "key", "value", "input"]
               },
@@ -584,7 +591,8 @@
               "name": {
                 "type": "string",
                 "const": "input"
-              },              "dtype": {
+              },
+              "dtype": {
                 "$ref": "#/definitions/anyfloat"
               },
               "shape": {

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/neuro-schema-2025-1.json",
+  "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
   "metadata": {
     "model": {
       "name": "simple_sequential_classifier", 

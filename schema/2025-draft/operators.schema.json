@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/operators.schema.json",
-  "title": "NeuroFormat Operators Schema",
-  "description": "Schema definitions for NeuroFormat operator types and their specifications",
+  "$id": "https://raw.githubusercontent.com/neuro-graph/schemas/2025-1/operators.schema.json",
+  "title": "NeuroGraph Operators Schema",
+  "description": "Schema definitions for NeuroGraph operator types and their specifications",
   "definitions": {
     "anyfloat": {
       "$ref": "neuro.schema.json#/definitions/anyfloat"

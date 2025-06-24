@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/architectures.schema.json",
-  "title": "NeuroFormat Architectures Schema", 
-  "description": "Schema definitions for NeuroFormat neural network architecture compound nodes",
+  "$id": "https://raw.githubusercontent.com/neuro-graph/schemas/2025-1/architectures.schema.json",
+  "title": "NeuroGraph Architectures Schema",
+  "description": "Schema definitions for NeuroGraph neural network architecture compound nodes",
   "definitions": {
     "anyfloat": {
       "$ref": "neuro.schema.json#/definitions/anyfloat"
@@ -20,12 +20,10 @@
       "oneOf": [
         {
           "type": "string",
-          "enum": [
-            "sequential"
-          ]
+          "enum": ["sequential"]
         },
         {
-          "type": "string", 
+          "type": "string",
           "pattern": "^[a-zA-Z][a-zA-Z0-9_]*:[a-zA-Z][a-zA-Z0-9_]*$",
           "description": "Third-party architecture type in the format 'namespace:type'"
         }
@@ -88,7 +86,7 @@
                   "description": "Expected input shape (excluding batch dimension)"
                 },
                 "output_shape": {
-                  "type": "array", 
+                  "type": "array",
                   "items": { "type": "integer", "minimum": 1 },
                   "description": "Expected output shape (excluding batch dimension)"
                 }
@@ -113,20 +111,22 @@
                   },
                   "type": {
                     "oneOf": [
-                      { "$ref": "operators.schema.json#/definitions/operator_type" },
+                      {
+                        "$ref": "operators.schema.json#/definitions/operator_type"
+                      },
                       { "$ref": "layers.schema.json#/definitions/layer_type" },
-                      { "$ref": "neuro.schema.json#/definitions/reference_object" }
-                    ]
+                      {
+                        "$ref": "neuro.schema.json#/definitions/node_reference"
+                      }
+                    ],
+                    "description": "Type of the node operation or reference to a node definition"
                   },
                   "arguments": {
                     "type": "array",
                     "items": {
-                      "oneOf": [
-                        { "type": "string" },
-                        { "$ref": "neuro.schema.json#/definitions/reference_object" }
-                      ]
+                      "$ref": "neuro.schema.json#/definitions/node_reference"
                     },
-                    "description": "Input connections for this node"
+                    "description": "Input connections for this node - references to input tensors, other nodes, or definitions"
                   },
                   "attributes": {
                     "type": "object",
@@ -134,7 +134,9 @@
                   },
                   "weights": {
                     "oneOf": [
-                      { "$ref": "neuro.schema.json#/definitions/reference_object" },
+                      {
+                        "$ref": "neuro.schema.json#/definitions/weight_reference"
+                      },
                       { "$ref": "neuro.schema.json#/definitions/hex_value" }
                     ],
                     "description": "Weights for this node instance"
