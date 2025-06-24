@@ -212,9 +212,9 @@
     },
     "export": {
       "type": "array",
-      "description": "The primary exported model structure as a series of nodes",
+      "description": "The primary exported model structure as a series of node invocations",
       "items": {
-        "$ref": "#/definitions/export_node"
+        "$ref": "#/definitions/node_invocation"
       }
     }
   },
@@ -222,10 +222,19 @@
     "data_type": {
       "type": "string",
       "enum": [
-        "int8", "int16", "int32", "int64",
-        "uint8", "uint16", "uint32", "uint64",
-        "float16", "float32", "float64",
-        "bool", "string"
+        "int8",
+        "int16",
+        "int32",
+        "int64",
+        "uint8",
+        "uint16",
+        "uint32",
+        "uint64",
+        "float16",
+        "float32",
+        "float64",
+        "bool",
+        "string"
       ],
       "description": "Supported data types for tensors"
     },
@@ -326,28 +335,106 @@
           "type": "string",
           "description": "Type of the node (conv, relu, subgraph, etc.)"
         },
+        "parameters": {
+          "type": "object",
+          "description": "Parameter schema that defines what inputs this node type expects",
+          "properties": {
+            "inputs": {
+              "type": "array",
+              "description": "Expected input parameters for this node type",
+              "items": {
+                "type": "object",
+                "required": ["name", "type"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the input parameter"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Expected type of the input"
+                  },
+                  "required": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether this input is required"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the input parameter"
+                  }
+                }
+              }
+            },
+            "attributes": {
+              "type": "object",
+              "description": "Expected attributes schema for this node type"
+            }
+          }
+        },
+        "implementation": {
+          "type": "object",
+          "description": "Implementation details for this node definition",
+          "properties": {
+            "subgraph": {
+              "type": "array",
+              "description": "For subgraph node types, the internal node structure",
+              "items": {
+                "$ref": "#/definitions/subgraph_node"
+              }
+            },
+            "weights": {
+              "oneOf": [
+                { "$ref": "#/definitions/reference_object" },
+                { "$ref": "#/definitions/hex_value" }
+              ],
+              "description": "Default weights for the node definition"
+            }
+          }
+        }
+      }
+    },
+    "node_invocation": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of this node invocation instance"
+        },
+        "type": {
+          "oneOf": [
+            { "type": "string" },
+            { "$ref": "#/definitions/reference_object" }
+          ],
+          "description": "Type of the node or reference to a node definition"
+        },
+        "arguments": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              { "$ref": "#/definitions/reference_object" }
+            ]
+          },
+          "description": "Input arguments for this node invocation"
+        },
         "attributes": {
           "type": "object",
-          "description": "Attributes specific to the node type"
+          "description": "Specific attribute values for this node invocation"
         },
         "weights": {
           "oneOf": [
             { "$ref": "#/definitions/reference_object" },
             { "$ref": "#/definitions/hex_value" }
           ],
-          "description": "Weights for the node"
-        },
-        "nodes": {
-          "type": "array",
-          "description": "Sub-nodes for subgraph types",
-          "items": {
-            "$ref": "#/definitions/subgraph_node"
-          }
+          "description": "Specific weights for this node invocation"
         }
       }
     },
     "subgraph_node": {
       "type": "object",
+      "description": "A node within a subgraph - can be either a definition or invocation depending on context",
       "required": ["name", "type"],
       "properties": {
         "name": {
@@ -355,8 +442,11 @@
           "description": "Name of the subgraph node"
         },
         "type": {
-          "type": "string",
-          "description": "Type of the operation (tensor, mul, add, etc.)"
+          "oneOf": [
+            { "type": "string" },
+            { "$ref": "#/definitions/reference_object" }
+          ],
+          "description": "Type of the operation (tensor, mul, add, etc.) or reference to definition"
         },
         "shape": {
           "$ref": "#/definitions/tensor_shape"
@@ -380,44 +470,10 @@
             ]
           },
           "description": "Arguments for the operation"
-        }
-      }
-    },
-    "export_node": {
-      "type": "object",
-      "required": ["name"],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the export node"
-        },
-        "type": {
-          "oneOf": [
-            { "type": "string" },
-            { "$ref": "#/definitions/reference_object" }
-          ],
-          "description": "Type of the node or reference to a definition"
-        },
-        "arguments": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              { "type": "string" },
-              { "$ref": "#/definitions/reference_object" }
-            ]
-          },
-          "description": "Input arguments for the node"
         },
         "attributes": {
           "type": "object",
-          "description": "Attributes specific to the node type"
-        },
-        "weights": {
-          "oneOf": [
-            { "$ref": "#/definitions/reference_object" },
-            { "$ref": "#/definitions/hex_value" }
-          ],
-          "description": "Weights for the node"
+          "description": "Attributes for this subgraph node"
         }
       }
     }
