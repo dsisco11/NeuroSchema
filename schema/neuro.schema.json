@@ -332,7 +332,7 @@
           "description": "Name of the node definition"
         },
         "type": {
-          "$ref": "node-operations.json#/definitions/operator_type",
+          "$ref": "operators.schema.json#/definitions/operator_type",
           "description": "Type of the node operation"
         },
         "parameters": {
@@ -404,7 +404,7 @@
         },
         "type": {
           "oneOf": [
-            { "$ref": "node-operations.json#/definitions/operator_type" },
+            { "$ref": "operators.schema.json#/definitions/operator_type" },
             { "$ref": "#/definitions/reference_object" }
           ],
           "description": "Type of the node operation or reference to a node definition"
@@ -443,7 +443,7 @@
         },
         "type": {
           "oneOf": [
-            { "$ref": "node-operations.json#/definitions/operator_type" },
+            { "$ref": "operators.schema.json#/definitions/operator_type" },
             { "$ref": "#/definitions/reference_object" }
           ],
           "description": "Type of the operation or reference to definition"
