@@ -364,8 +364,14 @@
           "description": "Name of the node definition"
         },
         "type": {
-          "$ref": "operators.schema.json#/definitions/operator_type",
-          "description": "Type of the node operation"
+          "oneOf": [
+            { "$ref": "operators.schema.json#/definitions/operator_type" },
+            { "$ref": "layers.schema.json#/definitions/layer_type" },
+            {
+              "$ref": "architectures.schema.json#/definitions/architecture_type"
+            }
+          ],
+          "description": "Type of the node operation - can be an operator, layer, or architecture"
         },
         "parameters": {
           "type": "object",
@@ -437,6 +443,10 @@
         "type": {
           "oneOf": [
             { "$ref": "operators.schema.json#/definitions/operator_type" },
+            { "$ref": "layers.schema.json#/definitions/layer_type" },
+            {
+              "$ref": "architectures.schema.json#/definitions/architecture_type"
+            },
             { "$ref": "#/definitions/reference_object" }
           ],
           "description": "Type of the node operation or reference to a node definition"
@@ -476,6 +486,10 @@
         "type": {
           "oneOf": [
             { "$ref": "operators.schema.json#/definitions/operator_type" },
+            { "$ref": "layers.schema.json#/definitions/layer_type" },
+            {
+              "$ref": "architectures.schema.json#/definitions/architecture_type"
+            },
             { "$ref": "#/definitions/reference_object" }
           ],
           "description": "Type of the operation or reference to definition"
