@@ -1,0 +1,188 @@
+{
+    "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/neuro-schema-2025-1.json",
+    // Metadata about the model, such as name, version, description, author, license, tags, and any third-party sections.
+    "metadata": {
+        "model": {
+            "name": "example_model",
+            "version": "0.0.1",
+            "description": "An example neruo model definition.",
+            "author": "Your Name",
+            "license": "Apache-2.0",
+            "tags": ["example", "neuro", "unpacked"],
+            // Constants are values which describe immutable properties of the model, such as the number of input channels, output channels, etc.
+            // These values usually hold information which is required, or simply relevant, to know when using the model.
+            "constants": {
+                "network_depth": { "value": 9001, "description": "The number of layers per block in the model." },
+                "projection_dim": { "value": 768, "description": "The dimension of the projection layer in the model." }
+            },
+            // The "ui" section is a place where the author can define how the model might be presented in a user interface (completely optional to be ignored by end tools).
+            "ui": {
+                "display_name": "Example Model",// A human-readable name for the model
+                "description": "This is an example model for demonstration purposes.",// A different description for UI purposes (website might use the `model.description`, while an end-user-tool might use this one)
+                // Prompting is an optional section which describes how a model should be prompted, this only really applies to models which CAN be prompted of course.
+                "prompting": {
+                    // The "phrases" array is a place where the author can suggest specific words or phrases (or any text string) to be used when prompting.
+                    "phrases": {
+                        "required": "xXRealismExplosionXx", // A required phrase that MUST be included in the prompt for the model to work correctly (Eg: for a character LoRA).
+                        "recommended": [// An array of suggested phrases that can be used to prompt the model, end-tools will ideally show these to the user as they are typing their prompt.
+                            "realism",
+                            "photorealism",
+                            "photorealistic",
+                            "masterpiece"
+                        ]
+                    }
+                },
+                "icon": "icon.png", // resource link to an icon representing the model
+                "color": "#FF5733" // A color associated with the model, used for UI theming
+            }
+        },
+        "i_am_a_third_party_section": {
+            "description": "third-party tools can use custom sections under 'metadata' to store additional info.",
+            "custom_data": "This is a custom field for third-party tools."
+        }
+    },
+    // Inputs of the model, which are the expected tensor shapes and types that the model will process
+    "inputs": [
+        {
+            "name": "my_input1",
+            "description": "The first input tensor for the model.",// description of the input tensor which can help users understand its purpose
+            "shape": [1, 3, 224, 224],
+            "dtype": "uint32"
+        },
+        {
+            "name": "timestep",
+            "description": "A single timestep value for the model.",
+            "shape": [1],
+            "dtype": "float32",
+            "default": [0.0], // default value for the timestep input
+            "optional": true // indicates that this input is optional
+        },
+        {
+            "name": "encoder_hidden_states",
+            "shape": [1, 77, 768],
+            "dtype": "float32"
+        }
+    ],
+    // Outputs of the model, which are the results after processing the inputs through the model
+    "outputs": [
+        {
+            "name": "output1",
+            "shape": [1, 1000],
+            "dtype": "float32",
+            "value": { "ref": "export/relu1" } // maps "output1" to the output value from "relu1" in the export section
+        },
+        {
+            "name": "output2",
+            "shape": [1, 3, 224, 224],
+            "dtype": "float32",
+            "value": { "ref": "export/conv1" } // maps "output2" to the output value from "conv1" in the export section
+        }
+    ],
+    // Any data which is external to the current neuro.json file (such as a weights file, etc) which the model requires. 
+    "imports": [
+        {
+            "name": "model_weights",
+            "type": "safetensors",
+            "value": "./weights/model.safetensors" // relative path reference to a Safetensors file containing model weights
+        },
+        {
+            "name": "imported_model",
+            "type": "neuro",
+            "value": "./imported_model.neuro.json" // relative path reference to another Neuro model file
+        }
+    ],
+    // Named variables, which are referenceable data such as weights, biases, etc.
+    "constants": [
+        {
+            "name": "unet_weights",
+            "type": "tensor",
+            "dtype": "float32",
+            "shape": [1, 3, 224, 224],
+            "value": {
+                // References to values defined elsewhere in the file should always be in the form of a "reference object" (eg: `{"ref": <path>}`), so that references (which have to be resolved as a separate step anyways) are both explicit and consistent.
+                "ref": "imports/model_weights/any_named_layer_from_safetensors_file" // reference to the imported weights file
+            }
+        },
+        {
+            "name": "conv1_weights",
+            "type": "tensor",
+            "dtype": "float32",
+            "shape": [3, 3],
+            "value": {
+                "type": "base64",
+                "value": "base64_encoded_weights_string_here"
+            }
+        },
+        {
+            "name": "scaling_factor",
+            "type": "tensor",
+            "dtype": "float32",
+            "shape": [1],
+            "value": [0.5]
+        }
+    ],
+    // Definitions of reusable nodes or layers, which can be referenced in the export section
+    "definitions": [
+        {
+            "name": "conv1",
+            "type": "conv",
+            "attributes": {
+                "kernel_size": [3, 3],
+                "stride": [1, 1],
+                "padding": [1, 1]
+            },
+            "weights": {
+                "ref": "variables/conv1_weights"
+            }
+        },
+        {
+            "name": "scaled_input",
+            "type": "subgraph",// represents a compound node that encompasses multiple operations
+            "nodes": [
+                {
+                    "name": "input_node",
+                    "type": "tensor",// represents a raw tensor
+                    "shape": [1, 3, 224, 224],
+                    "dtype": "float32",
+                    "value": {
+                        "ref": "inputs/my_input1"// reference to the input defined above in the inputs section
+                    }
+                },
+                {
+                    "name": "scale_node",
+                    "type": "mul",// represents a multiply operation
+                    "arguments": [
+                        "input_node",
+                        { "ref": "variables/scaling_factor" } // reference to the constant defined above
+                    ]
+                }
+            ]
+        }
+    ],
+    // The primary exported model structure, which is a series of nodes
+    "export": [
+        {
+            "name": "first_node",
+            "type": {"ref": "definitions/scaled_input"}, // reference to the reusable node defined above
+        },
+        {
+            "name": "conv1",// <-- note that this node has a different path than the reusable definition (eg: "export/conv1").
+            "type": {"ref": "definitions/conv1"}, // reference to the reusable conv node defined above
+            "arguments": ["first_node"]// references the output of the node "first_node", implicitly assumed to mean "export/first_node".
+        },
+        {
+            "name": "relu1",
+            "type": "relu",
+            "arguments": ["conv1"], // references the output of the "conv1" node
+            "attributes": {},
+            "weights": {
+                "name": "relu1_weights",
+                "type": "hex",
+                "value": [
+                    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+                    0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
+                ]
+            }
+        }
+    ]
+}

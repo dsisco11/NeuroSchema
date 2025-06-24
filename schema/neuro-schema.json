@@ -1,0 +1,425 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/neuro-format/schemas/neuro-schema-2025-1.json",
+  "title": "NeuroFormat Schema",
+  "description": "JSON Schema for NeuroFormat neural network model definitions",
+  "type": "object",
+  "required": ["metadata", "inputs", "outputs", "export"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to the JSON schema that validates this document"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Metadata about the model including name, version, description, and other properties",
+      "required": ["model"],
+      "properties": {
+        "model": {
+          "type": "object",
+          "description": "Core model metadata",
+          "required": ["name", "version"],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the model"
+            },
+            "version": {
+              "type": "string",
+              "description": "The version of the model"
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of the model"
+            },
+            "author": {
+              "type": "string",
+              "description": "The author of the model"
+            },
+            "license": {
+              "type": "string",
+              "description": "The license under which the model is distributed"
+            },
+            "tags": {
+              "type": "array",
+              "description": "Tags associated with the model",
+              "items": {
+                "type": "string"
+              }
+            },
+            "constants": {
+              "type": "object",
+              "description": "Immutable properties of the model",
+              "patternProperties": {
+                "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                  "type": "object",
+                  "required": ["value"],
+                  "properties": {
+                    "value": {
+                      "type": ["number", "string", "boolean"],
+                      "description": "The constant value"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Description of the constant"
+                    }
+                  }
+                }
+              }
+            },
+            "ui": {
+              "type": "object",
+              "description": "User interface presentation information",
+              "properties": {
+                "display_name": {
+                  "type": "string",
+                  "description": "Human-readable name for the model"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "UI-specific description"
+                },
+                "prompting": {
+                  "type": "object",
+                  "description": "Prompting configuration for models that support prompting",
+                  "properties": {
+                    "phrases": {
+                      "type": "object",
+                      "properties": {
+                        "required": {
+                          "type": "string",
+                          "description": "Required phrase that must be included in prompts"
+                        },
+                        "recommended": {
+                          "type": "array",
+                          "description": "Recommended phrases for prompting",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "icon": {
+                  "type": "string",
+                  "description": "Resource link to an icon representing the model"
+                },
+                "color": {
+                  "type": "string",
+                  "pattern": "^#[0-9A-Fa-f]{6}$",
+                  "description": "Hex color associated with the model"
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "description": "Third-party sections for custom metadata"
+      }
+    },
+    "inputs": {
+      "type": "array",
+      "description": "Input tensors that the model expects",
+      "items": {
+        "$ref": "#/definitions/tensor_spec"
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "description": "Output tensors that the model produces",
+      "items": {
+        "allOf": [
+          { "$ref": "#/definitions/tensor_spec" },
+          {
+            "properties": {
+              "value": {
+                "$ref": "#/definitions/reference_object",
+                "description": "Reference to the source of this output value"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "imports": {
+      "type": "array",
+      "description": "External resources required by the model",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "value"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name identifier for the imported resource"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["safetensors", "neuro"],
+            "description": "Type of the imported resource"
+          },
+          "value": {
+            "type": "string",
+            "description": "Path or URI to the resource"
+          }
+        }
+      }
+    },
+    "constants": {
+      "type": "array",
+      "description": "Named variables such as weights, biases, and other referenceable data",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name identifier for the constant"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["tensor", "scalar"],
+            "description": "Type of the constant"
+          },
+          "dtype": {
+            "$ref": "#/definitions/data_type"
+          },
+          "shape": {
+            "$ref": "#/definitions/tensor_shape"
+          },
+          "value": {
+            "oneOf": [
+              { "$ref": "#/definitions/reference_object" },
+              { "$ref": "#/definitions/base64_value" },
+              { "$ref": "#/definitions/hex_value" },
+              { "type": "array" },
+              { "type": "number" },
+              { "type": "string" }
+            ],
+            "description": "The value of the constant"
+          }
+        }
+      }
+    },
+    "definitions": {
+      "type": "array",
+      "description": "Reusable node or layer definitions",
+      "items": {
+        "$ref": "#/definitions/node_definition"
+      }
+    },
+    "export": {
+      "type": "array",
+      "description": "The primary exported model structure as a series of nodes",
+      "items": {
+        "$ref": "#/definitions/export_node"
+      }
+    }
+  },
+  "definitions": {
+    "data_type": {
+      "type": "string",
+      "enum": [
+        "int8", "int16", "int32", "int64",
+        "uint8", "uint16", "uint32", "uint64",
+        "float16", "float32", "float64",
+        "bool", "string"
+      ],
+      "description": "Supported data types for tensors"
+    },
+    "tensor_shape": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": -1
+      },
+      "description": "Shape of a tensor, where -1 indicates dynamic dimension"
+    },
+    "tensor_spec": {
+      "type": "object",
+      "required": ["name", "shape", "dtype"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the tensor"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the tensor's purpose"
+        },
+        "shape": {
+          "$ref": "#/definitions/tensor_shape"
+        },
+        "dtype": {
+          "$ref": "#/definitions/data_type"
+        },
+        "default": {
+          "type": "array",
+          "description": "Default value for optional inputs"
+        },
+        "optional": {
+          "type": "boolean",
+          "description": "Whether this tensor is optional"
+        }
+      }
+    },
+    "reference_object": {
+      "type": "object",
+      "required": ["ref"],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "pattern": "^[a-zA-Z_][a-zA-Z0-9_/]*$",
+          "description": "Path reference to another object in the document"
+        }
+      },
+      "description": "Reference to values defined elsewhere in the file"
+    },
+    "base64_value": {
+      "type": "object",
+      "required": ["type", "value"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "base64"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9+/]*={0,2}$",
+          "description": "Base64 encoded data"
+        }
+      }
+    },
+    "hex_value": {
+      "type": "object",
+      "required": ["name", "type", "value"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "hex"
+        },
+        "value": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "description": "Array of hexadecimal byte values"
+        }
+      }
+    },
+    "node_definition": {
+      "type": "object",
+      "required": ["name", "type"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the node definition"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the node (conv, relu, subgraph, etc.)"
+        },
+        "attributes": {
+          "type": "object",
+          "description": "Attributes specific to the node type"
+        },
+        "weights": {
+          "oneOf": [
+            { "$ref": "#/definitions/reference_object" },
+            { "$ref": "#/definitions/hex_value" }
+          ],
+          "description": "Weights for the node"
+        },
+        "nodes": {
+          "type": "array",
+          "description": "Sub-nodes for subgraph types",
+          "items": {
+            "$ref": "#/definitions/subgraph_node"
+          }
+        }
+      }
+    },
+    "subgraph_node": {
+      "type": "object",
+      "required": ["name", "type"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the subgraph node"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the operation (tensor, mul, add, etc.)"
+        },
+        "shape": {
+          "$ref": "#/definitions/tensor_shape"
+        },
+        "dtype": {
+          "$ref": "#/definitions/data_type"
+        },
+        "value": {
+          "oneOf": [
+            { "$ref": "#/definitions/reference_object" },
+            { "type": "array" },
+            { "type": "number" }
+          ]
+        },
+        "arguments": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              { "$ref": "#/definitions/reference_object" }
+            ]
+          },
+          "description": "Arguments for the operation"
+        }
+      }
+    },
+    "export_node": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the export node"
+        },
+        "type": {
+          "oneOf": [
+            { "type": "string" },
+            { "$ref": "#/definitions/reference_object" }
+          ],
+          "description": "Type of the node or reference to a definition"
+        },
+        "arguments": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              { "$ref": "#/definitions/reference_object" }
+            ]
+          },
+          "description": "Input arguments for the node"
+        },
+        "attributes": {
+          "type": "object",
+          "description": "Attributes specific to the node type"
+        },
+        "weights": {
+          "oneOf": [
+            { "$ref": "#/definitions/reference_object" },
+            { "$ref": "#/definitions/hex_value" }
+          ],
+          "description": "Weights for the node"
+        }
+      }
+    }
+  }
+}
