@@ -1,0 +1,334 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/neuro-format/schemas/node-operations-2025-1.json",
+  "title": "NeuroFormat Node Operations Schema",
+  "description": "Schema definitions for NeuroFormat node operation types and their specifications",
+  "definitions": {
+    "operator_type": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "add",
+            "subtract",
+            "multiply",
+            "divide",
+            "power",
+            "sqrt",
+            "abs",
+            "neg",
+            "sin",
+            "cos",
+            "tan",
+            "exp",
+            "log",
+            "floor",
+            "ceil",
+            "round",
+            "min",
+            "max",
+            "sum",
+            "mean",
+            "variance",
+            "std",
+            "matmul",
+            "dot",
+            "transpose",
+            "reshape",
+            "concat",
+            "split",
+            "slice"
+          ],
+          "description": "Built-in mathematical and tensor operator types"
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_]*:[a-zA-Z][a-zA-Z0-9_]*$",
+          "description": "Third-party extension types using namespace:operator format (e.g., 'ext:custom_operator')"
+        }
+      ],
+      "description": "Operator type - either a built-in mathematical operator or a namespaced extension"
+    },
+    "arithmetic_binary_operation": {
+      "type": "object",
+      "required": ["type", "inputs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["add", "subtract", "multiply", "divide", "power"]
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype"],
+            "properties": {
+              "name": { "type": "string" },
+              "dtype": { "type": "string" },
+              "shape": { "type": "array", "items": { "type": "integer" } },
+              "description": { "type": "string" }
+            }
+          },
+          "description": "Two input tensors for binary arithmetic operation"
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype"],
+            "properties": {
+              "name": { "type": "string" },
+              "dtype": { "type": "string" },
+              "shape": { "type": "array", "items": { "type": "integer" } },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "broadcast": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to allow broadcasting of input tensors"
+            }
+          }
+        }
+      }
+    },
+    "arithmetic_unary_operation": {
+      "type": "object",
+      "required": ["type", "inputs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "sqrt",
+            "abs",
+            "neg",
+            "sin",
+            "cos",
+            "tan",
+            "exp",
+            "log",
+            "floor",
+            "ceil",
+            "round"
+          ]
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype"],
+            "properties": {
+              "name": { "type": "string" },
+              "dtype": { "type": "string" },
+              "shape": { "type": "array", "items": { "type": "integer" } },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype"],
+            "properties": {
+              "name": { "type": "string" },
+              "dtype": { "type": "string" },
+              "shape": { "type": "array", "items": { "type": "integer" } },
+              "description": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "reduction_operation": {
+      "type": "object",
+      "required": ["type", "inputs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["min", "max", "sum", "mean", "variance", "std"]
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype"],
+            "properties": {
+              "name": { "type": "string" },
+              "dtype": { "type": "string" },
+              "shape": { "type": "array", "items": { "type": "integer" } },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype"],
+            "properties": {
+              "name": { "type": "string" },
+              "dtype": { "type": "string" },
+              "shape": { "type": "array", "items": { "type": "integer" } },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "axis": {
+              "oneOf": [
+                { "type": "integer" },
+                { "type": "array", "items": { "type": "integer" } },
+                { "type": "null" }
+              ],
+              "description": "Axis or axes along which to perform the reduction. null means all axes"
+            },
+            "keepdims": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to keep the reduced dimensions"
+            }
+          }
+        }
+      }
+    },
+    "linear_algebra_operation": {
+      "type": "object",
+      "required": ["type", "inputs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["matmul", "dot", "transpose"]
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype"],
+            "properties": {
+              "name": { "type": "string" },
+              "dtype": { "type": "string" },
+              "shape": { "type": "array", "items": { "type": "integer" } },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype"],
+            "properties": {
+              "name": { "type": "string" },
+              "dtype": { "type": "string" },
+              "shape": { "type": "array", "items": { "type": "integer" } },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "axes": {
+              "type": "array",
+              "items": { "type": "integer" },
+              "description": "For transpose: axes permutation. For matmul: specific axes to multiply"
+            }
+          }
+        }
+      }
+    },
+    "tensor_manipulation_operation": {
+      "type": "object",
+      "required": ["type", "inputs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["reshape", "concat", "split", "slice"]
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype"],
+            "properties": {
+              "name": { "type": "string" },
+              "dtype": { "type": "string" },
+              "shape": { "type": "array", "items": { "type": "integer" } },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "dtype"],
+            "properties": {
+              "name": { "type": "string" },
+              "dtype": { "type": "string" },
+              "shape": { "type": "array", "items": { "type": "integer" } },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "shape": {
+              "type": "array",
+              "items": { "type": "integer" },
+              "description": "For reshape: target shape"
+            },
+            "axis": {
+              "type": "integer",
+              "description": "For concat: axis along which to concatenate. For split: axis along which to split"
+            },
+            "indices": {
+              "type": "array",
+              "items": { "type": "integer" },
+              "description": "For split: split indices. For slice: start indices"
+            },
+            "sizes": {
+              "type": "array",
+              "items": { "type": "integer" },
+              "description": "For slice: size of each dimension to slice"
+            }
+          }
+        }
+      }
+    },
+    "operation_specification": {
+      "oneOf": [
+        { "$ref": "#/definitions/arithmetic_binary_operation" },
+        { "$ref": "#/definitions/arithmetic_unary_operation" },
+        { "$ref": "#/definitions/reduction_operation" },
+        { "$ref": "#/definitions/linear_algebra_operation" },
+        { "$ref": "#/definitions/tensor_manipulation_operation" }
+      ],
+      "description": "Complete specification for a node operation including inputs, outputs, and attributes"
+    }
+  }
+}

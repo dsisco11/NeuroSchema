@@ -332,8 +332,8 @@
           "description": "Name of the node definition"
         },
         "type": {
-          "type": "string",
-          "description": "Type of the node (conv, relu, subgraph, etc.)"
+          "$ref": "node-operations.json#/definitions/operator_type",
+          "description": "Type of the node operation"
         },
         "parameters": {
           "type": "object",
@@ -404,10 +404,10 @@
         },
         "type": {
           "oneOf": [
-            { "type": "string" },
+            { "$ref": "node-operations.json#/definitions/operator_type" },
             { "$ref": "#/definitions/reference_object" }
           ],
-          "description": "Type of the node or reference to a node definition"
+          "description": "Type of the node operation or reference to a node definition"
         },
         "arguments": {
           "type": "array",
@@ -443,10 +443,10 @@
         },
         "type": {
           "oneOf": [
-            { "type": "string" },
+            { "$ref": "node-operations.json#/definitions/operator_type" },
             { "$ref": "#/definitions/reference_object" }
           ],
-          "description": "Type of the operation (tensor, mul, add, etc.) or reference to definition"
+          "description": "Type of the operation or reference to definition"
         },
         "shape": {
           "$ref": "#/definitions/tensor_shape"
