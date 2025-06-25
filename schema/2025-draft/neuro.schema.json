@@ -149,7 +149,7 @@
       "description": "External resources required by the model",
       "items": {
         "type": "object",
-        "required": ["name", "type", "value"],
+        "required": ["name", "type", "path"],
         "properties": {
           "name": {
             "type": "string",
@@ -160,7 +160,7 @@
             "enum": ["safetensors", "neuro"],
             "description": "Type of the imported resource"
           },
-          "value": {
+          "path": {
             "type": "string",
             "description": "Path or URI to the resource"
           }

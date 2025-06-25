@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/neuro-schema-2025-1.json",
+    "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/2025-1/neuro.schema.json",
     // Metadata about the model, such as name, version, description, author, license, tags, and any third-party sections.
     "metadata": {
         "model": {
@@ -83,12 +83,12 @@
         {
             "name": "model_weights",
             "type": "safetensors",
-            "value": "./weights/model.safetensors" // relative path reference to a Safetensors file containing model weights
+            "path": "./weights/model.safetensors" // relative path reference to a Safetensors file containing model weights
         },
         {
             "name": "imported_model",
             "type": "neuro",
-            "value": "./imported_model.neuro.json" // relative path reference to another Neuro model file
+            "path": "./imported_model.neuro.json" // relative path reference to another Neuro model file
         }
     ],
     // Named variables, which are referenceable data such as weights, biases, etc.
