@@ -350,17 +350,6 @@
       },
       "description": "Reference to the output of a specific node, optionally specifying which output for multi-output nodes"
     },
-    "reference_object": {
-      "type": "object",
-      "required": ["ref"],
-      "properties": {
-        "ref": {
-          "$ref": "#/definitions/node_reference",
-          "description": "Path reference to another object in the document"
-        }
-      },
-      "description": "Generic reference object (deprecated - use specific reference types)"
-    },
     "base64_value": {
       "type": "object",
       "required": ["type", "value"],
