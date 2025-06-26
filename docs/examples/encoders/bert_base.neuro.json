@@ -55,9 +55,9 @@
       "parameters": {
         "inputs": [{"name": "tokens", "type": "tensor"}],
         "attributes": {
-          "vocab_size": 30522,
-          "hidden_size": 768,
-          "num_layers": 12
+          "vocab_size": {"ref": "constants/vocab_size"},
+          "hidden_size": {"ref": "constants/hidden_size"},
+          "num_layers": {"ref": "constants/num_layers"}
         }
       },
       "implementation": {
@@ -68,8 +68,8 @@
               "type": "embedding",
               "arguments": ["tokens"],
               "attributes": {
-                "num_embeddings": 30522,
-                "embedding_dim": 768
+                "num_embeddings": {"ref": "constants/vocab_size"},
+                "embedding_dim": {"ref": "constants/hidden_size"}
               }
             },
             {
@@ -77,9 +77,9 @@
               "type": "transformer",
               "arguments": ["embeddings"],
               "attributes": {
-                "num_layers": 12,
-                "hidden_size": 768,
-                "num_heads": 12
+                "num_layers": {"ref": "constants/num_layers"},
+                "hidden_size": {"ref": "constants/hidden_size"},
+                "num_heads": {"ref": "constants/num_attention_heads"}
               }
             }
           ]

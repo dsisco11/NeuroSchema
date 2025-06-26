@@ -44,8 +44,8 @@
           {"name": "key", "type": "tensor"}
         ],
         "attributes": {
-          "num_heads": 8,
-          "embed_dim": 512
+          "num_heads": {"ref": "constants/attention_heads"},
+          "embed_dim": {"ref": "constants/fusion_dimension"}
         }
       },
       "implementation": {
@@ -53,11 +53,11 @@
           "nodes": [
             {
               "name": "attention_output",
-              "type": "attention",
+              "type": "multi_head_attention",
               "arguments": ["query", "key"],
               "attributes": {
-                "heads": {"ref": "num_heads"},
-                "dim": {"ref": "embed_dim"}
+                "heads": {"ref": "constants/num_heads"},
+                "dim": {"ref": "constants/embed_dim"}
               }
             }
           ]

@@ -59,6 +59,28 @@
       "value": {"ref": "chat_model"}
     }
   ],
+  "constants": [
+    {
+      "name": "encoder_layers",
+      "type": "scalar",
+      "value": 24
+    },
+    {
+      "name": "hidden_size",
+      "type": "scalar",
+      "value": 1536
+    },
+    {
+      "name": "num_attention_heads",
+      "type": "scalar",
+      "value": 16
+    },
+    {
+      "name": "generator_layers",
+      "type": "scalar",
+      "value": 12
+    }
+  ],
   "definitions": [
     {
       "name": "chat_model",
@@ -77,9 +99,9 @@
               "type": "transformer",
               "arguments": ["context"],
               "attributes": {
-                "num_layers": 24,
-                "hidden_size": 1536,
-                "num_heads": 16
+                "num_layers": {"ref": "constants/encoder_layers"},
+                "hidden_size": {"ref": "constants/hidden_size"},
+                "num_heads": {"ref": "constants/num_attention_heads"}
               }
             },
             {
@@ -87,18 +109,18 @@
               "type": "transformer",
               "arguments": ["message"],
               "attributes": {
-                "num_layers": 24,
-                "hidden_size": 1536,
-                "num_heads": 16
+                "num_layers": {"ref": "constants/encoder_layers"},
+                "hidden_size": {"ref": "constants/hidden_size"},
+                "num_heads": {"ref": "constants/num_attention_heads"}
               }
             },
             {
               "name": "fusion",
-              "type": "attention",
+              "type": "cross_attention",
               "arguments": ["context_encoder", "message_encoder"],
               "attributes": {
-                "num_heads": 16,
-                "hidden_size": 1536
+                "num_heads": {"ref": "constants/num_attention_heads"},
+                "hidden_size": {"ref": "constants/hidden_size"}
               }
             },
             {
@@ -106,9 +128,9 @@
               "type": "transformer",
               "arguments": ["fusion"],
               "attributes": {
-                "num_layers": 12,
-                "hidden_size": 1536,
-                "num_heads": 16,
+                "num_layers": {"ref": "constants/generator_layers"},
+                "hidden_size": {"ref": "constants/hidden_size"},
+                "num_heads": {"ref": "constants/num_attention_heads"},
                 "generation_mode": "autoregressive"
               }
             }

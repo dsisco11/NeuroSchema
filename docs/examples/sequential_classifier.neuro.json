@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+  "$schema": "../../schema/2025-draft/neuro.schema.json",
   "metadata": {
     "model": {
       "name": "simple_sequential_classifier", 
@@ -26,6 +26,28 @@
       "dtype": "float32"
     }
   ],
+  "constants": [
+    {
+      "name": "input_size",
+      "type": "scalar",
+      "value": 784
+    },
+    {
+      "name": "hidden1_size",
+      "type": "scalar",
+      "value": 128
+    },
+    {
+      "name": "hidden2_size",
+      "type": "scalar",
+      "value": 64
+    },
+    {
+      "name": "output_size",
+      "type": "scalar",
+      "value": 10
+    }
+  ],
   "definitions": [
     {
       "name": "mnist_classifier",
@@ -40,8 +62,8 @@
           }
         ],
         "attributes": {
-          "input_shape": [784],
-          "output_shape": [10]
+          "input_shape": [{"ref": "constants/input_size"}],
+          "output_shape": [{"ref": "constants/output_size"}]
         }
       },
       "implementation": {
@@ -52,8 +74,8 @@
             "type": "linear",
             "arguments": ["input"],
             "attributes": {
-              "in_features": 784,
-              "out_features": 128,
+              "in_features": {"ref": "constants/input_size"},
+              "out_features": {"ref": "constants/hidden1_size"},
               "bias": true
             }
           },
@@ -70,8 +92,8 @@
             "type": "linear", 
             "arguments": ["relu1"],
             "attributes": {
-              "in_features": 128,
-              "out_features": 64,
+              "in_features": {"ref": "constants/hidden1_size"},
+              "out_features": {"ref": "constants/hidden2_size"},
               "bias": true
             }
           },
@@ -88,8 +110,8 @@
             "type": "linear",
             "arguments": ["relu2"],
             "attributes": {
-              "in_features": 64,
-              "out_features": 10,
+              "in_features": {"ref": "constants/hidden2_size"},
+              "out_features": {"ref": "constants/output_size"},
               "bias": true
             }
           },

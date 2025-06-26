@@ -52,6 +52,28 @@
       "value": {"ref": "sentiment_classifier"}
     }
   ],
+  "constants": [
+    {
+      "name": "bert_layers",
+      "type": "scalar",
+      "value": 12
+    },
+    {
+      "name": "bert_hidden_size",
+      "type": "scalar",
+      "value": 768
+    },
+    {
+      "name": "bert_attention_heads",
+      "type": "scalar",
+      "value": 12
+    },
+    {
+      "name": "num_sentiment_classes",
+      "type": "scalar",
+      "value": 3
+    }
+  ],
   "definitions": [
     {
       "name": "sentiment_classifier",
@@ -67,9 +89,9 @@
               "type": "transformer",
               "arguments": ["tokens"],
               "attributes": {
-                "num_layers": 12,
-                "hidden_size": 768,
-                "num_heads": 12
+                "num_layers": {"ref": "constants/bert_layers"},
+                "hidden_size": {"ref": "constants/bert_hidden_size"},
+                "num_heads": {"ref": "constants/bert_attention_heads"}
               }
             },
             {
@@ -85,8 +107,8 @@
               "type": "linear",
               "arguments": ["pooler"],
               "attributes": {
-                "in_features": 768,
-                "out_features": 3
+                "in_features": {"ref": "constants/bert_hidden_size"},
+                "out_features": {"ref": "constants/num_sentiment_classes"}
               }
             }
           ]

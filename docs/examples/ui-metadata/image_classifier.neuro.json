@@ -42,6 +42,28 @@
       "value": {"ref": "resnet_classifier"}
     }
   ],
+  "constants": [
+    {
+      "name": "input_channels",
+      "type": "scalar",
+      "value": 3
+    },
+    {
+      "name": "conv1_out_channels",
+      "type": "scalar",
+      "value": 64
+    },
+    {
+      "name": "final_feature_dim",
+      "type": "scalar",
+      "value": 2048
+    },
+    {
+      "name": "num_classes",
+      "type": "scalar",
+      "value": 1000
+    }
+  ],
   "definitions": [
     {
       "name": "resnet_classifier",
@@ -60,8 +82,8 @@
                 "kernel_size": [7, 7],
                 "stride": [2, 2],
                 "padding": [3, 3],
-                "in_channels": 3,
-                "out_channels": 64
+                "in_channels": {"ref": "constants/input_channels"},
+                "out_channels": {"ref": "constants/conv1_out_channels"}
               }
             },
             {
@@ -69,7 +91,7 @@
               "type": "batch_norm",
               "arguments": ["conv1"],
               "attributes": {
-                "num_features": 64
+                "num_features": {"ref": "constants/conv1_out_channels"}
               }
             },
             {
@@ -97,8 +119,8 @@
               "type": "linear",
               "arguments": ["global_avgpool"],
               "attributes": {
-                "in_features": 2048,
-                "out_features": 1000
+                "in_features": {"ref": "constants/final_feature_dim"},
+                "out_features": {"ref": "constants/num_classes"}
               }
             }
           ]
