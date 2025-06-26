@@ -1,0 +1,95 @@
+{
+  "$schema": "../../../schema/2025-draft/neuro.schema.json",
+  "metadata": {
+    "model": {
+      "name": "bert_base_sentiment",
+      "version": "1.0.0",
+      "description": "BERT base model fine-tuned for sentiment analysis",
+      "author": "NeuroFormat Team",
+      "license": "Apache-2.0",
+      "tags": ["bert", "sentiment", "classification", "nlp"],
+      "ui": {
+        "display_name": "BERT Sentiment Analyzer",
+        "description": "Analyze the emotional tone of text with high accuracy using BERT",
+        "icon": "https://cdn.neuroformat.ai/models/sentiment-bert.svg",
+        "color": "#4CAF50",
+        "prompting": {
+          "phrases": {
+            "required": "Analyze the sentiment of the following text:",
+            "recommended": [
+              "Consider the overall emotional tone:",
+              "Provide confidence scores:",
+              "Explain key sentiment indicators:"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "inputs": [
+    {
+      "name": "text_input",
+      "description": "Text to analyze for sentiment",
+      "shape": [512],
+      "dtype": "int32"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "sentiment_scores",
+      "description": "Sentiment classification scores",
+      "shape": [3],
+      "dtype": "float32",
+      "value": {"ref": "sentiment_classifier"}
+    }
+  ],
+  "definitions": [
+    {
+      "name": "sentiment_classifier",
+      "type": "sequential",
+      "parameters": {
+        "inputs": [{"name": "tokens", "type": "tensor"}]
+      },
+      "implementation": {
+        "graph": {
+          "nodes": [
+            {
+              "name": "bert_encoder",
+              "type": "transformer",
+              "arguments": ["tokens"],
+              "attributes": {
+                "num_layers": 12,
+                "hidden_size": 768,
+                "num_heads": 12
+              }
+            },
+            {
+              "name": "pooler",
+              "type": "pooling",
+              "arguments": ["bert_encoder"],
+              "attributes": {
+                "method": "cls_token"
+              }
+            },
+            {
+              "name": "classifier",
+              "type": "linear",
+              "arguments": ["pooler"],
+              "attributes": {
+                "in_features": 768,
+                "out_features": 3
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "export": [
+    {
+      "name": "sentiment_classifier",
+      "type": "sentiment_classifier",
+      "arguments": ["text_input"]
+    }
+  ]
+}

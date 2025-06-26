@@ -1,0 +1,107 @@
+{
+  "$schema": "../../../schema/2025-draft/neuro.schema.json",
+  "metadata": {
+    "model": {
+      "name": "resnet50_classifier",
+      "version": "2.0.0",
+      "description": "ResNet-50 convolutional neural network for image classification",
+      "author": "Computer Vision Lab",
+      "license": "BSD-3-Clause",
+      "tags": ["resnet", "cnn", "image-classification", "computer-vision"],
+      "ui": {
+        "display_name": "ResNet-50 Image Classifier",
+        "description": "Classify images into 1000+ categories with state-of-the-art accuracy",
+        "icon": "https://models.cvlab.edu/icons/resnet50.png",
+        "color": "#FF9800"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "name": "image",
+      "description": "Input image for classification",
+      "shape": [3, 224, 224],
+      "dtype": "float32"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "class_probabilities",
+      "description": "Probability distribution over ImageNet classes",
+      "shape": [1000],
+      "dtype": "float32",
+      "value": {"ref": "resnet_classifier"}
+    }
+  ],
+  "definitions": [
+    {
+      "name": "resnet_classifier",
+      "type": "sequential",
+      "parameters": {
+        "inputs": [{"name": "x", "type": "tensor"}]
+      },
+      "implementation": {
+        "graph": {
+          "nodes": [
+            {
+              "name": "conv1",
+              "type": "convolution",
+              "arguments": ["x"],
+              "attributes": {
+                "kernel_size": [7, 7],
+                "stride": [2, 2],
+                "padding": [3, 3],
+                "in_channels": 3,
+                "out_channels": 64
+              }
+            },
+            {
+              "name": "bn1",
+              "type": "batch_norm",
+              "arguments": ["conv1"],
+              "attributes": {
+                "num_features": 64
+              }
+            },
+            {
+              "name": "relu1",
+              "type": "relu",
+              "arguments": ["bn1"]
+            },
+            {
+              "name": "maxpool",
+              "type": "max_pool",
+              "arguments": ["relu1"],
+              "attributes": {
+                "kernel_size": [3, 3],
+                "stride": [2, 2],
+                "padding": [1, 1]
+              }
+            },
+            {
+              "name": "global_avgpool",
+              "type": "global_avg_pool",
+              "arguments": ["maxpool"]
+            },
+            {
+              "name": "classifier",
+              "type": "linear",
+              "arguments": ["global_avgpool"],
+              "attributes": {
+                "in_features": 2048,
+                "out_features": 1000
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "export": [
+    {
+      "name": "resnet_classifier",
+      "type": "resnet_classifier", 
+      "arguments": ["image"]
+    }
+  ]
+}

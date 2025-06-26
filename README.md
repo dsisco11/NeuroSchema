@@ -113,6 +113,8 @@ Defines model information and configuration:
 }
 ```
 
+**For detailed UI metadata configuration**, see [`docs/ui-metadata.md`](./docs/ui-metadata.md).
+
 ### 🔌 `inputs` (Required)
 
 Defines the input tensors the model expects:
@@ -365,6 +367,7 @@ For more examples, see the `docs/examples/` directory:
 ## Documentation
 
 - **[Import System Guide](./docs/imports-and-references.md)** - Complete guide to imports and namespace references
+- **[UI Metadata Guide](./docs/ui-metadata.md)** - User interface presentation configuration
 - **[Error Codes](./docs/error-codes.md)** - Canonical error codes for compliance testing
 - **[Testing Framework](./tests/README.md)** - Compliance test suite and validation framework
 

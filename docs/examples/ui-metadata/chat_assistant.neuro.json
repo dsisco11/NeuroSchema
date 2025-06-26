@@ -1,0 +1,118 @@
+{
+  "$schema": "../../../schema/2025-draft/neuro.schema.json",
+  "metadata": {
+    "model": {
+      "name": "gpt_chat_assistant",
+      "version": "3.5.1",
+      "description": "Large language model optimized for conversational AI",
+      "author": "AI Research Collective",
+      "license": "MIT",
+      "tags": ["gpt", "chat", "conversational", "large-language-model"],
+      "ui": {
+        "display_name": "GPT Chat Assistant",
+        "description": "An intelligent conversational AI that can help with a wide variety of tasks",
+        "icon": "https://assets.airc.org/models/chat-gpt.svg", 
+        "color": "#10A37F",
+        "prompting": {
+          "phrases": {
+            "required": "You are a helpful assistant. ",
+            "recommended": [
+              "Please think step by step:",
+              "Be concise and clear:",
+              "If you're unsure, say so:",
+              "Provide examples when helpful:"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "inputs": [
+    {
+      "name": "conversation_history",
+      "description": "Previous conversation context",
+      "shape": [2048],
+      "dtype": "int32"
+    },
+    {
+      "name": "user_message",
+      "description": "Current user input message",
+      "shape": [512],
+      "dtype": "int32"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "response",
+      "description": "Generated response from the assistant",
+      "shape": [1024],
+      "dtype": "int32",
+      "value": {"ref": "chat_model"}
+    }
+  ],
+  "definitions": [
+    {
+      "name": "chat_model",
+      "type": "sequential",
+      "parameters": {
+        "inputs": [
+          {"name": "context", "type": "tensor"},
+          {"name": "message", "type": "tensor"}
+        ]
+      },
+      "implementation": {
+        "graph": {
+          "nodes": [
+            {
+              "name": "context_encoder",
+              "type": "transformer",
+              "arguments": ["context"],
+              "attributes": {
+                "num_layers": 24,
+                "hidden_size": 1536,
+                "num_heads": 16
+              }
+            },
+            {
+              "name": "message_encoder", 
+              "type": "transformer",
+              "arguments": ["message"],
+              "attributes": {
+                "num_layers": 24,
+                "hidden_size": 1536,
+                "num_heads": 16
+              }
+            },
+            {
+              "name": "fusion",
+              "type": "attention",
+              "arguments": ["context_encoder", "message_encoder"],
+              "attributes": {
+                "num_heads": 16,
+                "hidden_size": 1536
+              }
+            },
+            {
+              "name": "response_generator",
+              "type": "transformer",
+              "arguments": ["fusion"],
+              "attributes": {
+                "num_layers": 12,
+                "hidden_size": 1536,
+                "num_heads": 16,
+                "generation_mode": "autoregressive"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "export": [
+    {
+      "name": "chat_model",
+      "type": "chat_model",
+      "arguments": ["conversation_history", "user_message"]
+    }
+  ]
+}
