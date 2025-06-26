@@ -10,7 +10,7 @@ Neuro Format:
     ✔ Implement common tensor operations (reshape, transpose, slice, etc). @done(25-06-25 21:01)
     ☐ Implement common neural network layers (conv2d, linear, relu, etc).
     ☐ Implement common neural network architectures (resnet, vgg, transformer, unet, etc).
-    ☐ Document the `metadata.model.ui` section of the Neuro format.
+    ✔ Document the `metadata.model.ui` section of the Neuro format. @done(25-06-26 01:07)
     
 Refactoring:
     ✔ Refactor constants handling - remove redundant metadata.model.constants and enhance root-level constants with description field. @done(25-06-25 21:15)

@@ -286,6 +286,51 @@ When updating models with UI metadata:
 1. **Backward compatibility**: UI metadata is optional and doesn't affect model functionality
 2. **Graceful degradation**: Applications should handle missing UI metadata gracefully
 
+# Implementation Notes
+
+- Everything within the `ui` section is completely optional.
+- Applications should not fail if a UI metadata field is missing.
+- Use default values or fallbacks in your application logic to ensure a consistent user experience even when UI metadata is not provided.
+
+## Resolving the Colors Field
+
+- The `colors` field allows specifying primary and secondary colors for both light and dark themes.
+- If only one theme is provided, the other should default to the same values.
+- For primary and secondary colors, if only one is specified, the other should default to the same value.
+
+### Color Resolving Logic
+
+```typescript
+interface NeuroMetadata {
+    ui?: {
+        colors?: {
+            light?: {
+                primary?: string;
+                secondary?: string;
+            };
+            dark?: {
+                primary?: string;
+                secondary?: string;
+            };
+        };
+    };
+}
+
+function resolveColors(metadata: NeuroMetadata) {
+    const colors = metadata.ui?.colors;
+    return {
+        light: {
+            primary: colors?.light?.primary || colors?.dark?.primary || yourapp.theme.light.primary,
+            secondary: colors?.light?.secondary || colors?.dark?.secondary || yourapp.theme.light.secondary
+        },
+        dark: {
+            primary: colors?.dark?.primary || colors?.light?.primary || yourapp.theme.dark.primary,
+            secondary: colors?.dark?.secondary || colors?.light?.secondary || yourapp.theme.dark.secondary
+        }
+    };
+}
+```
+
 ## Related Documentation
 
 - [Model Metadata Overview](./model-metadata.md)
