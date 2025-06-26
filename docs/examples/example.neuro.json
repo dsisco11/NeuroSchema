@@ -9,12 +9,6 @@
             "author": "Your Name",
             "license": "Apache-2.0",
             "tags": ["example", "neuro", "unpacked"],
-            // Constants are values which describe immutable properties of the model, such as the number of input channels, output channels, etc.
-            // These values usually hold information which is required, or simply relevant, to know when using the model.
-            "constants": {
-                "network_depth": { "value": 9001, "description": "The number of layers per block in the model." },
-                "projection_dim": { "value": 768, "description": "The dimension of the projection layer in the model." }
-            },
             // The "ui" section is a place where the author can define how the model might be presented in a user interface (completely optional to be ignored by end tools).
             "ui": {
                 "display_name": "Example Model",// A human-readable name for the model
@@ -91,8 +85,21 @@
             "path": "./imported_model.neuro.json" // relative path reference to another Neuro model file
         }
     ],
-    // Named variables, which are referenceable data such as weights, biases, etc.
+    // Constants are values which describe immutable properties of the model, such as the number of input channels, output channels, etc.
+    // They are immutable named variables, which are referenceable data such as weights, biases, etc.
     "constants": [
+        { 
+            "name": "network_depth",
+            "type": "scalar",
+            "value": 9001, 
+            "description": "The number of layers per block in the model." 
+        },
+        { 
+            "name": "projection_dim",
+            "type": "scalar",
+            "value": 768, 
+            "description": "The dimension of the projection layer in the model." 
+        },
         {
             "name": "unet_weights",
             "type": "tensor",
@@ -100,7 +107,7 @@
             "shape": [1, 3, 224, 224],
             "value": {
                 // References to values defined elsewhere in the file should always be in the form of a "reference object" (eg: `{"ref": <path>}`), so that references (which have to be resolved as a separate step anyways) are both explicit and consistent.
-                "ref": "imports/model_weights/any_named_layer_from_safetensors_file" // reference to the imported weights file
+                "ref": "model_weights:any_named_layer_from_safetensors_file"
             }
         },
         {

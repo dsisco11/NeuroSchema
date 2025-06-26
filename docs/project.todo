@@ -1,0 +1,20 @@
+
+Neuro Format:
+    ✔ Implement 'metadata' section for model metadata. @done(25-06-25 20:58)
+    ✔ Implement 'imports' section for external data importing (eg: model weights). @done(25-06-25 20:58)
+    ✔ Implement 'constants' section for defining constant values. @done(25-06-25 20:58)
+    ✔ Implement 'inputs' section for defining input tensors. @done(25-06-25 20:58)
+    ✔ Implement 'outputs' section for defining output tensors. @done(25-06-25 20:59)
+    ✔ Implement 'definitions' section for specifying reusable node definitions. @done(25-06-25 20:59)
+    ✔ Implement common data value types (int8-64, float16-64, bool, etc). @done(25-06-25 21:01)
+    ✔ Implement common math operator types (add, subtract, multiply, divide, etc). @done(25-06-25 21:01)
+    ✔ Implement common tensor operations (reshape, transpose, slice, etc). @done(25-06-25 21:01)
+    ☐ Implement common neural network layers (conv2d, linear, relu, etc).
+    ☐ Implement common neural network architectures (resnet, vgg, transformer, unet, etc).
+    ☐ Document the `metadata.model.ui` section of the Neuro format.
+    
+Refactoring:
+    ☐ Reevaluate 'subgraph' node. Suspect that this concept may need to become something more general, since layers and architectures are similarly just subgraphs of nodes. 
+        Maybe we should instead just have a more general `graph` object definition that can be used to represent any collection of nodes.
+        But we should also be able to specify if a graphs nodes are required to be linear (like a layer) or if they can be non-linear (like a subgraph).
+        ALso, is there a way to cause the json schema to validate that a graph is linear and none of its nodes reference each other in a non-linear fashion?

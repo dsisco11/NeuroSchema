@@ -1,0 +1,83 @@
+{
+  "$schema": "../../../schema/2025-draft/neuro.schema.json",
+  "metadata": {
+    "model": {
+      "name": "model_config",
+      "version": "1.0.0",
+      "description": "Shared configuration constants and definitions for multimodal models",
+      "author": "NeuroFormat Team",
+      "license": "MIT",
+      "tags": ["config", "constants", "shared"]
+    }
+  },
+  "inputs": [],
+  "outputs": [],
+  "constants": [
+    {
+      "name": "fusion_dimension",
+      "type": "scalar",
+      "value": 512
+    },
+    {
+      "name": "output_classes",
+      "type": "scalar", 
+      "value": 1000
+    },
+    {
+      "name": "attention_heads",
+      "type": "scalar",
+      "value": 8
+    },
+    {
+      "name": "dropout_rate",
+      "type": "scalar",
+      "value": 0.1
+    }
+  ],
+  "definitions": [
+    {
+      "name": "multihead_attention",
+      "type": "sequential",
+      "parameters": {
+        "inputs": [
+          {"name": "query", "type": "tensor"},
+          {"name": "key", "type": "tensor"}
+        ],
+        "attributes": {
+          "num_heads": 8,
+          "embed_dim": 512
+        }
+      },
+      "implementation": {
+        "subgraph": [
+          {
+            "name": "attention_output",
+            "type": "attention",
+            "arguments": ["query", "key"],
+            "attributes": {
+              "heads": {"ref": "num_heads"},
+              "dim": {"ref": "embed_dim"}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "attention_extractor",
+      "type": "sequential",
+      "parameters": {
+        "inputs": [{"name": "features", "type": "tensor"}]
+      },
+      "implementation": {
+        "subgraph": [
+          {
+            "name": "attention_weights",
+            "type": "identity",
+            "arguments": ["features"]
+          }
+        ]
+      }
+    }
+  ],
+  "export": []
+}

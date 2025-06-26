@@ -51,7 +51,7 @@
               "type": "object",
               "description": "Immutable properties of the model",
               "patternProperties": {
-                "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                "^\\w+$": {
                   "type": "object",
                   "required": ["value"],
                   "properties": {
@@ -153,12 +153,12 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name identifier for the imported resource"
+            "description": "Name identifier for the imported resource. For 'neuro' imports, this name can be used as a node type or namespace for accessing the imported model's contents (e.g., 'name:constants/value')"
           },
           "type": {
             "type": "string",
             "enum": ["safetensors", "neuro"],
-            "description": "Type of the imported resource"
+            "description": "Type of the imported resource. 'safetensors' imports tensor data, 'neuro' imports make the entire model available as a node type and its sections accessible via namespace syntax"
           },
           "path": {
             "type": "string",
@@ -308,8 +308,8 @@
     },
     "node_reference": {
       "type": "string",
-      "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*(\\/[a-zA-Z_][a-zA-Z0-9_]*)*$",
-      "description": "Path reference to a named node (input, definition, or local node within a subgraph). Simple name for local references, or path-like notation for nested references."
+      "pattern": "^(\\w+:)?\\w+(\\/\\w+)*$",
+      "description": "Path reference to a named node (input, definition, or local node within a subgraph). Simple name for local references, or path-like notation for nested references. Supports namespace syntax 'import_name:section/item' for accessing imported model contents."
     },
     "data_reference": {
       "type": "object",
@@ -317,11 +317,11 @@
       "properties": {
         "ref": {
           "type": "string",
-          "pattern": "^variables\\/[a-zA-Z_][a-zA-Z0-9_]*$",
-          "description": "Path reference to a data object in the variables section"
+          "pattern": "^((\\w+:)?(variables|constants)\\/\\w+|variables\\/\\w+)$",
+          "description": "Path reference to a data object in the variables/constants section or imported namespace (e.g., 'variables/name', 'import_name:constants/value')"
         }
       },
-      "description": "Reference to a data object defined in the variables section"
+      "description": "Reference to a data object defined in the variables/constants section or imported from another model"
     },
     "weight_reference": {
       "type": "object",
@@ -329,11 +329,11 @@
       "properties": {
         "ref": {
           "type": "string",
-          "pattern": "^(variables\\/[a-zA-Z_][a-zA-Z0-9_]*|weights\\/[a-zA-Z_][a-zA-Z0-9_]*)$",
-          "description": "Path reference to weight data in variables or weights section"
+          "pattern": "^((\\w+[:\\/])?\\w+\\/\\w+|(variables|weights)\\/\\w+)$",
+          "description": "Path reference to weight data in variables/weights section or imported resources (e.g., 'weights/name', 'safetensors_import/tensor_name')"
         }
       },
-      "description": "Reference to weight data defined in the variables or weights section"
+      "description": "Reference to weight data defined in the variables/weights section or imported from safetensors files"
     },
     "output_reference": {
       "type": "object",

@@ -1,0 +1,97 @@
+{
+  "$schema": "../../../schema/2025-draft/neuro.schema.json",
+  "metadata": {
+    "model": {
+      "name": "vision_transformer",
+      "version": "1.0.0",
+      "description": "Vision Transformer (ViT) image encoder",
+      "author": "NeuroFormat Team",
+      "license": "MIT",
+      "tags": ["vit", "vision", "transformer", "encoder"]
+    }
+  },
+  "inputs": [
+    {
+      "name": "image",
+      "description": "RGB image tensor",
+      "shape": [3, 224, 224],
+      "dtype": "float32"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "features",
+      "description": "Image patch embeddings",
+      "shape": [196, 768],
+      "dtype": "float32"
+    }
+  ],
+  "constants": [
+    {
+      "name": "feature_dim",
+      "type": "scalar",
+      "value": 768
+    },
+    {
+      "name": "patch_size",
+      "type": "scalar",
+      "value": 16
+    },
+    {
+      "name": "num_patches",
+      "type": "scalar",
+      "value": 196
+    },
+    {
+      "name": "num_layers",
+      "type": "scalar",
+      "value": 12
+    }
+  ],
+  "definitions": [
+    {
+      "name": "vit_encoder",
+      "type": "sequential",
+      "parameters": {
+        "inputs": [{"name": "image", "type": "tensor"}],
+        "attributes": {
+          "patch_size": 16,
+          "embed_dim": 768,
+          "num_layers": 12
+        }
+      },
+      "implementation": {
+        "subgraph": [
+          {
+            "name": "patch_embedding",
+            "type": "convolution",
+            "arguments": ["image"],
+            "attributes": {
+              "kernel_size": [16, 16],
+              "stride": [16, 16],
+              "in_channels": 3,
+              "out_channels": 768
+            }
+          },
+          {
+            "name": "transformer_encoder",
+            "type": "transformer",
+            "arguments": ["patch_embedding"],
+            "attributes": {
+              "num_layers": 12,
+              "hidden_size": 768,
+              "num_heads": 12
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "export": [
+    {
+      "name": "features",
+      "type": "vit_encoder", 
+      "arguments": ["image"]
+    }
+  ]
+}

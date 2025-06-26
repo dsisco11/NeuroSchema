@@ -1,0 +1,204 @@
+{
+  "$schema": "../../schema/2025-draft/neuro.schema.json",
+  "metadata": {
+    "model": {
+      "name": "multimodal_classifier",
+      "version": "2.0.0",
+      "description": "A multimodal model that combines text and image encoders for classification",
+      "author": "NeuroFormat Team",
+      "license": "MIT",
+      "tags": ["multimodal", "classification", "imports", "example"]
+    }
+  },
+  "imports": [
+    {
+      "name": "text_encoder",
+      "type": "neuro",
+      "path": "./encoders/bert_base.neuro.json"
+    },
+    {
+      "name": "image_encoder",
+      "type": "neuro", 
+      "path": "./encoders/vision_transformer.neuro.json"
+    },
+    {
+      "name": "pretrained_weights",
+      "type": "safetensors",
+      "path": "./weights/multimodal_v2.safetensors"
+    },
+    {
+      "name": "config",
+      "type": "neuro",
+      "path": "./config/model_config.neuro.json"
+    }
+  ],
+  "inputs": [
+    {
+      "name": "text_tokens",
+      "description": "Tokenized text input",
+      "shape": [512],
+      "dtype": "int32"
+    },
+    {
+      "name": "image",
+      "description": "Preprocessed image tensor",
+      "shape": [3, 224, 224],
+      "dtype": "float32"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "classification_logits",
+      "description": "Classification scores for 1000 classes",
+      "shape": [1000],
+      "dtype": "float32"
+    },
+    {
+      "name": "attention_weights",
+      "description": "Cross-modal attention weights",
+      "shape": [512, 196],
+      "dtype": "float32"
+    }
+  ],
+  "constants": [
+    {
+      "name": "text_hidden_size",
+      "type": "scalar",
+      "value": {"ref": "text_encoder:constants/hidden_size"}
+    },
+    {
+      "name": "image_feature_dim", 
+      "type": "scalar",
+      "value": {"ref": "image_encoder:constants/feature_dim"}
+    },
+    {
+      "name": "fusion_dim",
+      "type": "scalar",
+      "value": {"ref": "config:constants/fusion_dimension"}
+    },
+    {
+      "name": "num_classes",
+      "type": "scalar",
+      "value": {"ref": "config:constants/output_classes"}
+    }
+  ],
+  "definitions": [
+    {
+      "name": "cross_attention_fusion",
+      "type": "sequential",
+      "parameters": {
+        "inputs": [
+          {"name": "text_features", "type": "tensor"},
+          {"name": "image_features", "type": "tensor"}
+        ],
+        "attributes": {
+          "text_dim": {"ref": "text_encoder:constants/hidden_size"},
+          "image_dim": {"ref": "image_encoder:constants/feature_dim"},
+          "output_dim": {"ref": "config:constants/fusion_dimension"}
+        }
+      },
+      "implementation": {
+        "subgraph": [
+          {
+            "name": "text_projection",
+            "type": "linear",
+            "arguments": ["text_features"],
+            "weights": {"ref": "pretrained_weights/text_proj_weight"},
+            "bias": {"ref": "pretrained_weights/text_proj_bias"},
+            "attributes": {
+              "in_features": {"ref": "text_encoder:constants/hidden_size"},
+              "out_features": {"ref": "config:constants/fusion_dimension"}
+            }
+          },
+          {
+            "name": "image_projection", 
+            "type": "linear",
+            "arguments": ["image_features"],
+            "weights": {"ref": "pretrained_weights/image_proj_weight"},
+            "bias": {"ref": "pretrained_weights/image_proj_bias"},
+            "attributes": {
+              "in_features": {"ref": "image_encoder:constants/feature_dim"},
+              "out_features": {"ref": "config:constants/fusion_dimension"}
+            }
+          },
+          {
+            "name": "cross_attention",
+            "type": "config:definitions/multihead_attention",
+            "arguments": ["text_projection", "image_projection"],
+            "weights": {"ref": "pretrained_weights/attention_weights"},
+            "attributes": {
+              "num_heads": {"ref": "config:constants/attention_heads"},
+              "embed_dim": {"ref": "config:constants/fusion_dimension"}
+            }
+          },
+          {
+            "name": "fusion_output",
+            "type": "add",
+            "arguments": ["text_projection", "cross_attention"]
+          }
+        ]
+      }
+    },
+    {
+      "name": "classification_head",
+      "type": "sequential",
+      "parameters": {
+        "inputs": [{"name": "fused_features", "type": "tensor"}],
+        "attributes": {
+          "input_dim": {"ref": "config:constants/fusion_dimension"},
+          "output_dim": {"ref": "config:constants/output_classes"}
+        }
+      },
+      "implementation": {
+        "subgraph": [
+          {
+            "name": "dropout",
+            "type": "dropout",
+            "arguments": ["fused_features"],
+            "attributes": {
+              "p": {"ref": "config:constants/dropout_rate"}
+            }
+          },
+          {
+            "name": "classifier",
+            "type": "linear",
+            "arguments": ["dropout"],
+            "weights": {"ref": "pretrained_weights/classifier_weight"},
+            "bias": {"ref": "pretrained_weights/classifier_bias"},
+            "attributes": {
+              "in_features": {"ref": "config:constants/fusion_dimension"},
+              "out_features": {"ref": "config:constants/output_classes"}
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "export": [
+    {
+      "name": "text_features",
+      "type": "text_encoder",
+      "arguments": ["text_tokens"]
+    },
+    {
+      "name": "image_features", 
+      "type": "image_encoder",
+      "arguments": ["image"]
+    },
+    {
+      "name": "fused_features",
+      "type": "cross_attention_fusion",
+      "arguments": ["text_features", "image_features"]
+    },
+    {
+      "name": "classification_logits",
+      "type": "classification_head",
+      "arguments": ["fused_features"]
+    },
+    {
+      "name": "attention_weights",
+      "type": "config:definitions/attention_extractor",
+      "arguments": ["fused_features"]
+    }
+  ]
+}

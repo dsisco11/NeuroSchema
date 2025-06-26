@@ -1,0 +1,95 @@
+{
+  "$schema": "../../../schema/2025-draft/neuro.schema.json",
+  "metadata": {
+    "model": {
+      "name": "bert_base_encoder",
+      "version": "1.0.0",
+      "description": "BERT base text encoder",
+      "author": "NeuroFormat Team",
+      "license": "MIT",
+      "tags": ["bert", "encoder", "text", "transformer"]
+    }
+  },
+  "inputs": [
+    {
+      "name": "input_ids",
+      "description": "Token IDs from tokenizer",
+      "shape": [512],
+      "dtype": "int32"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "hidden_states",
+      "description": "Contextualized token representations",
+      "shape": [512, 768],
+      "dtype": "float32"
+    }
+  ],
+  "constants": [
+    {
+      "name": "hidden_size",
+      "type": "scalar",
+      "value": 768
+    },
+    {
+      "name": "num_layers",
+      "type": "scalar",
+      "value": 12
+    },
+    {
+      "name": "num_attention_heads",
+      "type": "scalar",
+      "value": 12
+    },
+    {
+      "name": "vocab_size",
+      "type": "scalar",
+      "value": 30522
+    }
+  ],
+  "definitions": [
+    {
+      "name": "bert_encoder",
+      "type": "sequential",
+      "parameters": {
+        "inputs": [{"name": "tokens", "type": "tensor"}],
+        "attributes": {
+          "vocab_size": 30522,
+          "hidden_size": 768,
+          "num_layers": 12
+        }
+      },
+      "implementation": {
+        "subgraph": [
+          {
+            "name": "embeddings",
+            "type": "embedding",
+            "arguments": ["tokens"],
+            "attributes": {
+              "num_embeddings": 30522,
+              "embedding_dim": 768
+            }
+          },
+          {
+            "name": "encoder_output",
+            "type": "transformer",
+            "arguments": ["embeddings"],
+            "attributes": {
+              "num_layers": 12,
+              "hidden_size": 768,
+              "num_heads": 12
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "export": [
+    {
+      "name": "hidden_states",
+      "type": "bert_encoder",
+      "arguments": ["input_ids"]
+    }
+  ]
+}

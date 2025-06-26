@@ -204,34 +204,42 @@ Reusable node definitions for operators, layers, and architectures:
 }
 ```
 
-### Node References
+### 📦 `imports` (Optional)
 
-NeuroGraph uses a simple string-based system for referencing nodes within a model:
-
-- **Simple names**: `"image"`, `"fc1"`, `"relu1"` - Reference inputs, local nodes, or definitions by name
-- **Path notation**: `"module/subnode"` - Reference nested nodes using forward-slash paths  
-- **Definition references**: `"my_classifier"` - Reference custom definitions declared in the `definitions` section
-
-Examples of node references in use:
+Enable modular model design through importing external resources:
 
 ```json
 {
-  "export": [
-    {"name": "main", "type": "my_classifier", "arguments": ["image"]}
-  ],
-  "definitions": [
+  "imports": [
     {
-      "name": "my_classifier",
-      "implementation": {
-        "subgraph": [
-          {"name": "fc1", "type": "linear", "arguments": ["input"]},
-          {"name": "output", "type": "activation", "arguments": ["fc1"]}
-        ]
-      }
+      "name": "text_encoder",
+      "type": "neuro", 
+      "path": "./encoders/bert_base.neuro.json"
+    },
+    {
+      "name": "pretrained_weights",
+      "type": "safetensors",
+      "path": "./weights/model.safetensors"
     }
   ]
 }
 ```
+
+**Import Types:**
+
+- **`type: "neuro"`**: Import entire `.neuro.json` models
+  - Imported model becomes available as a node type
+  - All sections accessible via namespace syntax: `import_name:section/item`
+- **`type: "safetensors"`**: Import tensor data for weights
+  - Tensors accessible via: `{"ref": "import_name/tensor_name"}`
+
+**Namespace Reference Syntax:**
+
+- **Constants**: `{"ref": "encoder:constants/hidden_size"}`
+- **Definitions**: `"type": "encoder:definitions/attention_layer"`
+- **Weights**: `{"ref": "weights/layer1_weight"}`
+
+For complete documentation and examples, see [`docs/imports-and-references.md`](./docs/imports-and-references.md).
 
 This consistent referencing system works across all contexts - whether connecting nodes in a subgraph, referencing inputs, or using custom definitions.
 
@@ -268,7 +276,7 @@ Third-party extensions are supported through namespaced types:
 }
 ```
 
-## Complete Example
+## Examples
 
 ### Simple Sequential Classifier
 
@@ -311,4 +319,36 @@ Third-party extensions are supported through namespaced types:
 }
 ```
 
-For complete examples, see the `docs/examples/` directory.
+### Multimodal Model with Imports
+
+For a complete example demonstrating the import system, see [`docs/examples/multimodal_with_imports.neuro.json`](./docs/examples/multimodal_with_imports.neuro.json). This example shows:
+
+- **Model Imports**: Importing text and image encoders as reusable components
+- **Weight Imports**: Loading pretrained weights from safetensors files  
+- **Configuration Imports**: Sharing constants and definitions across models
+- **Namespace References**: Accessing imported constants, definitions, and weights
+- **Cross-Modal Architecture**: Combining multiple imported models into a unified system
+
+### Additional Examples
+
+For more examples, see the `docs/examples/` directory:
+
+- [`example.neuro.json`](./docs/examples/example.neuro.json) - Comprehensive format demonstration
+- [`sequential_classifier.neuro.json`](./docs/examples/sequential_classifier.neuro.json) - Simple classification model
+- [`encoders/`](./docs/examples/encoders/) - Modular encoder components
+- [`config/`](./docs/examples/config/) - Shared configuration files
+
+## Documentation
+
+- **[Import System Guide](./docs/imports-and-references.md)** - Complete guide to imports and namespace references
+- **[Error Codes](./docs/error-codes.md)** - Canonical error codes for compliance testing
+- **[Testing Framework](./tests/README.md)** - Compliance test suite and validation framework
+
+## Contributing
+
+To contribute to the NeuroFormat schema:
+
+1. **Follow the modular design** - Keep schemas focused and composable
+2. **Add comprehensive tests** - Include compliance tests for new features
+3. **Document thoroughly** - Update documentation and examples
+4. **Maintain compatibility** - Consider backward compatibility for schema changes
