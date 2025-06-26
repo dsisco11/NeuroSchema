@@ -39,7 +39,14 @@
   "definitions": {
     "test_definition": {
       "type": "object",
-      "required": ["id", "title", "description", "feature", "inputs", "expected"],
+      "required": [
+        "id",
+        "title",
+        "description",
+        "feature",
+        "inputs",
+        "expected"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -84,7 +91,7 @@
         "node_definition_parsing",
         "node_invocation_parsing",
         "operator_execution",
-        "layer_execution", 
+        "layer_execution",
         "architecture_execution",
         "subgraph_execution",
         "input_validation",
@@ -106,7 +113,7 @@
           "description": "Complete .neuro.json model definition to test"
         },
         "neuro_fragment": {
-          "type": "object", 
+          "type": "object",
           "description": "Partial .neuro.json content (e.g., just a node definition)"
         },
         "input_data": {
@@ -168,8 +175,44 @@
     },
     "expected_error": {
       "type": "object",
-      "required": ["type"],
+      "required": ["code"],
       "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "neuro.schema.invalid_json",
+            "neuro.schema.validation_failed",
+            "neuro.schema.unsupported_version",
+            "neuro.schema.invalid_dtype",
+            "neuro.schema.invalid_shape",
+            "neuro.ref.node_not_found",
+            "neuro.ref.definition_not_found",
+            "neuro.ref.circular_dependency",
+            "neuro.ref.invalid_path",
+            "neuro.ref.data_not_found",
+            "neuro.ref.import_not_found",
+            "neuro.type.unknown_operator",
+            "neuro.type.unknown_layer",
+            "neuro.type.unknown_architecture",
+            "neuro.type.invalid_namespace",
+            "neuro.exec.shape_mismatch",
+            "neuro.exec.dtype_mismatch",
+            "neuro.exec.missing_weights",
+            "neuro.exec.invalid_attributes",
+            "neuro.exec.runtime_error",
+            "neuro.impl.not_implemented",
+            "neuro.impl.provider_error",
+            "neuro.impl.version_incompatible",
+            "neuro.parse.invalid_structure",
+            "neuro.parse.missing_section",
+            "neuro.parse.empty_section"
+          ],
+          "description": "Canonical NeuroFormat error code - see docs/error-codes.md for details"
+        },
+        "message_pattern": {
+          "type": "string",
+          "description": "Optional regex pattern that the error message should match"
+        },
         "type": {
           "type": "string",
           "enum": [
@@ -181,15 +224,7 @@
             "runtime_error",
             "not_implemented_error"
           ],
-          "description": "Type of error expected"
-        },
-        "message_pattern": {
-          "type": "string",
-          "description": "Regex pattern that the error message should match"
-        },
-        "code": {
-          "type": "string",
-          "description": "Specific error code (implementation-defined)"
+          "description": "General error category (deprecated - use code field instead)"
         }
       }
     },
@@ -208,9 +243,17 @@
         "dtype": {
           "type": "string",
           "enum": [
-            "float16", "float32", "float64",
-            "int8", "int16", "int32", "int64",
-            "uint8", "uint16", "uint32", "uint64",
+            "float16",
+            "float32",
+            "float64",
+            "int8",
+            "int16",
+            "int32",
+            "int64",
+            "uint8",
+            "uint16",
+            "uint32",
+            "uint64",
             "bool"
           ],
           "description": "Data type of the tensor"

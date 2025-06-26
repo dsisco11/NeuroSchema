@@ -1,0 +1,149 @@
+{
+  "$schema": "../tests.schema.json",
+  "metadata": {
+    "name": "Execution Error Tests",
+    "version": "1.0.0",
+    "description": "Tests for runtime execution error conditions",
+    "category": "execution"
+  },
+  "tests": [
+    {
+      "id": "shape_mismatch_error",
+      "title": "Shape Mismatch Error",
+      "description": "Verify that shape mismatches are properly detected during execution",
+      "feature": "operator_execution",
+      "tags": ["execution", "shapes", "validation"],
+      "inputs": {
+        "neuro_fragment": {
+          "type": "add",
+          "attributes": {
+            "dtype": "float32"
+          }
+        },
+        "input_data": {
+          "input_a": {
+            "shape": [2, 3],
+            "dtype": "float32",
+            "data": [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
+          },
+          "input_b": {
+            "shape": [2, 2],
+            "dtype": "float32",
+            "data": [[0.5, 1.5], [2.5, 3.5]]
+          }
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.exec.shape_mismatch",
+          "message_pattern": ".*shape.*mismatch.*"
+        }
+      },
+      "metadata": {
+        "priority": "critical"
+      }
+    },
+    {
+      "id": "dtype_mismatch_error",
+      "title": "Data Type Mismatch Error",
+      "description": "Verify that dtype mismatches are properly detected during execution",
+      "feature": "operator_execution",
+      "tags": ["execution", "dtypes", "validation"],
+      "inputs": {
+        "neuro_fragment": {
+          "type": "add",
+          "attributes": {
+            "dtype": "float32"
+          }
+        },
+        "input_data": {
+          "input_a": {
+            "shape": [2, 2],
+            "dtype": "float32",
+            "data": [[1.0, 2.0], [3.0, 4.0]]
+          },
+          "input_b": {
+            "shape": [2, 2],
+            "dtype": "int32",
+            "data": [[1, 2], [3, 4]]
+          }
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.exec.dtype_mismatch",
+          "message_pattern": ".*dtype.*mismatch.*"
+        }
+      },
+      "metadata": {
+        "priority": "high"
+      }
+    },
+    {
+      "id": "missing_weights_error",
+      "title": "Missing Weights Error",
+      "description": "Verify that missing required weights are properly detected",
+      "feature": "layer_execution",
+      "tags": ["execution", "weights", "validation"],
+      "inputs": {
+        "neuro_fragment": {
+          "type": "linear",
+          "attributes": {
+            "in_features": 10,
+            "out_features": 5,
+            "bias": true
+          }
+        },
+        "input_data": {
+          "input": {
+            "shape": [1, 10],
+            "dtype": "float32",
+            "data": [[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]]
+          }
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.exec.missing_weights",
+          "message_pattern": ".*missing.*weights.*"
+        }
+      },
+      "metadata": {
+        "priority": "critical"
+      }
+    },
+    {
+      "id": "invalid_attributes_error",
+      "title": "Invalid Attributes Error",
+      "description": "Verify that invalid node attributes are properly detected",
+      "feature": "layer_execution",
+      "tags": ["execution", "attributes", "validation"],
+      "inputs": {
+        "neuro_fragment": {
+          "type": "linear",
+          "attributes": {
+            "in_features": -5,
+            "out_features": 10,
+            "bias": true
+          }
+        },
+        "input_data": {
+          "input": {
+            "shape": [1, 10],
+            "dtype": "float32",
+            "data": [[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]]
+          }
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.exec.invalid_attributes",
+          "message_pattern": ".*in_features.*positive.*"
+        }
+      },
+      "metadata": {
+        "priority": "high"
+      }
+    }
+  ]
+}

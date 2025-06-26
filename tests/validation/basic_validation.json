@@ -1,0 +1,31 @@
+{
+  "$schema": "../tests.schema.json",
+  "metadata": {
+    "name": "Missing Data Tests",
+    "version": "0.0.1",
+    "description": "Tests for validating basic NeuroFormat schema compliance"
+  },
+  "tests": [
+    {
+      "id": "missing_required_metadata",
+      "title": "Missing Required Metadata",
+      "description": "Verify that models missing required metadata fields fail validation",
+      "feature": "schema_validation",
+      "tags": ["validation", "error_handling"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "inputs": [],
+          "outputs": [],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.validation_failed",
+          "message_pattern": ".*required.*metadata.*"
+        }
+      }
+    }
+  ]
+}

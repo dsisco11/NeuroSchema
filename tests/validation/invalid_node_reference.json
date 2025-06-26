@@ -46,7 +46,7 @@
       },
       "expected": {
         "error": {
-          "type": "reference_error",
+          "code": "neuro.ref.node_not_found",
           "message_pattern": ".*nonexistent_input.*not found.*"
         }
       }

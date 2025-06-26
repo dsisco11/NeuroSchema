@@ -89,3 +89,27 @@ Downstream library implementers should:
 ```
 
 This schema-driven approach ensures that compliance tests are well-structured, self-documenting, and easy for library authors to understand and implement.
+
+### Error Code Compliance
+
+All error tests use **canonical NeuroFormat error codes** as defined in `docs/error-codes.md`. These standardized codes ensure consistent error handling across all language implementations:
+
+```json
+{
+  "expected": {
+    "error": {
+      "code": "neuro.ref.node_not_found",
+      "message_pattern": ".*nonexistent_input.*not found.*"
+    }
+  }
+}
+```
+
+Key error code categories:
+
+- **`neuro.schema.*`**: Schema validation errors
+- **`neuro.ref.*`**: Reference resolution errors  
+- **`neuro.type.*`**: Type system errors
+- **`neuro.exec.*`**: Runtime execution errors
+- **`neuro.impl.*`**: Implementation-specific errors
+- **`neuro.parse.*`**: Parsing and structure errors
