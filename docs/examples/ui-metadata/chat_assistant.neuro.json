@@ -12,7 +12,16 @@
         "display_name": "GPT Chat Assistant",
         "description": "An intelligent conversational AI that can help with a wide variety of tasks",
         "icon": "https://assets.airc.org/models/chat-gpt.svg", 
-        "color": "#10A37F",
+        "colors": {
+          "light": {
+            "primary": "#10A37F",
+            "secondary": "#1A7F64"
+          },
+          "dark": {
+            "primary": "#26D0CE",
+            "secondary": "#20B2AA"
+          }
+        },
         "prompting": {
           "phrases": {
             "required": "You are a helpful assistant. ",

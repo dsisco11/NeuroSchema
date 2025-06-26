@@ -85,10 +85,43 @@
                   "type": "string",
                   "description": "Resource link to an icon representing the model"
                 },
-                "color": {
-                  "type": "string",
-                  "pattern": "^#[0-9A-Fa-f]{6}$",
-                  "description": "Hex color associated with the model"
+                "colors": {
+                  "type": "object",
+                  "description": "Color theming configuration for light and dark modes",
+                  "properties": {
+                    "light": {
+                      "type": "object",
+                      "description": "Colors for light theme",
+                      "properties": {
+                        "primary": {
+                          "type": "string",
+                          "pattern": "^#[0-9A-Fa-f]{6}$",
+                          "description": "Primary color for light theme"
+                        },
+                        "secondary": {
+                          "type": "string",
+                          "pattern": "^#[0-9A-Fa-f]{6}$",
+                          "description": "Secondary color for light theme"
+                        }
+                      }
+                    },
+                    "dark": {
+                      "type": "object",
+                      "description": "Colors for dark theme",
+                      "properties": {
+                        "primary": {
+                          "type": "string",
+                          "pattern": "^#[0-9A-Fa-f]{6}$",
+                          "description": "Primary color for dark theme"
+                        },
+                        "secondary": {
+                          "type": "string",
+                          "pattern": "^#[0-9A-Fa-f]{6}$",
+                          "description": "Secondary color for dark theme"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }

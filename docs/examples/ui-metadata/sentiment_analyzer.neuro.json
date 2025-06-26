@@ -12,7 +12,16 @@
         "display_name": "BERT Sentiment Analyzer",
         "description": "Analyze the emotional tone of text with high accuracy using BERT",
         "icon": "https://cdn.neuroformat.ai/models/sentiment-bert.svg",
-        "color": "#4CAF50",
+        "colors": {
+          "light": {
+            "primary": "#4CAF50",
+            "secondary": "#81C784"
+          },
+          "dark": {
+            "primary": "#66BB6A",
+            "secondary": "#A5D6A7"
+          }
+        },
         "prompting": {
           "phrases": {
             "required": "Analyze the sentiment of the following text:",

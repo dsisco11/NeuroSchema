@@ -16,7 +16,16 @@ The UI metadata section allows model authors to specify how their models should 
         "display_name": "BERT Base (Uncased)",
         "description": "A bidirectional transformer for understanding natural language",
         "icon": "https://example.com/icons/bert.svg",
-        "color": "#4285F4",
+        "colors": {
+          "light": {
+            "primary": "#4285F4",
+            "secondary": "#34A853"
+          },
+          "dark": {
+            "primary": "#5A9BF8",
+            "secondary": "#4CAF50"
+          }
+        },
         "prompting": {
           "phrases": {
             "required": "Answer the following question:",
@@ -79,22 +88,61 @@ A UI-specific description that may be different from the technical description i
 
 A resource link (URL or relative path) to an icon representing the model. The icon should be suitable for display in user interfaces.
 
-### `color` (Optional)
+### `colors` (Optional)
 
-**Type:** `string` (hex color)
-**Pattern:** `^#[0-9A-Fa-f]{6}$`
+**Type:** `object`
 
-A hex color code associated with the model for visual branding and UI theming.
+Color theming configuration that supports both light and dark themes with primary and secondary color variants.
 
-**Examples:**
-
+**Structure:**
 ```json
 {
   "ui": {
-    "color": "#4285F4"
+    "colors": {
+      "light": {
+        "primary": "#4285F4",
+        "secondary": "#34A853"
+      },
+      "dark": {
+        "primary": "#5A9BF8", 
+        "secondary": "#4CAF50"
+      }
+    }
   }
 }
 ```
+
+**Properties:**
+
+- **`light`** (Optional): Colors for light theme
+  - **`primary`** (Optional): Primary color for light theme (hex format: `#RRGGBB`)
+  - **`secondary`** (Optional): Secondary color for light theme (hex format: `#RRGGBB`)
+- **`dark`** (Optional): Colors for dark theme  
+  - **`primary`** (Optional): Primary color for dark theme (hex format: `#RRGGBB`)
+  - **`secondary`** (Optional): Secondary color for dark theme (hex format: `#RRGGBB`)
+
+**Usage examples:**
+```json
+{
+  "ui": {
+    "colors": {
+      "light": {
+        "primary": "#1976D2",
+        "secondary": "#FFC107"
+      },
+      "dark": {
+        "primary": "#42A5F5",
+        "secondary": "#FFD54F"
+      }
+    }
+  }
+}
+```
+
+**Common use cases:**
+- Model cards and listings with theme-aware styling
+- Progress indicators and status displays
+- Category groupings and visual organization
 
 ### `prompting` (Optional)
 
@@ -169,7 +217,16 @@ An array of recommended phrases that improve the model's performance or behavior
         "display_name": "Multimodal Content Classifier",
         "description": "Classify images and text content across multiple categories with high accuracy",
         "icon": "https://assets.ailab.com/models/multimodal-classifier.svg",
-        "color": "#FF6B35",
+        "colors": {
+          "light": {
+            "primary": "#FF6B35",
+            "secondary": "#FF8A50"
+          },
+          "dark": {
+            "primary": "#FF8A50",
+            "secondary": "#FFB74D"
+          }
+        },
         "prompting": {
           "phrases": {
             "required": "Classify the following content:",
@@ -217,9 +274,9 @@ An array of recommended phrases that improve the model's performance or behavior
 
 The UI metadata is validated against the NeuroFormat schema. Key validation rules:
 
-1. **Color format**: Must be a valid 6-digit hex color (e.g., `#FF6B35`)
+1. **Color format**: All color fields must be valid 6-digit hex colors (e.g., `#FF6B35`)
 2. **Icon URL**: Must be a valid string (URL validation is application-specific)
-3. **All fields optional**: UI metadata is entirely optional
+3. **All fields optional**: UI metadata is entirely optional, including individual color fields
 4. **String constraints**: No length limits enforced by schema, but UI best practices apply
 
 ## Migration Notes

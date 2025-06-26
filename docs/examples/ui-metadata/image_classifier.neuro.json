@@ -12,7 +12,16 @@
         "display_name": "ResNet-50 Image Classifier",
         "description": "Classify images into 1000+ categories with state-of-the-art accuracy",
         "icon": "https://models.cvlab.edu/icons/resnet50.png",
-        "color": "#FF9800"
+        "colors": {
+          "light": {
+            "primary": "#FF9800",
+            "secondary": "#FFB74D"
+          },
+          "dark": {
+            "primary": "#FFB74D",
+            "secondary": "#FFCC02"
+          }
+        }
       }
     }
   },
