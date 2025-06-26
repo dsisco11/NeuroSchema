@@ -47,26 +47,6 @@
                 "type": "string"
               }
             },
-            "constants": {
-              "type": "object",
-              "description": "Immutable properties of the model",
-              "patternProperties": {
-                "^\\w+$": {
-                  "type": "object",
-                  "required": ["value"],
-                  "properties": {
-                    "value": {
-                      "type": ["number", "string", "boolean"],
-                      "description": "The constant value"
-                    },
-                    "description": {
-                      "type": "string",
-                      "description": "Description of the constant"
-                    }
-                  }
-                }
-              }
-            },
             "ui": {
               "type": "object",
               "description": "User interface presentation information",
@@ -169,7 +149,7 @@
     },
     "constants": {
       "type": "array",
-      "description": "Named variables such as weights, biases, and other referenceable data",
+      "description": "Immutable named variables such as weights, biases, and other referenceable data",
       "items": {
         "type": "object",
         "required": ["name", "type"],
@@ -199,6 +179,10 @@
               { "type": "string" }
             ],
             "description": "The value of the constant"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the constant's purpose and usage"
           }
         }
       }

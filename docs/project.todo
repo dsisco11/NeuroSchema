@@ -1,4 +1,3 @@
-
 Neuro Format:
     ✔ Implement 'metadata' section for model metadata. @done(25-06-25 20:58)
     ✔ Implement 'imports' section for external data importing (eg: model weights). @done(25-06-25 20:58)
@@ -14,6 +13,7 @@ Neuro Format:
     ☐ Document the `metadata.model.ui` section of the Neuro format.
     
 Refactoring:
+    ✔ Refactor constants handling - remove redundant metadata.model.constants and enhance root-level constants with description field. @done(25-06-25 21:15)
     ☐ Reevaluate 'subgraph' node. Suspect that this concept may need to become something more general, since layers and architectures are similarly just subgraphs of nodes. 
         Maybe we should instead just have a more general `graph` object definition that can be used to represent any collection of nodes.
         But we should also be able to specify if a graphs nodes are required to be linear (like a layer) or if they can be non-linear (like a subgraph).

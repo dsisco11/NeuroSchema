@@ -45,21 +45,6 @@ NeuroGraph prioritizes human-centric development over serialization efficiency:
 5. **Create Provider Libraries**: Add support for your compute framework (PyTorch, TensorFlow, etc.)
 6. **Extend the Schema**: Add custom operators, layers, or architectures using namespacing
 
-## Library Hierarchy
-
-```mermaid
-flowchart LR
-    A["<b>.neuro.json</b><br/><i>Human Readable<br/>Model Format</i>"]
-    B["<b>Language Library</b><br/><i>(Python, JavaScript,<br/>Rust, C++, etc.)</i>"]
-    C["<b>Provider Library</b><br/><i>(PyTorch, ONNX,<br/>TensorFlow, etc.)</i>"]
-    A --> B
-    B --> C
-    
-    style A stroke:#01579b,stroke-width:2px
-    style B stroke:#4a148c,stroke-width:2px  
-    style C stroke:#1b5e20,stroke-width:2px
-```
-
 ## NeuroGraph Concepts
 
 ### Hierarchical Node Composition
@@ -108,7 +93,6 @@ Defines model information and configuration:
 **Key fields:**
 
 - **Core metadata**: `name`, `version`, `description`, `author`, `license`
-- **Constants**: Immutable model properties (e.g., `input_channels: 3`)
 - **UI configuration**: Display settings, icons, prompting guidelines
 - **Third-party sections**: Custom metadata for external tools
 
@@ -162,6 +146,42 @@ Defines the output tensors the model produces:
   ]
 }
 ```
+
+### 🔢 `constants` (Optional)
+
+Define named constants for model configuration and reusable values:
+
+```json
+{
+  "constants": [
+    {
+      "name": "hidden_size",
+      "type": "scalar",
+      "value": 768,
+      "description": "Dimension of hidden layers in the model"
+    },
+    {
+      "name": "model_weights",
+      "type": "tensor",
+      "dtype": "float32", 
+      "shape": [768, 512],
+      "value": {"ref": "weights_file/layer_weights"},
+      "description": "Pretrained weights for the linear layer"
+    }
+  ]
+}
+```
+
+**Constant Types:**
+
+- **`scalar`**: Single numeric, string, or boolean values
+- **`tensor`**: Multi-dimensional arrays with shape and dtype specifications
+
+**Value Sources:**
+
+- **Direct values**: Numbers, strings, arrays embedded in the file
+- **References**: `{"ref": "import_name/tensor_name"}` for imported data
+- **Base64/Hex**: Encoded binary data for embedding weights directly
 
 ### 🎯 `export` (Required)
 
@@ -352,3 +372,21 @@ To contribute to the NeuroFormat schema:
 2. **Add comprehensive tests** - Include compliance tests for new features
 3. **Document thoroughly** - Update documentation and examples
 4. **Maintain compatibility** - Consider backward compatibility for schema changes
+5. **Use semantic versioning** - Follow semantic versioning for schema updates
+
+## Library Hierarchy
+
+The NeuroGraph format is designed to be implemented across various programming languages and compute providers. The following diagram illustrates the hierarchy for libraries that implement the NeuroGraph format:
+
+```mermaid
+flowchart LR
+    A["<b>.neuro.json</b><br/><i>Human Readable<br/>Model Format</i>"]
+    B["<b>Language Library</b><br/><i>(Python, JavaScript,<br/>Rust, C++, etc.)</i>"]
+    C["<b>Provider Library</b><br/><i>(PyTorch, ONNX,<br/>TensorFlow, etc.)</i>"]
+    A --> B
+    B --> C
+    
+    style A stroke:#01579b,stroke-width:2px
+    style B stroke:#4a148c,stroke-width:2px  
+    style C stroke:#1b5e20,stroke-width:2px
+```
