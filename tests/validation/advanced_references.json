@@ -1,0 +1,277 @@
+{
+  "$schema": "../tests.schema.json",
+  "metadata": {
+    "name": "Advanced Reference Resolution Tests",
+    "version": "1.0.0",
+    "description": "Tests for complex reference resolution scenarios including nested scopes and cross-references",
+    "category": "validation"
+  },
+  "tests": [
+    {
+      "id": "nested_subgraph_references",
+      "title": "Nested Subgraph References",
+      "description": "Verify that references work correctly across nested subgraph scopes",
+      "feature": "node_reference_resolution",
+      "tags": ["references", "nested", "subgraphs"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "nested_references",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [10], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [5], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "outer_layer",
+              "type": "sequential",
+              "parameters": {
+                "inputs": [{"name": "x", "type": "tensor"}]
+              },
+              "implementation": {
+                "subgraph": [
+                  {
+                    "name": "inner_transform",
+                    "type": "inner_layer",
+                    "arguments": ["x"]
+                  }
+                ]
+              }
+            },
+            {
+              "name": "inner_layer", 
+              "type": "sequential",
+              "parameters": {
+                "inputs": [{"name": "y", "type": "tensor"}]
+              },
+              "implementation": {
+                "subgraph": [
+                  {
+                    "name": "linear1",
+                    "type": "linear",
+                    "arguments": ["y"],
+                    "attributes": {"in_features": 10, "out_features": 5}
+                  }
+                ]
+              }
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "outer_layer", "arguments": ["input"]}
+          ]
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      }
+    },
+    {
+      "id": "cross_definition_references",
+      "title": "Cross Definition References",
+      "description": "Verify that definitions can reference other definitions correctly",
+      "feature": "node_reference_resolution",
+      "tags": ["references", "definitions", "cross-reference"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "cross_references",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [10], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [1], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "encoder",
+              "type": "sequential",
+              "parameters": {
+                "inputs": [{"name": "x", "type": "tensor"}]
+              },
+              "implementation": {
+                "subgraph": [
+                  {"name": "encode", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 10, "out_features": 5}}
+                ]
+              }
+            },
+            {
+              "name": "classifier",
+              "type": "sequential", 
+              "parameters": {
+                "inputs": [{"name": "features", "type": "tensor"}]
+              },
+              "implementation": {
+                "subgraph": [
+                  {"name": "classify", "type": "linear", "arguments": ["features"], "attributes": {"in_features": 5, "out_features": 1}}
+                ]
+              }
+            },
+            {
+              "name": "full_model",
+              "type": "sequential",
+              "parameters": {
+                "inputs": [{"name": "input", "type": "tensor"}]
+              },
+              "implementation": {
+                "subgraph": [
+                  {"name": "encoded", "type": "encoder", "arguments": ["input"]},
+                  {"name": "result", "type": "classifier", "arguments": ["encoded"]}
+                ]
+              }
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "full_model", "arguments": ["input"]}
+          ]
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      }
+    },
+    {
+      "id": "invalid_cross_scope_reference",
+      "title": "Invalid Cross Scope Reference",
+      "description": "Verify that references to nodes in different scopes are properly rejected",
+      "feature": "node_reference_resolution",
+      "tags": ["references", "scopes", "validation", "error"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "invalid_scope_ref",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [10], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [5], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "layer_a",
+              "type": "sequential",
+              "parameters": {
+                "inputs": [{"name": "x", "type": "tensor"}]
+              },
+              "implementation": {
+                "subgraph": [
+                  {"name": "hidden", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 10, "out_features": 5}}
+                ]
+              }
+            },
+            {
+              "name": "layer_b",
+              "type": "sequential",
+              "parameters": {
+                "inputs": [{"name": "y", "type": "tensor"}]
+              },
+              "implementation": {
+                "subgraph": [
+                  {"name": "invalid_ref", "type": "linear", "arguments": ["hidden"], "attributes": {"in_features": 5, "out_features": 5}}
+                ]
+              }
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "layer_b", "arguments": ["input"]}
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.node_not_found",
+          "message_pattern": ".*hidden.*not.*found.*scope.*"
+        }
+      }
+    },
+    {
+      "id": "deep_nested_valid_references",
+      "title": "Deep Nested Valid References",
+      "description": "Verify that deeply nested but valid references work correctly",
+      "feature": "node_reference_resolution",
+      "tags": ["references", "deep", "nested", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "deep_nested",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [16], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [2], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "level_3_block",
+              "type": "sequential",
+              "parameters": {
+                "inputs": [{"name": "x", "type": "tensor"}]
+              },
+              "implementation": {
+                "subgraph": [
+                  {"name": "l3_linear", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 4, "out_features": 2}}
+                ]
+              }
+            },
+            {
+              "name": "level_2_block",
+              "type": "sequential",
+              "parameters": {
+                "inputs": [{"name": "x", "type": "tensor"}]
+              },
+              "implementation": {
+                "subgraph": [
+                  {"name": "l2_linear", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 8, "out_features": 4}},
+                  {"name": "l2_to_l3", "type": "level_3_block", "arguments": ["l2_linear"]}
+                ]
+              }
+            },
+            {
+              "name": "level_1_block",
+              "type": "sequential",
+              "parameters": {
+                "inputs": [{"name": "x", "type": "tensor"}]
+              },
+              "implementation": {
+                "subgraph": [
+                  {"name": "l1_linear", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 16, "out_features": 8}},
+                  {"name": "l1_to_l2", "type": "level_2_block", "arguments": ["l1_linear"]}
+                ]
+              }
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "level_1_block", "arguments": ["input"]}
+          ]
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      }
+    }
+  ]
+}

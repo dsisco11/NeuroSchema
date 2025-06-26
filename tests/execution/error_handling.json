@@ -38,9 +38,6 @@
           "code": "neuro.exec.shape_mismatch",
           "message_pattern": ".*shape.*mismatch.*"
         }
-      },
-      "metadata": {
-        "priority": "critical"
       }
     },
     {
@@ -74,9 +71,6 @@
           "code": "neuro.exec.dtype_mismatch",
           "message_pattern": ".*dtype.*mismatch.*"
         }
-      },
-      "metadata": {
-        "priority": "high"
       }
     },
     {
@@ -107,9 +101,6 @@
           "code": "neuro.exec.missing_weights",
           "message_pattern": ".*missing.*weights.*"
         }
-      },
-      "metadata": {
-        "priority": "critical"
       }
     },
     {
@@ -140,9 +131,6 @@
           "code": "neuro.exec.invalid_attributes",
           "message_pattern": ".*in_features.*positive.*"
         }
-      },
-      "metadata": {
-        "priority": "high"
       }
     }
   ]

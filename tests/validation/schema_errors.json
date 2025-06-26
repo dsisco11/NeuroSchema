@@ -23,9 +23,6 @@
           "code": "neuro.schema.invalid_json",
           "message_pattern": ".*malformed.*JSON.*"
         }
-      },
-      "metadata": {
-        "priority": "critical"
       }
     },
     {
@@ -65,9 +62,6 @@
           "code": "neuro.schema.invalid_dtype",
           "message_pattern": ".*float128.*not.*supported.*"
         }
-      },
-      "metadata": {
-        "priority": "high"
       }
     },
     {
@@ -107,9 +101,6 @@
           "code": "neuro.schema.invalid_shape",
           "message_pattern": ".*negative.*dimension.*"
         }
-      },
-      "metadata": {
-        "priority": "high"
       }
     },
     {
@@ -155,9 +146,6 @@
           "code": "neuro.type.unknown_operator",
           "message_pattern": ".*nonexistent_operator.*not.*found.*"
         }
-      },
-      "metadata": {
-        "priority": "high"
       }
     }
   ]

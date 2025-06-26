@@ -191,6 +191,8 @@
             "neuro.ref.invalid_path",
             "neuro.ref.data_not_found",
             "neuro.ref.import_not_found",
+            "neuro.ref.circular_import",
+            "neuro.ref.duplicate_import",
             "neuro.type.unknown_operator",
             "neuro.type.unknown_layer",
             "neuro.type.unknown_architecture",

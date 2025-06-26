@@ -1,0 +1,490 @@
+{
+  "$schema": "../tests.schema.json",
+  "metadata": {
+    "name": "Circular Import Tests",
+    "version": "1.0.0",
+    "description": "Tests for detecting and handling circular import dependencies",
+    "category": "validation"
+  },
+  "tests": [
+    {
+      "id": "direct_circular_import",
+      "title": "Direct Circular Import",
+      "description": "Verify that direct circular imports (A imports B, B imports A) are detected",
+      "feature": "import_resolution",
+      "tags": ["imports", "circular_dependency", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "model_a",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "model_b",
+              "type": "neuro",
+              "path": "./model_b.neuro.json"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [1],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        },
+        "parameters": {
+          "referenced_models": {
+            "model_b.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "model_b",
+                  "version": "1.0.0"
+                }
+              },
+              "imports": [
+                {
+                  "name": "model_a",
+                  "type": "neuro",
+                  "path": "./model_a.neuro.json"
+                }
+              ],
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [1],
+                  "dtype": "float32"
+                }
+              ],
+              "export": [
+                {
+                  "name": "identity",
+                  "type": "identity",
+                  "arguments": ["input"]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.circular_import",
+          "message_pattern": ".*[Cc]ircular.*import.*model_a.*model_b.*"
+        }
+      }
+    },
+    {
+      "id": "indirect_circular_import",
+      "title": "Indirect Circular Import",
+      "description": "Verify that indirect circular imports (A -> B -> C -> A) are detected",
+      "feature": "import_resolution",
+      "tags": ["imports", "circular_dependency", "validation", "complex"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "model_a",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "model_b",
+              "type": "neuro",
+              "path": "./model_b.neuro.json"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [1],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity", 
+              "arguments": ["input"]
+            }
+          ]
+        },
+        "parameters": {
+          "referenced_models": {
+            "model_b.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "model_b",
+                  "version": "1.0.0"
+                }
+              },
+              "imports": [
+                {
+                  "name": "model_c",
+                  "type": "neuro",
+                  "path": "./model_c.neuro.json"
+                }
+              ],
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [1],
+                  "dtype": "float32"
+                }
+              ],
+              "export": [
+                {
+                  "name": "identity",
+                  "type": "identity",
+                  "arguments": ["input"]
+                }
+              ]
+            },
+            "model_c.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "model_c",
+                  "version": "1.0.0"
+                }
+              },
+              "imports": [
+                {
+                  "name": "model_a",
+                  "type": "neuro",
+                  "path": "./model_a.neuro.json"
+                }
+              ],
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [1],
+                  "dtype": "float32"
+                }
+              ],
+              "export": [
+                {
+                  "name": "identity",
+                  "type": "identity",
+                  "arguments": ["input"]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.circular_import",
+          "message_pattern": ".*[Cc]ircular.*import.*model_a.*model_b.*model_c.*"
+        }
+      }
+    },
+    {
+      "id": "self_import",
+      "title": "Self Import",
+      "description": "Verify that self-imports (A imports A) are detected as circular",
+      "feature": "import_resolution",
+      "tags": ["imports", "circular_dependency", "validation", "self_reference"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "self_referencing_model",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "self",
+              "type": "neuro",
+              "path": "./self_referencing_model.neuro.json"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [1],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.circular_import",
+          "message_pattern": ".*[Ss]elf.*import.*circular.*"
+        }
+      }
+    },
+    {
+      "id": "complex_circular_import_chain",
+      "title": "Complex Circular Import Chain",
+      "description": "Verify that complex circular import chains (A -> B -> C -> D -> B) are detected",
+      "feature": "import_resolution",
+      "tags": ["imports", "circular_dependency", "validation", "complex_chain"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "model_a",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "model_b",
+              "type": "neuro",
+              "path": "./model_b.neuro.json"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [1],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        },
+        "parameters": {
+          "referenced_models": {
+            "model_b.neuro.json": {
+              "imports": [
+                {
+                  "name": "model_c",
+                  "type": "neuro",
+                  "path": "./model_c.neuro.json"
+                }
+              ]
+            },
+            "model_c.neuro.json": {
+              "imports": [
+                {
+                  "name": "model_d",
+                  "type": "neuro", 
+                  "path": "./model_d.neuro.json"
+                }
+              ]
+            },
+            "model_d.neuro.json": {
+              "imports": [
+                {
+                  "name": "model_b",
+                  "type": "neuro",
+                  "path": "./model_b.neuro.json"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.circular_import",
+          "message_pattern": ".*[Cc]ircular.*import.*model_b.*model_c.*model_d.*"
+        }
+      }
+    },
+    {
+      "id": "valid_import_chain",
+      "title": "Valid Import Chain",
+      "description": "Verify that valid linear import chains (A -> B -> C) work correctly",
+      "feature": "import_resolution",
+      "tags": ["imports", "validation", "positive_test"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "model_a",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "model_b",
+              "type": "neuro",
+              "path": "./model_b.neuro.json"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [1],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        },
+        "parameters": {
+          "referenced_models": {
+            "model_b.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "model_b",
+                  "version": "1.0.0"
+                }
+              },
+              "imports": [
+                {
+                  "name": "model_c",
+                  "type": "neuro",
+                  "path": "./model_c.neuro.json"
+                }
+              ],
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [1],
+                  "dtype": "float32"
+                }
+              ],
+              "export": [
+                {
+                  "name": "identity",
+                  "type": "identity",
+                  "arguments": ["input"]
+                }
+              ]
+            },
+            "model_c.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "model_c",
+                  "version": "1.0.0"
+                }
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [1],
+                  "dtype": "float32"
+                }
+              ],
+              "export": [
+                {
+                  "name": "identity",
+                  "type": "identity",
+                  "arguments": ["input"]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      }
+    }
+  ]
+}

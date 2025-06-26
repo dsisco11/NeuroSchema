@@ -69,6 +69,16 @@ Error codes follow the format: `neuro.category.specific_error`
 **When to use**: Import references point to missing files or invalid imports  
 **Example**: `"Import 'model_weights' references missing file './weights/model.safetensors'"`
 
+### neuro.ref.circular_import
+**Description**: Circular import dependency detected  
+**When to use**: Import A references import B which directly or indirectly references import A  
+**Example**: `"Circular import detected: model_a.neuro.json -> model_b.neuro.json -> model_a.neuro.json"`
+
+### neuro.ref.duplicate_import
+**Description**: Multiple imports with the same name detected  
+**When to use**: Two or more imports in the same model have identical names  
+**Example**: `"Duplicate import name 'shared_module': each import must have a unique name"`
+
 ## Type System Errors
 
 ### neuro.type.unknown_operator

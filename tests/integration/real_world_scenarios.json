@@ -1,0 +1,333 @@
+{
+  "$schema": "../tests.schema.json",
+  "metadata": {
+    "name": "Integration and Real-World Tests",
+    "version": "1.0.0",
+    "description": "Comprehensive integration tests simulating real-world NeuroFormat usage scenarios",
+    "category": "integration"
+  },
+  "tests": [
+    {
+      "id": "multi_modal_model_integration",
+      "title": "Multi-Modal Model Integration",
+      "description": "Test integration of text, image, and audio processing modules",
+      "feature": "import_resolution",
+      "tags": ["integration", "multi_modal", "complex_imports"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "multimodal_processor",
+              "version": "1.0.0",
+              "description": "Combined text, image, and audio processing pipeline"
+            }
+          },
+          "imports": [
+            {
+              "name": "text_encoder",
+              "type": "neuro",
+              "path": "./modules/text/encoder.neuro.json"
+            },
+            {
+              "name": "image_encoder",
+              "type": "neuro",
+              "path": "./modules/vision/cnn_encoder.neuro.json"
+            },
+            {
+              "name": "audio_encoder",
+              "type": "neuro",
+              "path": "./modules/audio/spectral_encoder.neuro.json"
+            },
+            {
+              "name": "fusion_layer",
+              "type": "neuro",
+              "path": "./modules/fusion/attention_fusion.neuro.json"
+            }
+          ],
+          "inputs": [
+            {"name": "text_input", "shape": [512], "dtype": "int32"},
+            {"name": "image_input", "shape": [224, 224, 3], "dtype": "float32"},
+            {"name": "audio_input", "shape": [16000], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "fused_representation", "shape": [1024], "dtype": "float32"},
+            {"name": "classification_logits", "shape": [100], "dtype": "float32"}
+          ],
+          "nodes": [
+            {"name": "text_features", "type": "reference", "arguments": ["text_input"], "reference": "text_encoder/encode"},
+            {"name": "image_features", "type": "reference", "arguments": ["image_input"], "reference": "image_encoder/extract_features"},
+            {"name": "audio_features", "type": "reference", "arguments": ["audio_input"], "reference": "audio_encoder/encode_spectral"},
+            {"name": "fused", "type": "reference", "arguments": ["text_features", "image_features", "audio_features"], "reference": "fusion_layer/multi_head_fusion"}
+          ],
+          "export": [
+            {"name": "get_representation", "type": "identity", "arguments": ["fused"]},
+            {"name": "classify", "type": "linear", "arguments": ["fused"], "shape": [1024, 100]}
+          ]
+        },
+        "parameters": {
+          "referenced_models": {
+            "modules/text/encoder.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "text_encoder", "version": "1.0.0"}},
+              "inputs": [{"name": "tokens", "shape": [512], "dtype": "int32"}],
+              "outputs": [{"name": "embeddings", "shape": [512, 768], "dtype": "float32"}],
+              "export": [{"name": "encode", "type": "embedding", "arguments": ["tokens"], "vocab_size": 50000, "embedding_dim": 768}]
+            },
+            "modules/vision/cnn_encoder.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "image_encoder", "version": "1.0.0"}},
+              "imports": [{"name": "backbone", "type": "neuro", "path": "../shared/resnet_backbone.neuro.json"}],
+              "inputs": [{"name": "image", "shape": [224, 224, 3], "dtype": "float32"}],
+              "outputs": [{"name": "features", "shape": [2048], "dtype": "float32"}],
+              "export": [{"name": "extract_features", "type": "reference", "arguments": ["image"], "reference": "backbone/forward"}]
+            },
+            "modules/audio/spectral_encoder.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "audio_encoder", "version": "1.0.0"}},
+              "inputs": [{"name": "waveform", "shape": [16000], "dtype": "float32"}],
+              "outputs": [{"name": "spectral_features", "shape": [256], "dtype": "float32"}],
+              "nodes": [
+                {"name": "spectrogram", "type": "stft", "arguments": ["waveform"], "n_fft": 512, "hop_length": 160},
+                {"name": "mel_features", "type": "mel_scale", "arguments": ["spectrogram"], "n_mels": 80},
+                {"name": "encoded", "type": "linear", "arguments": ["mel_features"], "shape": [80, 256]}
+              ],
+              "export": [{"name": "encode_spectral", "type": "identity", "arguments": ["encoded"]}]
+            },
+            "modules/fusion/attention_fusion.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "fusion_layer", "version": "1.0.0"}},
+              "inputs": [
+                {"name": "text_feat", "shape": [768], "dtype": "float32"},
+                {"name": "vision_feat", "shape": [2048], "dtype": "float32"},
+                {"name": "audio_feat", "shape": [256], "dtype": "float32"}
+              ],
+              "outputs": [{"name": "fused_output", "shape": [1024], "dtype": "float32"}],
+              "export": [{"name": "multi_head_fusion", "type": "attention", "arguments": ["text_feat", "vision_feat", "audio_feat"], "output_dim": 1024}]
+            },
+            "modules/shared/resnet_backbone.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "backbone", "version": "1.0.0"}},
+              "inputs": [{"name": "x", "shape": [224, 224, 3], "dtype": "float32"}],
+              "outputs": [{"name": "features", "shape": [2048], "dtype": "float32"}],
+              "export": [{"name": "forward", "type": "resnet50", "arguments": ["x"], "pretrained": true}]
+            }
+          }
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      },
+      "metadata": {
+        "integration_test": true
+      }
+    },
+    {
+      "id": "hierarchical_model_structure",
+      "title": "Hierarchical Model Structure",
+      "description": "Test complex hierarchical model with nested imports and dependencies",
+      "feature": "import_resolution",
+      "tags": ["integration", "hierarchical", "nested_imports"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "hierarchical_transformer",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "encoder_stack",
+              "type": "neuro",
+              "path": "./encoder/stack.neuro.json"
+            },
+            {
+              "name": "decoder_stack",
+              "type": "neuro",
+              "path": "./decoder/stack.neuro.json"
+            },
+            {
+              "name": "embeddings",
+              "type": "neuro",
+              "path": "./common/embeddings.neuro.json"
+            }
+          ],
+          "inputs": [
+            {"name": "source_ids", "shape": [128], "dtype": "int32"},
+            {"name": "target_ids", "shape": [128], "dtype": "int32"}
+          ],
+          "outputs": [
+            {"name": "logits", "shape": [128, 50000], "dtype": "float32"}
+          ],
+          "export": [
+            {"name": "encode_decode", "type": "transformer", "arguments": ["source_ids", "target_ids"]}
+          ]
+        },
+        "parameters": {
+          "referenced_models": {
+            "encoder/stack.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "encoder_stack", "version": "1.0.0"}},
+              "imports": [
+                {"name": "encoder_layer", "type": "neuro", "path": "./layer.neuro.json"},
+                {"name": "position_encoding", "type": "neuro", "path": "../common/positional.neuro.json"}
+              ],
+              "inputs": [{"name": "embeddings", "shape": [128, 512], "dtype": "float32"}],
+              "outputs": [{"name": "encoded", "shape": [128, 512], "dtype": "float32"}],
+              "export": [{"name": "encode", "type": "transformer_encoder", "arguments": ["embeddings"], "num_layers": 6}]
+            },
+            "encoder/layer.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "encoder_layer", "version": "1.0.0"}},
+              "imports": [
+                {"name": "attention", "type": "neuro", "path": "../common/attention.neuro.json"},
+                {"name": "feedforward", "type": "neuro", "path": "../common/ffn.neuro.json"}
+              ],
+              "inputs": [{"name": "x", "shape": [128, 512], "dtype": "float32"}],
+              "outputs": [{"name": "output", "shape": [128, 512], "dtype": "float32"}],
+              "export": [{"name": "forward", "type": "encoder_layer", "arguments": ["x"]}]
+            },
+            "decoder/stack.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "decoder_stack", "version": "1.0.0"}},
+              "imports": [
+                {"name": "decoder_layer", "type": "neuro", "path": "./layer.neuro.json"}
+              ],
+              "inputs": [
+                {"name": "target_embeddings", "shape": [128, 512], "dtype": "float32"},
+                {"name": "encoder_output", "shape": [128, 512], "dtype": "float32"}
+              ],
+              "outputs": [{"name": "decoded", "shape": [128, 512], "dtype": "float32"}],
+              "export": [{"name": "decode", "type": "transformer_decoder", "arguments": ["target_embeddings", "encoder_output"], "num_layers": 6}]
+            },
+            "decoder/layer.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "decoder_layer", "version": "1.0.0"}},
+              "imports": [
+                {"name": "self_attention", "type": "neuro", "path": "../common/attention.neuro.json"},
+                {"name": "cross_attention", "type": "neuro", "path": "../common/attention.neuro.json"},
+                {"name": "feedforward", "type": "neuro", "path": "../common/ffn.neuro.json"}
+              ],
+              "inputs": [
+                {"name": "x", "shape": [128, 512], "dtype": "float32"},
+                {"name": "memory", "shape": [128, 512], "dtype": "float32"}
+              ],
+              "outputs": [{"name": "output", "shape": [128, 512], "dtype": "float32"}],
+              "export": [{"name": "forward", "type": "decoder_layer", "arguments": ["x", "memory"]}]
+            },
+            "common/embeddings.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "embeddings", "version": "1.0.0"}},
+              "inputs": [{"name": "token_ids", "shape": [128], "dtype": "int32"}],
+              "outputs": [{"name": "embeddings", "shape": [128, 512], "dtype": "float32"}],
+              "export": [{"name": "embed", "type": "embedding", "arguments": ["token_ids"], "vocab_size": 50000, "embedding_dim": 512}]
+            },
+            "common/attention.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "attention", "version": "1.0.0"}},
+              "inputs": [
+                {"name": "query", "shape": [128, 512], "dtype": "float32"},
+                {"name": "key", "shape": [128, 512], "dtype": "float32"},
+                {"name": "value", "shape": [128, 512], "dtype": "float32"}
+              ],
+              "outputs": [{"name": "attended", "shape": [128, 512], "dtype": "float32"}],
+              "export": [{"name": "attend", "type": "multi_head_attention", "arguments": ["query", "key", "value"], "num_heads": 8}]
+            },
+            "common/ffn.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "feedforward", "version": "1.0.0"}},
+              "inputs": [{"name": "x", "shape": [128, 512], "dtype": "float32"}],
+              "outputs": [{"name": "output", "shape": [128, 512], "dtype": "float32"}],
+              "export": [{"name": "forward", "type": "feed_forward", "arguments": ["x"], "hidden_dim": 2048}]
+            },
+            "common/positional.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "position_encoding", "version": "1.0.0"}},
+              "inputs": [{"name": "sequence_length", "shape": [], "dtype": "int32"}],
+              "outputs": [{"name": "encodings", "shape": [128, 512], "dtype": "float32"}],
+              "export": [{"name": "encode_positions", "type": "positional_encoding", "arguments": ["sequence_length"], "max_length": 1024}]
+            }
+          }
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      },
+      "metadata": {
+        "integration_test": true
+      }
+    },
+    {
+      "id": "version_compatibility_test",
+      "title": "Version Compatibility Across Imports",
+      "description": "Test handling of models with different but compatible schema versions",
+      "feature": "schema_validation",
+      "tags": ["integration", "version_compatibility", "schema_versions"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "version_mix_model",
+              "version": "2.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "legacy_component",
+              "type": "neuro",
+              "path": "./legacy/component.neuro.json"
+            },
+            {
+              "name": "modern_component",
+              "type": "neuro",
+              "path": "./modern/component.neuro.json"
+            }
+          ],
+          "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
+          "outputs": [{"name": "output", "shape": [50], "dtype": "float32"}],
+          "export": [{"name": "process", "type": "composite", "arguments": ["input"]}]
+        },
+        "parameters": {
+          "referenced_models": {
+            "legacy/component.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "legacy_component",
+                  "version": "1.0.0"
+                }
+              },
+              "inputs": [{"name": "x", "shape": [100], "dtype": "float32"}],
+              "outputs": [{"name": "y", "shape": [75], "dtype": "float32"}],
+              "export": [{"name": "transform", "type": "linear", "arguments": ["x"], "shape": [100, 75]}]
+            },
+            "modern/component.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "modern_component",
+                  "version": "2.0.0"
+                }
+              },
+              "inputs": [{"name": "features", "shape": [75], "dtype": "float32"}],
+              "outputs": [{"name": "predictions", "shape": [50], "dtype": "float32"}],
+              "export": [{"name": "predict", "type": "linear", "arguments": ["features"], "shape": [75, 50]}]
+            }
+          }
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      },
+      "metadata": {
+        "integration_test": true
+      }
+    }
+  ]
+}

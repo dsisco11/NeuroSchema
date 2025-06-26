@@ -45,7 +45,6 @@
         }
       },
       "metadata": {
-        "priority": "critical",
         "timeout": 2000
       }
     },
