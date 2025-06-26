@@ -1,14 +1,91 @@
-# Overview
+# NeuroFormat Compliance Tests
 
-This folder contains the compliance tests that any implementation of the Neuro format *must* pass to be considered compliant with the Neuro format specification.  
-The tests are organized into different categories based on the type of data they are testing.  
-Each test is designed to check a specific aspect of the Neuro format and ensure that it is being implemented correctly. 
+This folder contains the compliance tests that any implementation of the NeuroFormat specification **must** pass to be considered compliant. These tests ensure that downstream libraries implement the schema correctly and consistently across different programming languages and platforms.
 
-## Testing Format
+## Overview
 
-The tests are defined within json files, each test definition contains:
+The tests are organized into different categories based on the functionality they validate:
 
-- Description of test
-- Functionality to be tested (eg: node/function name)
-- Input values
-- Expected output values
+- **Parsing Tests**: JSON parsing and schema validation
+- **Serialization Tests**: Round-trip serialization accuracy  
+- **Validation Tests**: Input/output validation and error handling
+- **Execution Tests**: Node execution and data flow
+- **Integration Tests**: End-to-end model functionality
+
+## Test Structure
+
+All compliance tests follow the `tests.schema.json` schema and are organized as JSON files containing arrays of `TestDefinition` objects. Each test definition includes:
+
+### Required Fields
+
+- **`id`**: Unique identifier for the test
+- **`title`**: Short, descriptive test name
+- **`description`**: Detailed explanation of what the test verifies
+- **`feature`**: Specific capability being tested (e.g., `"schema_validation"`, `"operator_execution"`)
+- **`inputs`**: Test input data (NeuroFormat models, tensor data, parameters)
+- **`expected`**: Expected outcomes (success with outputs, or specific error conditions)
+
+### Optional Fields
+
+- **`tags`**: Categories for filtering tests
+- **`metadata`**: Priority, timeout, skip conditions
+
+## Test Categories
+
+### Schema & Parsing Tests
+
+- JSON schema validation
+- Malformed input handling
+- Reference resolution
+
+### Execution Tests
+
+- Operator mathematical correctness
+- Layer functionality
+- Architecture composition
+- Subgraph execution
+
+### Data Flow Tests
+
+- Input/output tensor validation
+- Weight loading and application
+- Node reference resolution
+
+## Using Compliance Tests
+
+Downstream library implementers should:
+
+1. **Pull test files** from this directory
+2. **Parse test definitions** according to `tests.schema.json`
+3. **Generate parameterized unit tests** dynamically from the JSON definitions
+4. **Execute tests** against their implementation
+5. **Verify** all tests pass for compliance certification
+
+## Example Test Structure
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/tests-schema-2025-1.json",
+  "metadata": {
+    "name": "Basic Parsing Tests",
+    "category": "parsing"
+  },
+  "tests": [
+    {
+      "id": "valid_model_parsing",
+      "title": "Valid Model Parsing",
+      "description": "Verify that a valid .neuro.json model parses correctly",
+      "feature": "json_parsing",
+      "inputs": {
+        "neuro_model": { /* complete model definition */ }
+      },
+      "expected": {
+        "success": true,
+        "parsed_structure": { /* expected parsed result */ }
+      }
+    }
+  ]
+}
+```
+
+This schema-driven approach ensures that compliance tests are well-structured, self-documenting, and easy for library authors to understand and implement.

@@ -1,0 +1,53 @@
+{
+  "$schema": "../tests.schema.json",
+  "metadata": {
+    "name": "Minimal Model Validation",
+    "version": "0.0.1",
+    "description": "Tests for validating basic NeuroFormat schema compliance"
+  },
+  "tests": [
+    {
+      "id": "valid_minimal_model",
+      "title": "Valid Minimal Model",
+      "description": "Verify that a minimal valid .neuro.json model passes schema validation",
+      "feature": "schema_validation",
+      "tags": ["basic", "minimal", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "test_model",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output", 
+              "shape": [1],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      }
+    }
+  ]
+}

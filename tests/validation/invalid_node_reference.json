@@ -1,0 +1,55 @@
+{
+  "$schema": "../tests.schema.json",
+  "metadata": {
+    "name": "Invalid Reference Tests",
+    "version": "0.0.1",
+    "description": "Tests for validating basic NeuroFormat schema compliance"
+  },
+  "tests": [
+    {
+      "id": "invalid_node_reference",
+      "title": "Invalid Node Reference",
+      "description": "Verify that invalid node references are caught during validation",
+      "feature": "node_reference_resolution",
+      "tags": ["validation", "references"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "test_model",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [1], 
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "test_node",
+              "type": "identity",
+              "arguments": ["nonexistent_input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "type": "reference_error",
+          "message_pattern": ".*nonexistent_input.*not found.*"
+        }
+      }
+    }
+  ]
+}

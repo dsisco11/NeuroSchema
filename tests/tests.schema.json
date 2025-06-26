@@ -1,0 +1,237 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/neuro-format/tests/tests.schema.json",
+  "title": "NeuroFormat Compliance Tests Schema",
+  "description": "JSON Schema for NeuroFormat compliance test definitions that downstream libraries must pass",
+  "type": "object",
+  "required": ["tests"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to the JSON schema that validates this test file"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Metadata about this test suite",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the test suite"
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of the test suite"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of what this test suite covers"
+        }
+      }
+    },
+    "tests": {
+      "type": "array",
+      "description": "Array of test definitions for compliance verification",
+      "items": {
+        "$ref": "#/definitions/test_definition"
+      }
+    }
+  },
+  "definitions": {
+    "test_definition": {
+      "type": "object",
+      "required": ["id", "title", "description", "feature", "inputs", "expected"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique identifier for this test"
+        },
+        "title": {
+          "type": "string",
+          "description": "Short, descriptive title for the test"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what this test verifies"
+        },
+        "feature": {
+          "$ref": "#/definitions/test_feature",
+          "description": "The specific feature or capability being tested"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Tags for categorizing and filtering tests"
+        },
+        "inputs": {
+          "$ref": "#/definitions/test_inputs",
+          "description": "Input data for the test"
+        },
+        "expected": {
+          "$ref": "#/definitions/test_expected",
+          "description": "Expected outcome of the test"
+        }
+      }
+    },
+    "test_feature": {
+      "type": "string",
+      "enum": [
+        "schema_validation",
+        "json_parsing",
+        "serialization_roundtrip",
+        "node_definition_parsing",
+        "node_invocation_parsing",
+        "operator_execution",
+        "layer_execution", 
+        "architecture_execution",
+        "subgraph_execution",
+        "input_validation",
+        "output_validation",
+        "weight_loading",
+        "data_reference_resolution",
+        "node_reference_resolution",
+        "import_resolution",
+        "constant_resolution",
+        "error_handling"
+      ],
+      "description": "Specific feature or capability being tested"
+    },
+    "test_inputs": {
+      "type": "object",
+      "properties": {
+        "neuro_model": {
+          "type": "object",
+          "description": "Complete .neuro.json model definition to test"
+        },
+        "neuro_fragment": {
+          "type": "object", 
+          "description": "Partial .neuro.json content (e.g., just a node definition)"
+        },
+        "input_data": {
+          "type": "object",
+          "description": "Input tensor data for execution tests",
+          "patternProperties": {
+            "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+              "$ref": "#/definitions/tensor_data"
+            }
+          }
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Additional parameters for the test"
+        }
+      },
+      "additionalProperties": false
+    },
+    "test_expected": {
+      "type": "object",
+      "oneOf": [
+        {
+          "required": ["success"],
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "const": true,
+              "description": "Test should succeed"
+            },
+            "output_data": {
+              "type": "object",
+              "description": "Expected output tensor data",
+              "patternProperties": {
+                "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                  "$ref": "#/definitions/tensor_data"
+                }
+              }
+            },
+            "parsed_structure": {
+              "type": "object",
+              "description": "Expected parsed structure for parsing tests"
+            },
+            "validation_result": {
+              "type": "boolean",
+              "description": "Expected validation result"
+            }
+          }
+        },
+        {
+          "required": ["error"],
+          "properties": {
+            "error": {
+              "$ref": "#/definitions/expected_error",
+              "description": "Expected error condition"
+            }
+          }
+        }
+      ]
+    },
+    "expected_error": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "schema_validation_error",
+            "circular_import_error",
+            "parsing_error",
+            "reference_error",
+            "type_error",
+            "runtime_error",
+            "not_implemented_error"
+          ],
+          "description": "Type of error expected"
+        },
+        "message_pattern": {
+          "type": "string",
+          "description": "Regex pattern that the error message should match"
+        },
+        "code": {
+          "type": "string",
+          "description": "Specific error code (implementation-defined)"
+        }
+      }
+    },
+    "tensor_data": {
+      "type": "object",
+      "required": ["shape", "dtype", "data"],
+      "properties": {
+        "shape": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Tensor shape dimensions"
+        },
+        "dtype": {
+          "type": "string",
+          "enum": [
+            "float16", "float32", "float64",
+            "int8", "int16", "int32", "int64",
+            "uint8", "uint16", "uint32", "uint64",
+            "bool"
+          ],
+          "description": "Data type of the tensor"
+        },
+        "data": {
+          "oneOf": [
+            {
+              "type": "array",
+              "description": "Tensor data as nested arrays"
+            },
+            {
+              "type": "string",
+              "description": "Base64-encoded binary tensor data"
+            }
+          ]
+        },
+        "tolerance": {
+          "type": "number",
+          "description": "Acceptable tolerance for floating-point comparisons"
+        }
+      }
+    }
+  }
+}
