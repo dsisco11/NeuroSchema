@@ -45,7 +45,8 @@
         }
       },
       "implementation": {
-        "subgraph": [
+        "graph": {
+          "nodes": [
           {
             "name": "fc1",
             "type": "linear",
@@ -100,7 +101,8 @@
               "function": "softmax"
             }
           }
-        ]
+          ]
+        }
       }
     }
   ],

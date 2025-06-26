@@ -61,27 +61,29 @@
         }
       },
       "implementation": {
-        "subgraph": [
-          {
-            "name": "embeddings",
-            "type": "embedding",
-            "arguments": ["tokens"],
-            "attributes": {
-              "num_embeddings": 30522,
-              "embedding_dim": 768
+        "graph": {
+          "nodes": [
+            {
+              "name": "embeddings",
+              "type": "embedding",
+              "arguments": ["tokens"],
+              "attributes": {
+                "num_embeddings": 30522,
+                "embedding_dim": 768
+              }
+            },
+            {
+              "name": "encoder_output",
+              "type": "transformer",
+              "arguments": ["embeddings"],
+              "attributes": {
+                "num_layers": 12,
+                "hidden_size": 768,
+                "num_heads": 12
+              }
             }
-          },
-          {
-            "name": "encoder_output",
-            "type": "transformer",
-            "arguments": ["embeddings"],
-            "attributes": {
-              "num_layers": 12,
-              "hidden_size": 768,
-              "num_heads": 12
-            }
-          }
-        ]
+          ]
+        }
       }
     }
   ],

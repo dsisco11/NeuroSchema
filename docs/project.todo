@@ -14,7 +14,11 @@ Neuro Format:
     
 Refactoring:
     ✔ Refactor constants handling - remove redundant metadata.model.constants and enhance root-level constants with description field. @done(25-06-25 21:15)
-    ☐ Reevaluate 'subgraph' node. Suspect that this concept may need to become something more general, since layers and architectures are similarly just subgraphs of nodes. 
-        Maybe we should instead just have a more general `graph` object definition that can be used to represent any collection of nodes.
-        But we should also be able to specify if a graphs nodes are required to be linear (like a layer) or if they can be non-linear (like a subgraph).
-        ALso, is there a way to cause the json schema to validate that a graph is linear and none of its nodes reference each other in a non-linear fashion?
+    ✔ Replace 'subgraph' arrays with unified 'graph' object structure across all schemas and examples. @done(25-06-25 21:30)
+        ✔ Updated main schema (neuro.schema.json) to use graph structure with nodes array
+        ✔ Updated architectures schema to use new graph structure  
+        ✔ Updated all example files (sequential_classifier, multimodal, encoders, configs)
+        ✔ Updated all test files with graph structure
+        ✔ Updated documentation and README.md
+        ✔ Added comprehensive build task for JSON validation
+        Note: Advanced graph validation (topology, linearity) deferred to future linting tool, not JSON Schema

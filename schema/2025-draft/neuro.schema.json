@@ -293,7 +293,7 @@
     "node_reference": {
       "type": "string",
       "pattern": "^(\\w+:)?\\w+(\\/\\w+)*$",
-      "description": "Path reference to a named node (input, definition, or local node within a subgraph). Simple name for local references, or path-like notation for nested references. Supports namespace syntax 'import_name:section/item' for accessing imported model contents."
+      "description": "Path reference to a named node (input, definition, or local node within a graph). Simple name for local references, or path-like notation for nested references. Supports namespace syntax 'import_name:section/item' for accessing imported model contents."
     },
     "data_reference": {
       "type": "object",
@@ -430,11 +430,22 @@
           "type": "object",
           "description": "Implementation details for this node definition",
           "properties": {
-            "subgraph": {
-              "type": "array",
-              "description": "For subgraph node types, the internal node structure",
-              "items": {
-                "$ref": "#/definitions/subgraph_node"
+            "graph": {
+              "type": "object",
+              "description": "Graph structure defining the internal node composition",
+              "required": ["nodes"],
+              "properties": {
+                "nodes": {
+                  "type": "array",
+                  "description": "Array of nodes that make up this graph",
+                  "items": {
+                    "$ref": "#/definitions/graph_node"
+                  }
+                },
+                "metadata": {
+                  "type": "object",
+                  "description": "Optional metadata about the graph structure"
+                }
               }
             },
             "weights": {
@@ -487,14 +498,14 @@
         }
       }
     },
-    "subgraph_node": {
+    "graph_node": {
       "type": "object",
-      "description": "A node within a subgraph - can be either a definition or invocation depending on context",
+      "description": "A node within a graph - can be either a definition or invocation depending on context",
       "required": ["name", "type"],
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the subgraph node"
+          "description": "Name of the graph node"
         },
         "type": {
           "oneOf": [
@@ -529,7 +540,21 @@
         },
         "attributes": {
           "type": "object",
-          "description": "Attributes for this subgraph node"
+          "description": "Attributes for this graph node"
+        },
+        "weights": {
+          "oneOf": [
+            { "$ref": "#/definitions/weight_reference" },
+            { "$ref": "#/definitions/hex_value" }
+          ],
+          "description": "Weights for this specific node"
+        },
+        "bias": {
+          "oneOf": [
+            { "$ref": "#/definitions/weight_reference" },
+            { "$ref": "#/definitions/hex_value" }
+          ],
+          "description": "Bias for this specific node"
         }
       }
     }

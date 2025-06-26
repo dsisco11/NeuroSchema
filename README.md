@@ -69,7 +69,7 @@ All nodes, regardless of complexity, follow the same structural pattern:
     "attributes": {/* node-specific parameters */}
   },
   "implementation": {
-    "subgraph": [/* internal node composition */],
+    "graph": {"nodes": [/* internal node composition */]},
     "weights": "/* optional weight data */"
   }
 }
@@ -213,11 +213,13 @@ Reusable node definitions for operators, layers, and architectures:
         "inputs": [{"name": "input", "type": "tensor"}]
       },
       "implementation": {
-        "subgraph": [
-          {"name": "fc1", "type": "linear", "arguments": ["input"]},
-          {"name": "relu1", "type": "activation", "arguments": ["fc1"]},
-          {"name": "output", "type": "linear", "arguments": ["relu1"]}
-        ]
+        "graph": {
+          "nodes": [
+            {"name": "fc1", "type": "linear", "arguments": ["input"]},
+            {"name": "relu1", "type": "activation", "arguments": ["fc1"]},
+            {"name": "output", "type": "linear", "arguments": ["relu1"]}
+          ]
+        }
       }
     }
   ]
@@ -261,7 +263,7 @@ Enable modular model design through importing external resources:
 
 For complete documentation and examples, see [`docs/imports-and-references.md`](./docs/imports-and-references.md).
 
-This consistent referencing system works across all contexts - whether connecting nodes in a subgraph, referencing inputs, or using custom definitions.
+This consistent referencing system works across all contexts - whether connecting nodes in a graph, referencing inputs, or using custom definitions.
 
 ## Schema Architecture
 
@@ -324,12 +326,14 @@ Third-party extensions are supported through namespaced types:
         "inputs": [{"name": "input", "type": "tensor", "shape": [784]}]
       },
       "implementation": {
-        "subgraph": [
-          {"name": "fc1", "type": "linear", "arguments": ["input"]},
-          {"name": "relu1", "type": "activation", "arguments": ["fc1"]},
-          {"name": "fc2", "type": "linear", "arguments": ["relu1"]},
-          {"name": "output", "type": "activation", "arguments": ["fc2"]}
-        ]
+        "graph": {
+          "nodes": [
+            {"name": "fc1", "type": "linear", "arguments": ["input"]},
+            {"name": "relu1", "type": "activation", "arguments": ["fc1"]},
+            {"name": "fc2", "type": "linear", "arguments": ["relu1"]},
+            {"name": "output", "type": "activation", "arguments": ["fc2"]}
+          ]
+        }
       }
     }
   ],

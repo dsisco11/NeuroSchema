@@ -36,13 +36,15 @@
                 "inputs": [{"name": "x", "type": "tensor"}]
               },
               "implementation": {
-                "subgraph": [
-                  {
-                    "name": "inner_transform",
-                    "type": "inner_layer",
-                    "arguments": ["x"]
-                  }
-                ]
+                "graph": {
+                  "nodes": [
+                    {
+                      "name": "inner_transform",
+                      "type": "inner_layer",
+                      "arguments": ["x"]
+                    }
+                  ]
+                }
               }
             },
             {
@@ -52,14 +54,16 @@
                 "inputs": [{"name": "y", "type": "tensor"}]
               },
               "implementation": {
-                "subgraph": [
-                  {
-                    "name": "linear1",
-                    "type": "linear",
-                    "arguments": ["y"],
-                    "attributes": {"in_features": 10, "out_features": 5}
-                  }
-                ]
+                "graph": {
+                  "nodes": [
+                    {
+                      "name": "linear1",
+                      "type": "linear",
+                      "arguments": ["y"],
+                      "attributes": {"in_features": 10, "out_features": 5}
+                    }
+                  ]
+                }
               }
             }
           ],
@@ -102,9 +106,11 @@
                 "inputs": [{"name": "x", "type": "tensor"}]
               },
               "implementation": {
-                "subgraph": [
-                  {"name": "encode", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 10, "out_features": 5}}
-                ]
+                "graph": {
+                  "nodes": [
+                    {"name": "encode", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 10, "out_features": 5}}
+                  ]
+                }
               }
             },
             {
@@ -114,9 +120,11 @@
                 "inputs": [{"name": "features", "type": "tensor"}]
               },
               "implementation": {
-                "subgraph": [
-                  {"name": "classify", "type": "linear", "arguments": ["features"], "attributes": {"in_features": 5, "out_features": 1}}
-                ]
+                "graph": {
+                  "nodes": [
+                    {"name": "classify", "type": "linear", "arguments": ["features"], "attributes": {"in_features": 5, "out_features": 1}}
+                  ]
+                }
               }
             },
             {
@@ -126,10 +134,12 @@
                 "inputs": [{"name": "input", "type": "tensor"}]
               },
               "implementation": {
-                "subgraph": [
-                  {"name": "encoded", "type": "encoder", "arguments": ["input"]},
-                  {"name": "result", "type": "classifier", "arguments": ["encoded"]}
-                ]
+                "graph": {
+                  "nodes": [
+                    {"name": "encoded", "type": "encoder", "arguments": ["input"]},
+                    {"name": "result", "type": "classifier", "arguments": ["encoded"]}
+                  ]
+                }
               }
             }
           ],
@@ -172,9 +182,11 @@
                 "inputs": [{"name": "x", "type": "tensor"}]
               },
               "implementation": {
-                "subgraph": [
-                  {"name": "hidden", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 10, "out_features": 5}}
-                ]
+                "graph": {
+                  "nodes": [
+                    {"name": "hidden", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 10, "out_features": 5}}
+                  ]
+                }
               }
             },
             {
@@ -184,9 +196,11 @@
                 "inputs": [{"name": "y", "type": "tensor"}]
               },
               "implementation": {
-                "subgraph": [
-                  {"name": "invalid_ref", "type": "linear", "arguments": ["hidden"], "attributes": {"in_features": 5, "out_features": 5}}
-                ]
+                "graph": {
+                  "nodes": [
+                    {"name": "invalid_ref", "type": "linear", "arguments": ["hidden"], "attributes": {"in_features": 5, "out_features": 5}}
+                  ]
+                }
               }
             }
           ],
@@ -231,9 +245,11 @@
                 "inputs": [{"name": "x", "type": "tensor"}]
               },
               "implementation": {
-                "subgraph": [
-                  {"name": "l3_linear", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 4, "out_features": 2}}
-                ]
+                "graph": {
+                  "nodes": [
+                    {"name": "l3_linear", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 4, "out_features": 2}}
+                  ]
+                }
               }
             },
             {
@@ -243,10 +259,12 @@
                 "inputs": [{"name": "x", "type": "tensor"}]
               },
               "implementation": {
-                "subgraph": [
-                  {"name": "l2_linear", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 8, "out_features": 4}},
-                  {"name": "l2_to_l3", "type": "level_3_block", "arguments": ["l2_linear"]}
-                ]
+                "graph": {
+                  "nodes": [
+                    {"name": "l2_linear", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 8, "out_features": 4}},
+                    {"name": "l2_to_l3", "type": "level_3_block", "arguments": ["l2_linear"]}
+                  ]
+                }
               }
             },
             {
@@ -256,10 +274,12 @@
                 "inputs": [{"name": "x", "type": "tensor"}]
               },
               "implementation": {
-                "subgraph": [
-                  {"name": "l1_linear", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 16, "out_features": 8}},
-                  {"name": "l1_to_l2", "type": "level_2_block", "arguments": ["l1_linear"]}
-                ]
+                "graph": {
+                  "nodes": [
+                    {"name": "l1_linear", "type": "linear", "arguments": ["x"], "attributes": {"in_features": 16, "out_features": 8}},
+                    {"name": "l1_to_l2", "type": "level_2_block", "arguments": ["l1_linear"]}
+                  ]
+                }
               }
             }
           ],

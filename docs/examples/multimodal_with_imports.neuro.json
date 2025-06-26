@@ -98,7 +98,8 @@
         }
       },
       "implementation": {
-        "subgraph": [
+        "graph": {
+          "nodes": [
           {
             "name": "text_projection",
             "type": "linear",
@@ -150,27 +151,29 @@
         }
       },
       "implementation": {
-        "subgraph": [
-          {
-            "name": "dropout",
-            "type": "dropout",
-            "arguments": ["fused_features"],
-            "attributes": {
-              "p": {"ref": "config:constants/dropout_rate"}
+        "graph": {
+          "nodes": [
+            {
+              "name": "dropout",
+              "type": "dropout",
+              "arguments": ["fused_features"],
+              "attributes": {
+                "p": {"ref": "config:constants/dropout_rate"}
+              }
+            },
+            {
+              "name": "classifier",
+              "type": "linear",
+              "arguments": ["dropout"],
+              "weights": {"ref": "pretrained_weights/classifier_weight"},
+              "bias": {"ref": "pretrained_weights/classifier_bias"},
+              "attributes": {
+                "in_features": {"ref": "config:constants/fusion_dimension"},
+                "out_features": {"ref": "config:constants/output_classes"}
+              }
             }
-          },
-          {
-            "name": "classifier",
-            "type": "linear",
-            "arguments": ["dropout"],
-            "weights": {"ref": "pretrained_weights/classifier_weight"},
-            "bias": {"ref": "pretrained_weights/classifier_bias"},
-            "attributes": {
-              "in_features": {"ref": "config:constants/fusion_dimension"},
-              "out_features": {"ref": "config:constants/output_classes"}
-            }
-          }
-        ]
+          ]
+        }
       }
     }
   ],

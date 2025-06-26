@@ -49,17 +49,19 @@
         }
       },
       "implementation": {
-        "subgraph": [
-          {
-            "name": "attention_output",
-            "type": "attention",
-            "arguments": ["query", "key"],
-            "attributes": {
-              "heads": {"ref": "num_heads"},
-              "dim": {"ref": "embed_dim"}
+        "graph": {
+          "nodes": [
+            {
+              "name": "attention_output",
+              "type": "attention",
+              "arguments": ["query", "key"],
+              "attributes": {
+                "heads": {"ref": "num_heads"},
+                "dim": {"ref": "embed_dim"}
+              }
             }
-          }
-        ]
+          ]
+        }
       }
     },
     {
@@ -69,13 +71,15 @@
         "inputs": [{"name": "features", "type": "tensor"}]
       },
       "implementation": {
-        "subgraph": [
-          {
-            "name": "attention_weights",
-            "type": "identity",
-            "arguments": ["features"]
-          }
-        ]
+        "graph": {
+          "nodes": [
+            {
+              "name": "attention_weights",
+              "type": "identity",
+              "arguments": ["features"]
+            }
+          ]
+        }
       }
     }
   ],

@@ -96,54 +96,20 @@
         },
         "implementation": {
           "type": "object",
-          "required": ["subgraph"],
+          "required": ["graph"],
           "properties": {
-            "subgraph": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "object",
-                "required": ["name", "type"],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "Name of this node in the sequential architecture"
-                  },
-                  "type": {
-                    "oneOf": [
-                      {
-                        "$ref": "operators.schema.json#/definitions/operator_type"
-                      },
-                      { "$ref": "layers.schema.json#/definitions/layer_type" },
-                      {
-                        "$ref": "neuro.schema.json#/definitions/node_reference"
-                      }
-                    ],
-                    "description": "Type of the node operation or reference to a node definition"
-                  },
-                  "arguments": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "neuro.schema.json#/definitions/node_reference"
-                    },
-                    "description": "Input connections for this node - references to input tensors, other nodes, or definitions"
-                  },
-                  "attributes": {
-                    "type": "object",
-                    "description": "Specific attributes for this node instance"
-                  },
-                  "weights": {
-                    "oneOf": [
-                      {
-                        "$ref": "neuro.schema.json#/definitions/weight_reference"
-                      },
-                      { "$ref": "neuro.schema.json#/definitions/hex_value" }
-                    ],
-                    "description": "Weights for this node instance"
+            "graph": {
+              "type": "object",
+              "required": ["nodes"],
+              "properties": {
+                "nodes": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "neuro.schema.json#/definitions/graph_node"
                   }
                 }
-              },
-              "description": "Ordered sequence of nodes that make up this architecture"
+              }
             }
           }
         }
