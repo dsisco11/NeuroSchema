@@ -43,9 +43,6 @@
             "tolerance": 1e-6
           }
         }
-      },
-      "metadata": {
-        "timeout": 2000
       }
     },
     {

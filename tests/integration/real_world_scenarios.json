@@ -118,9 +118,6 @@
       "expected": {
         "success": true,
         "validation_result": true
-      },
-      "metadata": {
-        "integration_test": true
       }
     },
     {
@@ -256,9 +253,6 @@
       "expected": {
         "success": true,
         "validation_result": true
-      },
-      "metadata": {
-        "integration_test": true
       }
     },
     {
@@ -324,9 +318,6 @@
       "expected": {
         "success": true,
         "validation_result": true
-      },
-      "metadata": {
-        "integration_test": true
       }
     }
   ]

@@ -72,7 +72,6 @@
         "validation_result": true
       },
       "metadata": {
-        "performance_test": true,
         "stress_test": true
       }
     },
@@ -191,7 +190,6 @@
         "validation_result": true
       },
       "metadata": {
-        "performance_test": true,
         "stress_test": true
       }
     },
@@ -258,7 +256,6 @@
         "validation_result": true
       },
       "metadata": {
-        "performance_test": true,
         "stress_test": true
       }
     },
@@ -327,7 +324,6 @@
         "validation_result": true
       },
       "metadata": {
-        "performance_test": true,
         "stress_test": true,
         "memory_intensive": true
       }

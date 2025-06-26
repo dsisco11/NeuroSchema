@@ -304,9 +304,6 @@
           "code": "neuro.ref.circular_import",
           "message_pattern": ".*[Cc]ircular.*import.*model_(01|02|03|04|05|06|07|08|09|10).*"
         }
-      },
-      "metadata": {
-        "performance_test": true
       }
     },
     {
