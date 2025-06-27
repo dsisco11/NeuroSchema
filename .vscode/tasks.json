@@ -2,14 +2,17 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Validate JSON Files",
+			"label": "Test: Validate JSON Files",
 			"type": "shell",
 			"command": "powershell",
 			"args": [
 				"-Command",
 				"Get-ChildItem -Path . -Recurse -Include *.json | ForEach-Object { Write-Host \"Validating: $($_.Name)\"; try { Get-Content $_.FullName | ConvertFrom-Json > $null; Write-Host \"✓ Valid: $($_.Name)\" -ForegroundColor Green } catch { Write-Host \"✗ Invalid: $($_.Name) - $($_.Exception.Message)\" -ForegroundColor Red } }"
 			],
-			"group": "test",
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
 			"isBackground": false,
 			"problemMatcher": [],
 			"presentation": {

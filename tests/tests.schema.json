@@ -89,7 +89,7 @@
         "json_parsing",
         "serialization_roundtrip",
         "node_definition_parsing",
-        "node_invocation_parsing",
+        "node_instance_parsing",
         "operator_execution",
         "layer_execution",
         "architecture_execution",

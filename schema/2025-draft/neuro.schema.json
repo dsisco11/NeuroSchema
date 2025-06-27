@@ -229,9 +229,9 @@
     },
     "export": {
       "type": "array",
-      "description": "The primary exported model structure as a series of node invocations",
+      "description": "The primary exported model structure as a series of node instances",
       "items": {
-        "$ref": "#/definitions/node_invocation"
+        "$ref": "#/definitions/node_instance"
       }
     }
   },
@@ -492,13 +492,13 @@
         }
       }
     },
-    "node_invocation": {
+    "node_instance": {
       "type": "object",
       "required": ["name"],
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of this node invocation instance"
+          "description": "Name of this node instance"
         },
         "type": {
           "oneOf": [
@@ -516,24 +516,24 @@
           "items": {
             "$ref": "#/definitions/node_reference"
           },
-          "description": "Input arguments for this node invocation - references to input tensors, other nodes, or definitions"
+          "description": "Input arguments for this node instance - references to input tensors, other nodes, or definitions"
         },
         "attributes": {
           "type": "object",
-          "description": "Specific attribute values for this node invocation"
+          "description": "Specific attribute values for this node instance"
         },
         "weights": {
           "oneOf": [
             { "$ref": "#/definitions/weight_reference" },
             { "$ref": "#/definitions/hex_value" }
           ],
-          "description": "Specific weights for this node invocation"
+          "description": "Specific weights for this node instance"
         }
       }
     },
     "graph_node": {
       "type": "object",
-      "description": "A node within a graph - can be either a definition or invocation depending on context",
+      "description": "A node within a graph - can be either a definition or instance depending on context",
       "required": ["name", "type"],
       "properties": {
         "name": {
