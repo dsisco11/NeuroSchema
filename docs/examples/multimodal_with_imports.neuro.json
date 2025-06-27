@@ -7,7 +7,11 @@
       "description": "A multimodal model that combines text and image encoders for classification",
       "author": "NeuroFormat Team",
       "license": "MIT",
-      "tags": ["multimodal", "classification", "imports", "example"]
+      "tags": ["multimodal", "classification", "imports", "example"],
+      "modalities": {
+        "inputs": ["text", "vision"],
+        "outputs": ["tabular"]
+      }
     }
   },
   "imports": [
@@ -18,7 +22,7 @@
     },
     {
       "name": "image_encoder",
-      "type": "neuro", 
+      "type": "neuro",
       "path": "./encoders/vision_transformer.neuro.json"
     },
     {
@@ -64,22 +68,22 @@
     {
       "name": "text_hidden_size",
       "type": "scalar",
-      "value": {"ref": "text_encoder:constants/hidden_size"}
+      "value": { "ref": "text_encoder:constants/hidden_size" }
     },
     {
-      "name": "image_feature_dim", 
+      "name": "image_feature_dim",
       "type": "scalar",
-      "value": {"ref": "image_encoder:constants/feature_dim"}
+      "value": { "ref": "image_encoder:constants/feature_dim" }
     },
     {
       "name": "fusion_dim",
       "type": "scalar",
-      "value": {"ref": "config:constants/fusion_dimension"}
+      "value": { "ref": "config:constants/fusion_dimension" }
     },
     {
       "name": "num_classes",
       "type": "scalar",
-      "value": {"ref": "config:constants/output_classes"}
+      "value": { "ref": "config:constants/output_classes" }
     }
   ],
   "definitions": [
@@ -88,66 +92,67 @@
       "type": "sequential",
       "parameters": {
         "inputs": [
-          {"name": "text_features", "type": "tensor"},
-          {"name": "image_features", "type": "tensor"}
+          { "name": "text_features", "type": "tensor" },
+          { "name": "image_features", "type": "tensor" }
         ],
         "attributes": {
-          "text_dim": {"ref": "text_encoder:constants/hidden_size"},
-          "image_dim": {"ref": "image_encoder:constants/feature_dim"},
-          "output_dim": {"ref": "config:constants/fusion_dimension"}
+          "text_dim": { "ref": "text_encoder:constants/hidden_size" },
+          "image_dim": { "ref": "image_encoder:constants/feature_dim" },
+          "output_dim": { "ref": "config:constants/fusion_dimension" }
         }
       },
       "implementation": {
         "graph": {
           "nodes": [
-          {
-            "name": "text_projection",
-            "type": "linear",
-            "arguments": ["text_features"],
-            "weights": {"ref": "pretrained_weights/text_proj_weight"},
-            "bias": {"ref": "pretrained_weights/text_proj_bias"},
-            "attributes": {
-              "in_features": {"ref": "text_encoder:constants/hidden_size"},
-              "out_features": {"ref": "config:constants/fusion_dimension"}
+            {
+              "name": "text_projection",
+              "type": "linear",
+              "arguments": ["text_features"],
+              "weights": { "ref": "pretrained_weights/text_proj_weight" },
+              "bias": { "ref": "pretrained_weights/text_proj_bias" },
+              "attributes": {
+                "in_features": { "ref": "text_encoder:constants/hidden_size" },
+                "out_features": { "ref": "config:constants/fusion_dimension" }
+              }
+            },
+            {
+              "name": "image_projection",
+              "type": "linear",
+              "arguments": ["image_features"],
+              "weights": { "ref": "pretrained_weights/image_proj_weight" },
+              "bias": { "ref": "pretrained_weights/image_proj_bias" },
+              "attributes": {
+                "in_features": { "ref": "image_encoder:constants/feature_dim" },
+                "out_features": { "ref": "config:constants/fusion_dimension" }
+              }
+            },
+            {
+              "name": "cross_attention",
+              "type": "config:definitions/multihead_attention",
+              "arguments": ["text_projection", "image_projection"],
+              "weights": { "ref": "pretrained_weights/attention_weights" },
+              "attributes": {
+                "num_heads": { "ref": "config:constants/attention_heads" },
+                "embed_dim": { "ref": "config:constants/fusion_dimension" }
+              }
+            },
+            {
+              "name": "fusion_output",
+              "type": "add",
+              "arguments": ["text_projection", "cross_attention"]
             }
-          },
-          {
-            "name": "image_projection", 
-            "type": "linear",
-            "arguments": ["image_features"],
-            "weights": {"ref": "pretrained_weights/image_proj_weight"},
-            "bias": {"ref": "pretrained_weights/image_proj_bias"},
-            "attributes": {
-              "in_features": {"ref": "image_encoder:constants/feature_dim"},
-              "out_features": {"ref": "config:constants/fusion_dimension"}
-            }
-          },
-          {
-            "name": "cross_attention",
-            "type": "config:definitions/multihead_attention",
-            "arguments": ["text_projection", "image_projection"],
-            "weights": {"ref": "pretrained_weights/attention_weights"},
-            "attributes": {
-              "num_heads": {"ref": "config:constants/attention_heads"},
-              "embed_dim": {"ref": "config:constants/fusion_dimension"}
-            }
-          },
-          {
-            "name": "fusion_output",
-            "type": "add",
-            "arguments": ["text_projection", "cross_attention"]
-          }
-        ]
+          ]
+        }
       }
     },
     {
       "name": "classification_head",
       "type": "sequential",
       "parameters": {
-        "inputs": [{"name": "fused_features", "type": "tensor"}],
+        "inputs": [{ "name": "fused_features", "type": "tensor" }],
         "attributes": {
-          "input_dim": {"ref": "config:constants/fusion_dimension"},
-          "output_dim": {"ref": "config:constants/output_classes"}
+          "input_dim": { "ref": "config:constants/fusion_dimension" },
+          "output_dim": { "ref": "config:constants/output_classes" }
         }
       },
       "implementation": {
@@ -158,18 +163,18 @@
               "type": "dropout",
               "arguments": ["fused_features"],
               "attributes": {
-                "p": {"ref": "config:constants/dropout_rate"}
+                "p": { "ref": "config:constants/dropout_rate" }
               }
             },
             {
               "name": "classifier",
               "type": "linear",
               "arguments": ["dropout"],
-              "weights": {"ref": "pretrained_weights/classifier_weight"},
-              "bias": {"ref": "pretrained_weights/classifier_bias"},
+              "weights": { "ref": "pretrained_weights/classifier_weight" },
+              "bias": { "ref": "pretrained_weights/classifier_bias" },
               "attributes": {
-                "in_features": {"ref": "config:constants/fusion_dimension"},
-                "out_features": {"ref": "config:constants/output_classes"}
+                "in_features": { "ref": "config:constants/fusion_dimension" },
+                "out_features": { "ref": "config:constants/output_classes" }
               }
             }
           ]
@@ -184,7 +189,7 @@
       "arguments": ["text_tokens"]
     },
     {
-      "name": "image_features", 
+      "name": "image_features",
       "type": "image_encoder",
       "arguments": ["image"]
     },

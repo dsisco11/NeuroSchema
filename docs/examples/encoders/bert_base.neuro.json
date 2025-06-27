@@ -7,7 +7,11 @@
       "description": "BERT base text encoder",
       "author": "NeuroFormat Team",
       "license": "MIT",
-      "tags": ["bert", "encoder", "text", "transformer"]
+      "tags": ["bert", "encoder", "text", "transformer"],
+      "modalities": {
+        "inputs": ["text"],
+        "outputs": ["text"]
+      }
     }
   },
   "inputs": [
@@ -53,11 +57,11 @@
       "name": "bert_encoder",
       "type": "sequential",
       "parameters": {
-        "inputs": [{"name": "tokens", "type": "tensor"}],
+        "inputs": [{ "name": "tokens", "type": "tensor" }],
         "attributes": {
-          "vocab_size": {"ref": "constants/vocab_size"},
-          "hidden_size": {"ref": "constants/hidden_size"},
-          "num_layers": {"ref": "constants/num_layers"}
+          "vocab_size": { "ref": "constants/vocab_size" },
+          "hidden_size": { "ref": "constants/hidden_size" },
+          "num_layers": { "ref": "constants/num_layers" }
         }
       },
       "implementation": {
@@ -68,8 +72,8 @@
               "type": "embedding",
               "arguments": ["tokens"],
               "attributes": {
-                "num_embeddings": {"ref": "constants/vocab_size"},
-                "embedding_dim": {"ref": "constants/hidden_size"}
+                "num_embeddings": { "ref": "constants/vocab_size" },
+                "embedding_dim": { "ref": "constants/hidden_size" }
               }
             },
             {
@@ -77,9 +81,9 @@
               "type": "transformer",
               "arguments": ["embeddings"],
               "attributes": {
-                "num_layers": {"ref": "constants/num_layers"},
-                "hidden_size": {"ref": "constants/hidden_size"},
-                "num_heads": {"ref": "constants/num_attention_heads"}
+                "num_layers": { "ref": "constants/num_layers" },
+                "hidden_size": { "ref": "constants/hidden_size" },
+                "num_heads": { "ref": "constants/num_attention_heads" }
               }
             }
           ]

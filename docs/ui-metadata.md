@@ -331,6 +331,127 @@ function resolveColors(metadata: NeuroMetadata) {
 }
 ```
 
+## Modalities
+
+The `metadata.model.modalities` section provides categorization of model input and output data types to enable better organization and filtering in user interfaces. This metadata helps applications understand what kind of data the model processes without inspecting the full tensor specifications.
+
+### Structure
+
+```json
+{
+  "metadata": {
+    "model": {
+      "modalities": {
+        "inputs": ["vision", "text"],
+        "outputs": ["text"]
+      }
+    }
+  }
+}
+```
+
+### Modality Properties
+
+#### `inputs` (Optional)
+
+**Type:** `array` of `modality_type`
+
+An array of modality types that describes the kinds of data this model accepts as input.
+
+#### `outputs` (Optional)
+
+**Type:** `array` of `modality_type`
+
+An array of modality types that describes the kinds of data this model produces as output.
+
+### Modality Types
+
+The following modality types are supported:
+
+- **`vision`**: 2D image, video, or visual data processing
+- **`text`**: Natural language text processing  
+- **`audio`**: Speech, music, or audio signal processing
+- **`tabular`**: Structured data, features, numerical datasets (without temporal dependencies)
+- **`timeseries`**: Sequential numerical data with temporal dependencies (finance, IoT, weather)
+- **`graph`**: Network/graph structured data (social networks, knowledge graphs, molecular structures)
+- **`spatial`**: 3D spatial data (point clouds, meshes, voxels, 3D models)
+- **`code`**: Programming code, syntax trees, structured code representations
+- **`custom`**: Domain-specific or non-standard data types
+
+### Examples
+
+#### Vision Classifier
+
+```json
+{
+  "metadata": {
+    "model": {
+      "name": "resnet50_classifier",
+      "modalities": {
+        "inputs": ["vision"],
+        "outputs": ["tabular"]
+      }
+    }
+  }
+}
+```
+
+#### Multimodal Text Generator
+
+```json
+{
+  "metadata": {
+    "model": {
+      "name": "vision_language_model",
+      "modalities": {
+        "inputs": ["vision", "text"],
+        "outputs": ["text"]
+      }
+    }
+  }
+}
+```
+
+#### Audio Transcription
+
+```json
+{
+  "metadata": {
+    "model": {
+      "name": "whisper_base",
+      "modalities": {
+        "inputs": ["audio"],
+        "outputs": ["text"]
+      }
+    }
+  }
+}
+```
+
+#### Time Series Forecasting
+
+```json
+{
+  "metadata": {
+    "model": {
+      "name": "lstm_forecaster",
+      "modalities": {
+        "inputs": ["timeseries"],
+        "outputs": ["timeseries"]
+      }
+    }
+  }
+}
+```
+
+### Usage Guidelines
+
+- **Required Fields**: Both `inputs` and `outputs` are required for all models
+- **Alignment**: Modality specifications should align with actual tensor specifications in the model
+- **UI Applications**: Applications can use modality information for categorization, filtering, and specialized UI presentation
+- **Multiple Modalities**: Models that process multiple input types should list all relevant modalities
+- **Custom Types**: Use `custom` for domain-specific data types not covered by standard modalities
+
 ## Related Documentation
 
 - [Model Metadata Overview](./model-metadata.md)

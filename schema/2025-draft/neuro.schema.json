@@ -18,7 +18,7 @@
         "model": {
           "type": "object",
           "description": "Core model metadata",
-          "required": ["name", "version"],
+          "required": ["name", "version", "modalities"],
           "properties": {
             "name": {
               "type": "string",
@@ -45,6 +45,27 @@
               "description": "Tags associated with the model",
               "items": {
                 "type": "string"
+              }
+            },
+            "modalities": {
+              "type": "object",
+              "description": "Input and output modality specifications for categorizing model data types",
+              "required": ["inputs", "outputs"],
+              "properties": {
+                "inputs": {
+                  "type": "array",
+                  "description": "Modality types for model inputs",
+                  "items": {
+                    "$ref": "#/definitions/modality_type"
+                  }
+                },
+                "outputs": {
+                  "type": "array",
+                  "description": "Modality types for model outputs",
+                  "items": {
+                    "$ref": "#/definitions/modality_type"
+                  }
+                }
               }
             },
             "ui": {
@@ -236,6 +257,21 @@
     }
   },
   "definitions": {
+    "modality_type": {
+      "type": "string",
+      "enum": [
+        "vision",
+        "text",
+        "audio",
+        "tabular",
+        "timeseries",
+        "graph",
+        "spatial",
+        "syntax_tree",
+        "custom"
+      ],
+      "description": "Supported modality types for model input/output categorization. vision: 2D image/video data, text: natural language processing, audio: speech/music/audio signals, tabular: structured data without temporal dependencies, timeseries: sequential numerical data with temporal dependencies, graph: network/graph structured data, spatial: 3D spatial data like point clouds/meshes, syntax_tree: AST tokens and structured code representations, custom: domain-specific data types"
+    },
     "anyint": {
       "type": "string",
       "enum": ["int8", "int16", "int32", "int64"],
