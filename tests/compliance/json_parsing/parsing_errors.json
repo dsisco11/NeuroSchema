@@ -1,0 +1,223 @@
+{
+  "$schema": "../../tests.schema.json",
+  "metadata": {
+    "name": "JSON Parsing Tests",
+    "version": "1.0.0",
+    "description": "Tests for proper handling of JSON parsing errors and invalid model structures at the DTO layer",
+    "category": "json_parsing"
+  },
+  "tests": [
+    {
+      "id": "invalid_model_structure",
+      "title": "Invalid Model Structure",
+      "description": "Verify that logically invalid model structures produce the correct error code",
+      "feature": "json_parsing",
+      "tags": ["parsing", "structure", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "invalid_structure_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "undefined_reference",
+              "type": "identity",
+              "arguments": ["undefined_input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.parse.invalid_structure",
+          "message_pattern": ".*export.*references.*undefined.*"
+        }
+      }
+    },
+    {
+      "id": "missing_required_section",
+      "title": "Missing Required Section",
+      "description": "Verify that missing required sections produce the correct error code",
+      "feature": "json_parsing",
+      "tags": ["parsing", "missing_section", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "missing_section_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.parse.missing_section",
+          "message_pattern": ".*missing.*required.*export.*"
+        }
+      }
+    },
+    {
+      "id": "empty_required_section",
+      "title": "Empty Required Section",
+      "description": "Verify that empty required sections produce the correct error code",
+      "feature": "json_parsing",
+      "tags": ["parsing", "empty_section", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "empty_section_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.parse.empty_section",
+          "message_pattern": ".*empty.*export.*section.*"
+        }
+      }
+    },
+    {
+      "id": "unsupported_schema_version",
+      "title": "Unsupported Schema Version",
+      "description": "Verify that unsupported schema versions produce the correct error code",
+      "feature": "json_parsing",
+      "tags": ["schema", "version", "compatibility"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2024-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "version_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.unsupported_version",
+          "message_pattern": ".*unsupported.*schema.*2024-1.*"
+        }
+      }
+    },
+    {
+      "id": "invalid_namespace_format",
+      "title": "Invalid Namespace Format",
+      "description": "Verify that malformed namespace syntax produces the correct error code",
+      "feature": "json_parsing",
+      "tags": ["namespace", "syntax", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "namespace_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "invalid_ns",
+              "type": "my@company:invalid:layer",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.type.invalid_namespace",
+          "message_pattern": ".*invalid.*namespace.*my@company:invalid:layer.*"
+        }
+      }
+    }
+  ]
+}

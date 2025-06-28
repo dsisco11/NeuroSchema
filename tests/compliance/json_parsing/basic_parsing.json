@@ -1,0 +1,72 @@
+{
+  "$schema": "../../tests.schema.json",
+  "metadata": {
+    "name": "JSON Parsing Tests",
+    "version": "1.0.0",
+    "description": "Tests for proper handling of JSON parsing errors at the DTO level",
+    "category": "json_parsing"
+  },
+  "tests": [
+    {
+      "id": "invalid_json_syntax",
+      "title": "Invalid JSON Syntax",
+      "description": "Verify that malformed JSON is properly detected",
+      "feature": "json_parsing",
+      "tags": ["parsing", "syntax"],
+      "inputs": {
+        "parameters": {
+          "malformed_json": "{ \"metadata\": { \"model\": { \"name\": \"test\", \"version\": \"1.0.0\" } \"inputs\": [] }"
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.invalid_json",
+          "type": "parsing_error",
+          "message_pattern": ".*malformed.*JSON.*"
+        }
+      }
+    },
+    {
+      "id": "missing_required_fields",
+      "title": "Missing Required Fields",
+      "description": "Verify that missing required fields are detected",
+      "feature": "json_parsing",
+      "tags": ["validation", "required_fields"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json"
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.validation_failed",
+          "type": "schema_validation_error",
+          "message_pattern": ".*required.*metadata.*"
+        }
+      }
+    },
+    {
+      "id": "invalid_field_types",
+      "title": "Invalid Field Types",
+      "description": "Verify that incorrect field types are detected",
+      "feature": "json_parsing",
+      "tags": ["validation", "types"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": "invalid_metadata_type",
+          "inputs": [],
+          "outputs": [],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.validation_failed",
+          "type": "schema_validation_error",
+          "message_pattern": ".*metadata.*"
+        }
+      }
+    }
+  ]
+}

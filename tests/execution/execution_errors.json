@@ -1,0 +1,389 @@
+{
+  "$schema": "../tests.schema.json",
+  "metadata": {
+    "name": "Execution Error Handling Tests",
+    "version": "1.0.0",
+    "description": "Tests for proper handling of execution-time errors and edge cases",
+    "category": "execution"
+  },
+  "tests": [
+    {
+      "id": "shape_mismatch_error",
+      "title": "Shape Mismatch Error",
+      "description": "Verify that tensor shape mismatches produce the correct error code",
+      "feature": "error_handling",
+      "tags": ["execution", "shape_mismatch", "tensors"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "shape_mismatch_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input1",
+              "shape": [10, 5],
+              "dtype": "float32"
+            },
+            {
+              "name": "input2", 
+              "shape": [10, 3],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10, 5],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "incompatible_add",
+              "type": "add",
+              "arguments": ["input1", "input2"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.exec.shape_mismatch",
+          "message_pattern": ".*shape mismatch.*\\[10, 5\\].*\\[10, 3\\].*"
+        }
+      }
+    },
+    {
+      "id": "dtype_mismatch_error",
+      "title": "Data Type Mismatch Error",
+      "description": "Verify that tensor dtype mismatches produce the correct error code",
+      "feature": "error_handling",
+      "tags": ["execution", "dtype_mismatch", "tensors"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "dtype_mismatch_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "float_input",
+              "shape": [10],
+              "dtype": "float32"
+            },
+            {
+              "name": "int_input",
+              "shape": [10],
+              "dtype": "int32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "incompatible_mul",
+              "type": "mul",
+              "arguments": ["float_input", "int_input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.exec.dtype_mismatch",
+          "message_pattern": ".*dtype mismatch.*float32.*int32.*"
+        }
+      }
+    },
+    {
+      "id": "missing_weights_error",
+      "title": "Missing Weights Error",
+      "description": "Verify that missing required weights produce the correct error code",
+      "feature": "error_handling",
+      "tags": ["execution", "weights", "missing_data"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "missing_weights_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10, 5],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10, 3],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "linear_layer",
+              "type": "linear",
+              "arguments": ["input"],
+              "attributes": {
+                "in_features": 5,
+                "out_features": 3
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.exec.missing_weights",
+          "message_pattern": ".*missing.*weights.*linear.*"
+        }
+      }
+    },
+    {
+      "id": "invalid_attributes_error",
+      "title": "Invalid Attributes Error",
+      "description": "Verify that invalid node attributes produce the correct error code",
+      "feature": "error_handling",
+      "tags": ["execution", "attributes", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "invalid_attributes_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10, 5],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10, -3],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "invalid_linear",
+              "type": "linear",
+              "arguments": ["input"],
+              "attributes": {
+                "in_features": 5,
+                "out_features": -3
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.exec.invalid_attributes",
+          "message_pattern": ".*out_features.*must be positive.*got -3.*"
+        }
+      }
+    },
+    {
+      "id": "runtime_execution_error",
+      "title": "Runtime Execution Error",
+      "description": "Verify that runtime computation errors produce the correct error code",
+      "feature": "error_handling",
+      "tags": ["execution", "runtime", "computation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "runtime_error_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "matrix_a",
+              "shape": [10, 5],
+              "dtype": "float32"
+            },
+            {
+              "name": "matrix_b",
+              "shape": [3, 10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10, 10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "incompatible_matmul",
+              "type": "matmul",
+              "arguments": ["matrix_a", "matrix_b"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.exec.runtime_error",
+          "message_pattern": ".*matmul.*incompatible.*dimensions.*"
+        }
+      }
+    },
+    {
+      "id": "not_implemented_error",
+      "title": "Not Implemented Error",
+      "description": "Verify that unimplemented features produce the correct error code",
+      "feature": "error_handling",
+      "tags": ["implementation", "not_implemented", "features"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "not_implemented_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "complex64"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "complex64"
+            }
+          ],
+          "export": [
+            {
+              "name": "complex_fft",
+              "type": "fft",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.impl.not_implemented",
+          "message_pattern": ".*fft.*not implemented.*"
+        }
+      }
+    },
+    {
+      "id": "error_propagation_chain",
+      "title": "Error Propagation Chain",
+      "description": "Verify that errors are properly propagated through execution chains",
+      "feature": "error_handling",
+      "tags": ["propagation", "chain", "nested_errors"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "error_propagation_test",
+              "version": "1.0.0"
+            }
+          },
+          "definitions": {
+            "failing_layer": {
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "nodes": [
+                {
+                  "name": "division_by_zero",
+                  "type": "div",
+                  "arguments": ["input", "zero_constant"]
+                }
+              ],
+              "constants": [
+                {
+                  "name": "zero_constant",
+                  "shape": [10],
+                  "dtype": "float32",
+                  "data": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                }
+              ],
+              "export": ["division_by_zero"]
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "failing_computation",
+              "type": "failing_layer",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.exec.runtime_error",
+          "message_pattern": ".*division.*zero.*",
+          "nested_errors": [
+            {
+              "code": "neuro.exec.runtime_error",
+              "context": "failing_layer.division_by_zero"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
