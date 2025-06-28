@@ -22,8 +22,7 @@
       },
       "expected": {
         "error": {
-          "type": "schema_validation_error",
-          "message_pattern": ".*required.*metadata.*"
+          "code": "neuro.schema.validation_failed"
         }
       }
     }

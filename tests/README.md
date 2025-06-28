@@ -218,8 +218,7 @@ All error tests use **canonical NeuroFormat error codes** as defined in `docs/er
 {
   "expected": {
     "error": {
-      "code": "neuro.ref.node_not_found",
-      "message_pattern": ".*nonexistent_input.*not found.*"
+      "code": "neuro.ref.node_not_found"
     }
   }
 }

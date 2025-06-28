@@ -210,23 +210,6 @@
             "neuro.parse.empty_section"
           ],
           "description": "Canonical NeuroFormat error code - see docs/error-codes.md for details"
-        },
-        "message_pattern": {
-          "type": "string",
-          "description": "Optional regex pattern that the error message should match"
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "schema_validation_error",
-            "circular_import_error",
-            "parsing_error",
-            "reference_error",
-            "type_error",
-            "runtime_error",
-            "not_implemented_error"
-          ],
-          "description": "General error category (deprecated - use code field instead)"
         }
       }
     },
