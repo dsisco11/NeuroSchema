@@ -1,5 +1,5 @@
 {
-  "$schema": "../tests.schema.json",
+  "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Advanced Reference Resolution Tests",
     "version": "1.0.0",

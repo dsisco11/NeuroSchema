@@ -1,5 +1,5 @@
 {
-  "$schema": "../tests.schema.json",
+  "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Schema Validation Error Tests",
     "version": "1.0.0",

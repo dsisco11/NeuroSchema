@@ -1,5 +1,5 @@
 {
-  "$schema": "../tests.schema.json",
+  "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Missing Data Tests",
     "version": "0.0.1",
@@ -22,7 +22,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.schema.validation_failed",
+          "type": "schema_validation_error",
           "message_pattern": ".*required.*metadata.*"
         }
       }

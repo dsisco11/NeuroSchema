@@ -1,5 +1,5 @@
 {
-  "$schema": "../tests.schema.json",
+  "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Minimal Model Validation",
     "version": "0.0.1",
