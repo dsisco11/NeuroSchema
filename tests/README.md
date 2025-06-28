@@ -27,29 +27,112 @@ All compliance tests follow the `tests.schema.json` schema and are organized as 
 
 ### Optional Fields
 
-- **`tags`**: Categories for filtering tests
-- **`metadata`**: Priority, timeout, skip conditions
+- **`tags`**: Categories for filtering tests (e.g., `["parsing", "json", "syntax"]`)
+- **`metadata`**: Additional test configuration:
+  - `priority`: Test execution priority (`"high"`, `"medium"`, `"low"`)
+  - `timeout`: Maximum execution time in seconds
+  - `skip_conditions`: Conditions under which to skip the test
+  - `performance_baseline`: Expected performance benchmarks
+
+## Directory Structure
+
+```text
+tests/
+├── README.md                          # This file
+├── tests.schema.json                  # JSON schema for all test definitions
+├── compliance/                        # Core compliance tests (required)
+│   ├── schema_validation/             # JSON and schema validation tests
+│   │   ├── basic_validation.json
+│   │   ├── minimal_model.json
+│   │   ├── missing_data.json
+│   │   └── schema_errors.json
+│   ├── import_resolution/             # Import handling and resolution tests
+│   │   ├── advanced_circular_imports.json
+│   │   ├── circular_imports.json
+│   │   ├── edge_cases.json
+│   │   └── path_escaping.json
+│   ├── node_reference_resolution/     # Node and reference resolution tests
+│   │   ├── advanced_references.json
+│   │   └── invalid_node_reference.json
+│   └── error_handling/                # Error code and handling compliance
+│       ├── error_code_compliance.json
+│       ├── execution_errors.json
+│       └── parsing_errors.json
+└── execution/                         # Advanced execution and performance tests
+    ├── operators/                     # Operator-specific functionality
+    ├── layers/                        # Layer-specific functionality
+    ├── architectures/                 # Architecture-level testing
+    ├── integration/                   # End-to-end integration tests
+    └── performance/                   # Performance and benchmarking tests
+```
 
 ## Test Categories
 
-### Schema & Parsing Tests
+### Compliance Tests (`/compliance/`)
 
-- JSON schema validation
-- Malformed input handling
-- Reference resolution
+The core compliance tests that all NeuroFormat implementations must pass:
 
-### Execution Tests
+#### Schema Validation (`/compliance/schema_validation/`)
 
-- Operator mathematical correctness
-- Layer functionality
-- Architecture composition
-- Subgraph execution
+- JSON parsing and syntax validation
+- NeuroFormat schema compliance checking
+- Data type and constraint validation
+- Missing required field detection
 
-### Data Flow Tests
+#### Import Resolution (`/compliance/import_resolution/`)
 
+- NeuroFormat model imports
+- Safetensors weight imports
+- Circular import detection
+- Path escaping and security validation
+
+#### Node Reference Resolution (`/compliance/node_reference_resolution/`)
+
+- Input/output reference validation
+- Definition reference resolution
+- Scope and namespace handling
+- Invalid reference detection
+
+#### Error Handling (`/compliance/error_handling/`)
+
+- Canonical error code compliance
+- Proper error message formatting
+- Error propagation and handling
+- Edge case error scenarios
+
+### Execution Tests (`/execution/`)
+
+Advanced functionality tests for runtime behavior:
+
+#### Operators (`/execution/operators/`)
+
+- Mathematical correctness of operator implementations
 - Input/output tensor validation
+- Attribute processing and defaults
+
+#### Layers (`/execution/layers/`)
+
+- Layer composition and execution
 - Weight loading and application
-- Node reference resolution
+- Forward pass validation
+
+#### Architectures (`/execution/architectures/`)
+
+- End-to-end architecture execution
+- Subgraph composition
+- Complex model validation
+
+#### Integration (`/execution/integration/`)
+
+- Multi-modal model testing
+- Real-world scenario validation
+- Performance benchmarking
+
+#### Performance (`/execution/performance/`)
+
+- Execution speed benchmarks
+- Memory usage validation
+- Scalability testing
 
 ## Using Compliance Tests
 
@@ -65,10 +148,12 @@ Downstream library implementers should:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/tests-schema-2025-1.json",
+  "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Basic Parsing Tests",
-    "category": "parsing"
+    "version": "1.0.0",
+    "description": "Basic tests for parsing and validating NeuroFormat models",
+    "category": "validation"
   },
   "tests": [
     {
@@ -76,12 +161,47 @@ Downstream library implementers should:
       "title": "Valid Model Parsing",
       "description": "Verify that a valid .neuro.json model parses correctly",
       "feature": "json_parsing",
+      "tags": ["parsing", "json", "validation"],
       "inputs": {
-        "neuro_model": { /* complete model definition */ }
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "simple_model",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        }
       },
       "expected": {
         "success": true,
-        "parsed_structure": { /* expected parsed result */ }
+        "parsed_structure": {
+          "has_metadata": true,
+          "input_count": 1,
+          "output_count": 1,
+          "export_count": 1
+        }
       }
     }
   ]

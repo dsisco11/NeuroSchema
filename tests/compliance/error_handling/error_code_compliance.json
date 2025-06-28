@@ -1,0 +1,315 @@
+{
+  "$schema": "../../tests.schema.json",
+  "metadata": {
+    "name": "Error Code Compliance Tests",
+    "version": "1.0.0",
+    "description": "Tests to verify proper error code handling and canonical error message formats",
+    "category": "error_handling"
+  },
+  "tests": [
+    {
+      "id": "schema_validation_error_code",
+      "title": "Schema Validation Error Code",
+      "description": "Verify that schema validation failures produce the correct error code",
+      "feature": "error_handling",
+      "tags": ["error_codes", "schema", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {}
+          },
+          "inputs": [],
+          "outputs": [],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.validation_failed",
+          "message_pattern": ".*missing required field.*metadata.model.name.*"
+        }
+      }
+    },
+    {
+      "id": "node_not_found_error_code",
+      "title": "Node Not Found Error Code",
+      "description": "Verify that referencing non-existent nodes produces the correct error code",
+      "feature": "error_handling",
+      "tags": ["error_codes", "references", "nodes"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "error_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "invalid_reference",
+              "type": "identity",
+              "arguments": ["nonexistent_input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.node_not_found",
+          "message_pattern": ".*nonexistent_input.*not found.*"
+        }
+      }
+    },
+    {
+      "id": "invalid_json_error_code",
+      "title": "Invalid JSON Error Code",
+      "description": "Verify that malformed JSON produces the correct error code",
+      "feature": "error_handling",
+      "tags": ["error_codes", "json", "parsing"],
+      "inputs": {
+        "parameters": {
+          "malformed_json": "{ \"metadata\": { \"model\": { \"name\": \"test\" } "
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.invalid_json",
+          "message_pattern": ".*malformed.*JSON.*"
+        }
+      }
+    },
+    {
+      "id": "unknown_operator_error_code",
+      "title": "Unknown Operator Error Code",
+      "description": "Verify that unknown operator types produce the correct error code",
+      "feature": "error_handling",
+      "tags": ["error_codes", "operators", "types"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "unknown_op_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "unknown_op",
+              "type": "nonexistent_operator",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.type.unknown_operator",
+          "message_pattern": ".*nonexistent_operator.*not found.*"
+        }
+      }
+    },
+    {
+      "id": "circular_dependency_error_code",
+      "title": "Circular Dependency Error Code",
+      "description": "Verify that circular dependencies produce the correct error code",
+      "feature": "error_handling",
+      "tags": ["error_codes", "circular", "dependencies"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "circular_test",
+              "version": "1.0.0"
+            }
+          },
+          "definitions": {
+            "layer_a": {
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "nodes": [
+                {
+                  "name": "use_b",
+                  "type": "layer_b",
+                  "arguments": ["input"]
+                }
+              ],
+              "export": ["use_b"]
+            },
+            "layer_b": {
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "nodes": [
+                {
+                  "name": "use_a",
+                  "type": "layer_a",
+                  "arguments": ["input"]
+                }
+              ],
+              "export": ["use_a"]
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "circular_ref",
+              "type": "layer_a",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.circular_dependency",
+          "message_pattern": ".*circular dependency.*layer_a.*layer_b.*"
+        }
+      }
+    },
+    {
+      "id": "invalid_dtype_error_code",
+      "title": "Invalid Data Type Error Code",
+      "description": "Verify that invalid data types produce the correct error code",
+      "feature": "error_handling",
+      "tags": ["error_codes", "dtype", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "invalid_dtype_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float128"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.invalid_dtype",
+          "message_pattern": ".*float128.*not supported.*"
+        }
+      }
+    },
+    {
+      "id": "error_message_format_consistency",
+      "title": "Error Message Format Consistency",
+      "description": "Verify that error messages follow consistent formatting patterns",
+      "feature": "error_handling",
+      "tags": ["error_format", "consistency", "messages"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "format_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [],
+          "outputs": [],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.parse.empty_section",
+          "message_pattern": ".*empty.*export.*section.*",
+          "details": {
+            "has_section": "export",
+            "expected_minimum": 1,
+            "actual_count": 0
+          }
+        }
+      }
+    }
+  ]
+}
