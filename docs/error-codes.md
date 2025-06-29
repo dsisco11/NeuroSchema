@@ -75,9 +75,16 @@ Error codes follow the format: `neuro.category.specific_error`
 **Example**: `"Circular import detected: model_a.neuro.json -> model_b.neuro.json -> model_a.neuro.json"`
 
 ### neuro.ref.duplicate_import
+
 **Description**: Multiple imports with the same name detected  
 **When to use**: Two or more imports in the same model have identical names  
 **Example**: `"Duplicate import name 'shared_module': each import must have a unique name"`
+
+### neuro.ref.import_security_violation
+
+**Description**: Import path violates security restrictions  
+**When to use**: Path traversal attempts, access to restricted directories, or other security violations  
+**Example**: `"Import security violation: path '../../../etc/passwd' attempts directory traversal"`
 
 ## Type System Errors
 
