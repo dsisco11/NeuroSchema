@@ -33,9 +33,16 @@ Error codes follow the format: `neuro.category.specific_error`
 **Example**: `"Invalid dtype 'float128': supported types are float16, float32, float64"`
 
 ### neuro.schema.invalid_shape
+
 **Description**: An invalid tensor shape was specified  
 **When to use**: Negative dimensions, non-integer dimensions  
 **Example**: `"Invalid shape [-1, 10]: dimensions must be non-negative integers"`
+
+### neuro.schema.missing_required_field
+
+**Description**: A required field or section is missing from the model  
+**When to use**: Missing required fields, missing required sections, empty required sections  
+**Example**: `"Missing required field 'metadata.model.name'" or "Missing required section: 'export'"`
 
 ## Reference Resolution Errors
 
@@ -155,16 +162,13 @@ Error codes follow the format: `neuro.category.specific_error`
 ## Parsing Errors
 
 ### neuro.parse.invalid_structure
+
 **Description**: Model structure is logically invalid  
 **When to use**: Valid JSON/schema but illogical model structure  
 **Example**: `"Invalid model structure: export section references undefined inputs"`
 
-### neuro.parse.missing_section
-**Description**: Required model section is missing  
-**When to use**: Missing required top-level sections  
-**Example**: `"Missing required section: 'export'"`
-
 ### neuro.parse.empty_section
+
 **Description**: Required section is empty when it shouldn't be  
 **When to use**: Empty arrays/objects where content is required  
 **Example**: `"Empty export section: at least one node must be exported"`

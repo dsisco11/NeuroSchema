@@ -185,6 +185,7 @@
             "neuro.schema.unsupported_version",
             "neuro.schema.invalid_dtype",
             "neuro.schema.invalid_shape",
+            "neuro.schema.missing_required_field",
             "neuro.ref.node_not_found",
             "neuro.ref.definition_not_found",
             "neuro.ref.circular_dependency",
@@ -193,6 +194,7 @@
             "neuro.ref.import_not_found",
             "neuro.ref.circular_import",
             "neuro.ref.duplicate_import",
+            "neuro.ref.import_security_violation",
             "neuro.type.unknown_operator",
             "neuro.type.unknown_layer",
             "neuro.type.unknown_architecture",
@@ -206,7 +208,6 @@
             "neuro.impl.provider_error",
             "neuro.impl.version_incompatible",
             "neuro.parse.invalid_structure",
-            "neuro.parse.missing_section",
             "neuro.parse.empty_section"
           ],
           "description": "Canonical NeuroFormat error code - see docs/error-codes.md for details"

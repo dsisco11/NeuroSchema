@@ -85,7 +85,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.parse.missing_section",
+          "code": "neuro.schema.missing_required_field",
           "message_pattern": ".*missing.*required.*export.*"
         }
       }
