@@ -162,6 +162,14 @@ Error codes follow the format: `neuro.category.specific_error`
 **When to use**: Empty arrays/objects where content is required  
 **Example**: `"Empty export section: at least one node must be exported"`
 
+## Internal Errors
+
+### neuro.internal.error
+**Description**: An unexpected internal error occurred
+**When to use**: Unhandled exceptions, logic errors, or unexpected states
+**Example**: `"Internal error: unexpected null reference in node processing"`
+
+
 ## Usage Guidelines
 
 ### For Library Implementers
