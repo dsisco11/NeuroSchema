@@ -7,8 +7,8 @@
   },
   "tests": [
     {
-      "id": "missing_required_metadata",
-      "title": "Missing Required Metadata",
+      "id": "missing_metadata_section",
+      "title": "Missing Metadata Section",
       "description": "Verify that models missing required metadata fields fail validation",
       "feature": "schema_validation",
       "tags": ["validation", "error_handling"],
@@ -22,7 +22,122 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.schema.missing_required_field"
+          "code": "neuro.schema.missing_required_field",
+          "message_pattern": ".*missing.*required.*metadata.*"
+        }
+      }
+    },
+    {
+      "id": "missing_inputs_section",
+      "title": "Missing Inputs Section",
+      "description": "Verify that missing sections produce the correct error code",
+      "feature": "schema_validation",
+      "tags": ["parsing", "missing_section", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "missing_section_test",
+              "version": "1.0.0"
+            }
+          },
+          "outputs": [
+            {
+              "name": "foo",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.missing_required_field",
+          "message_pattern": ".*missing.*required.*inputs.*"
+        }
+      }
+    },
+    {
+      "id": "missing_outputs_section",
+      "title": "Missing Outputs Section",
+      "description": "Verify that missing sections produce the correct error code",
+      "feature": "schema_validation",
+      "tags": ["parsing", "missing_section", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "missing_section_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.missing_required_field",
+          "message_pattern": ".*missing.*required.*outputs.*"
+        }
+      }
+    },
+    {
+      "id": "missing_export_section",
+      "title": "Missing Export Section",
+      "description": "Verify that missing sections produce the correct error code",
+      "feature": "schema_validation",
+      "tags": ["parsing", "missing_section", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "missing_section_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.missing_required_field",
+          "message_pattern": ".*missing.*required.*export.*"
         }
       }
     }

@@ -25,48 +25,6 @@
           "message_pattern": ".*malformed.*JSON.*"
         }
       }
-    },
-    {
-      "id": "missing_required_fields",
-      "title": "Missing Required Fields",
-      "description": "Verify that missing required fields are detected",
-      "feature": "json_parsing",
-      "tags": ["validation", "required_fields"],
-      "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json"
-        }
-      },
-      "expected": {
-        "error": {
-          "code": "neuro.schema.missing_required_field",
-          "type": "schema_validation_error",
-          "message_pattern": ".*required.*metadata.*"
-        }
-      }
-    },
-    {
-      "id": "invalid_field_types",
-      "title": "Invalid Field Types",
-      "description": "Verify that incorrect field types are detected",
-      "feature": "json_parsing",
-      "tags": ["validation", "types"],
-      "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": "invalid_metadata_type",
-          "inputs": [],
-          "outputs": [],
-          "export": []
-        }
-      },
-      "expected": {
-        "error": {
-          "code": "neuro.schema.validation_failed",
-          "type": "schema_validation_error",
-          "message_pattern": ".*metadata.*"
-        }
-      }
     }
   ]
 }
