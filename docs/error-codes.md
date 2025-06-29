@@ -159,19 +159,13 @@ Error codes follow the format: `neuro.category.specific_error`
 **When to use**: Library version conflicts, unsupported feature versions  
 **Example**: `"Feature requires library version 2.0+ but current version is 1.5"`
 
-## Parsing Errors
+## Graph Errors
 
-### neuro.parse.invalid_structure
+### neuro.graph.invalid_structure
 
-**Description**: Model structure is logically invalid  
-**When to use**: Valid JSON/schema but illogical model structure  
-**Example**: `"Invalid model structure: export section references undefined inputs"`
-
-### neuro.parse.empty_section
-
-**Description**: Required section is empty when it shouldn't be  
-**When to use**: Empty arrays/objects where content is required  
-**Example**: `"Empty export section: at least one node must be exported"`
+**Description**: Graph structure is logically invalid  
+**When to use**: Valid JSON/schema but illogical graph structure  
+**Example**: `"Invalid graph structure: node references undefined inputs"`
 
 ## Internal Errors
 

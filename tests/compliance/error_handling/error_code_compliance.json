@@ -26,7 +26,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.schema.validation_failed",
+          "code": "neuro.schema.missing_required_field",
           "message_pattern": ".*missing required field.*metadata.model.name.*"
         }
       }
@@ -301,7 +301,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.parse.empty_section",
+          "code": "neuro.schema.missing_required_field",
           "message_pattern": ".*empty.*export.*section.*",
           "details": {
             "has_section": "export",
