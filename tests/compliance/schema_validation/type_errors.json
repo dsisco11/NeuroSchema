@@ -8,17 +8,17 @@
   },
   "tests": [
     {
-      "id": "invalid_namespace_format",
-      "title": "Invalid Namespace Format",
-      "description": "Verify that malformed namespace syntax produces the correct error code",
+      "id": "invalid_dtype",
+      "title": "Invalid Data Type",
+      "description": "Verify that invalid dtype specifications are rejected",
       "feature": "schema_validation",
-      "tags": ["namespace", "syntax", "validation"],
+      "tags": ["validation", "dtype"],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
           "metadata": {
             "model": {
-              "name": "namespace_test",
+              "name": "test_model",
               "version": "1.0.0"
             }
           },
@@ -26,20 +26,20 @@
             {
               "name": "input",
               "shape": [10],
-              "dtype": "float32"
+              "dtype": "float0"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [10],
+              "shape": [1],
               "dtype": "float32"
             }
           ],
           "export": [
             {
-              "name": "invalid_ns",
-              "type": "my@company:invalid:layer",
+              "name": "identity",
+              "type": "identity",
               "arguments": ["input"]
             }
           ]
@@ -47,8 +47,8 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.type.invalid_namespace",
-          "message_pattern": ".*invalid.*namespace.*my@company:invalid:layer.*"
+          "code": "neuro.schema.invalid_dtype",
+          "message_pattern": ".*float0.*not.*supported.*"
         }
       }
     }
