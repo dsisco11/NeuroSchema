@@ -21,6 +21,7 @@
         {
           "type": "string",
           "enum": [
+            "identity",
             "add",
             "subtract",
             "multiply",
