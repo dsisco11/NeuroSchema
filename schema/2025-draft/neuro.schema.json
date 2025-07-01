@@ -359,9 +359,13 @@
         }
       }
     },
-    "node_reference": {
+    "qualified_name": {
       "type": "string",
       "pattern": "^(\\w+:)?\\w+(\\/\\w+)*$",
+      "description": "A qualified name that can optionally include a namespace and path segments in the format 'namespace:path/to/item', 'path/to/item', or just 'name'. Used for type references, node names, and other identifiers throughout the schema."
+    },
+    "node_reference": {
+      "$ref": "#/definitions/qualified_name",
       "description": "Path reference to a named node (input, definition, or local node within a graph). Simple name for local references, or path-like notation for nested references. Supports namespace syntax 'import_name:section/item' for accessing imported model contents."
     },
     "data_reference": {

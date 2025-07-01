@@ -72,8 +72,7 @@
           "description": "Built-in neural network layer types"
         },
         {
-          "type": "string",
-          "pattern": "^[a-zA-Z][a-zA-Z0-9_]*:[a-zA-Z][a-zA-Z0-9_]*$",
+          "$ref": "neuro.schema.json#/definitions/qualified_name",
           "description": "Third-party extension layer types using namespace:layer format (e.g., 'custom:transformer_variant')"
         }
       ],
