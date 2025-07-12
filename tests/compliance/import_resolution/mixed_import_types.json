@@ -1,0 +1,457 @@
+{
+  "$schema": "../../tests.schema.json",
+  "metadata": {
+    "name": "Mixed Import Types Tests",
+    "version": "1.0.0",
+    "description": "Tests for handling mixed import types (neuro + safetensors) in the same model",
+    "category": "import_resolution"
+  },
+  "tests": [
+    {
+      "id": "mixed_neuro_safetensors_imports",
+      "title": "Mixed Neuro and Safetensors Imports",
+      "description": "Verify that models can import both neuro definitions and safetensors data simultaneously",
+      "feature": "import_resolution",
+      "tags": ["imports", "mixed_types", "neuro", "safetensors"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "mixed_imports_test",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "layer_defs",
+              "type": "neuro",
+              "path": "./layer_definitions.neuro.json"
+            },
+            {
+              "name": "weights",
+              "type": "safetensors",
+              "path": "./model_weights.safetensors"
+            },
+            {
+              "name": "config",
+              "type": "neuro",
+              "path": "./config.neuro.json"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [512],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "encoder",
+              "type": "layer_defs:transformer_layer",
+              "arguments": ["input"],
+              "parameters": {
+                "hidden_size": "config:hidden_size",
+                "weights": "weights:data_reference"
+              }
+            }
+          ]
+        },
+        "parameters": {
+          "imported_files": {
+            "./layer_definitions.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "layer_definitions",
+                  "version": "1.0.0"
+                }
+              },
+              "definitions": [
+                {
+                  "name": "transformer_layer",
+                  "type": "transformer_block",
+                  "parameters": {
+                    "num_heads": 8
+                  }
+                }
+              ],
+              "inputs": [],
+              "outputs": [],
+              "export": []
+            },
+            "./config.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "config",
+                  "version": "1.0.0"
+                }
+              },
+              "constants": [
+                {
+                  "name": "hidden_size",
+                  "type": "scalar",
+                  "dtype": "int32",
+                  "value": 512
+                }
+              ],
+              "inputs": [],
+              "outputs": [],
+              "export": []
+            }
+          }
+        }
+      },
+      "expected": {
+        "success": true,
+        "imported_constants": {
+          "config:hidden_size": {
+            "name": "hidden_size",
+            "type": "scalar",
+            "dtype": "int32",
+            "value": 512
+          }
+        },
+        "imported_definitions": {
+          "layer_defs:transformer_layer": {
+            "name": "transformer_layer",
+            "type": "transformer_block",
+            "parameters": {
+              "num_heads": 8
+            }
+          }
+        },
+        "external_data_references": {
+          "weights:data_reference": {
+            "source": "./model_weights.safetensors",
+            "format": "safetensors"
+          }
+        }
+      }
+    },
+    {
+      "id": "complex_mixed_import_hierarchy",
+      "title": "Complex Mixed Import Hierarchy",
+      "description": "Verify handling of complex import hierarchies with mixed types and nested imports",
+      "feature": "import_resolution",
+      "tags": ["imports", "mixed_types", "nested_imports", "complex_hierarchy"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "complex_hierarchy_test",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "encoder",
+              "type": "neuro",
+              "path": "./encoder.neuro.json"
+            },
+            {
+              "name": "decoder",
+              "type": "neuro",
+              "path": "./decoder.neuro.json"
+            },
+            {
+              "name": "shared_weights",
+              "type": "safetensors",
+              "path": "./shared.safetensors"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [1024],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [1024],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "encode_stage",
+              "type": "encoder:attention_block",
+              "arguments": ["input"],
+              "parameters": {
+                "weights": "shared_weights:data_reference"
+              }
+            },
+            {
+              "name": "decode_stage",
+              "type": "decoder:output_block",
+              "arguments": ["encode_stage"],
+              "parameters": {
+                "weights": "shared_weights:data_reference"
+              }
+            }
+          ]
+        },
+        "parameters": {
+          "imported_files": {
+            "./encoder.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "encoder_module",
+                  "version": "1.0.0"
+                }
+              },
+              "imports": [
+                {
+                  "name": "attention_primitives",
+                  "type": "neuro",
+                  "path": "./attention.neuro.json"
+                }
+              ],
+              "definitions": [
+                {
+                  "name": "attention_block",
+                  "type": "attention_primitives:multi_head_attention"
+                }
+              ],
+              "inputs": [],
+              "outputs": [],
+              "export": []
+            },
+            "./decoder.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "decoder_module",
+                  "version": "1.0.0"
+                }
+              },
+              "definitions": [
+                {
+                  "name": "output_block",
+                  "type": "linear",
+                  "parameters": {
+                    "output_size": 1024
+                  }
+                }
+              ],
+              "inputs": [],
+              "outputs": [],
+              "export": []
+            },
+            "./attention.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "attention_primitives",
+                  "version": "1.0.0"
+                }
+              },
+              "definitions": [
+                {
+                  "name": "multi_head_attention",
+                  "type": "multihead_attention",
+                  "parameters": {
+                    "num_heads": 16
+                  }
+                }
+              ],
+              "inputs": [],
+              "outputs": [],
+              "export": []
+            }
+          }
+        }
+      },
+      "expected": {
+        "success": true,
+        "imported_definitions": {
+          "encoder:attention_block": {
+            "name": "attention_block",
+            "type": "attention_primitives:multi_head_attention"
+          },
+          "decoder:output_block": {
+            "name": "output_block",
+            "type": "linear",
+            "parameters": {
+              "output_size": 1024
+            }
+          }
+        },
+        "external_data_references": {
+          "shared_weights:data_reference": {
+            "source": "./shared.safetensors",
+            "format": "safetensors"
+          }
+        }
+      }
+    },
+    {
+      "id": "import_precedence_validation",
+      "title": "Import Precedence Validation",
+      "description": "Verify that primary definitions take precedence over imported definitions with the same name",
+      "feature": "import_resolution",
+      "tags": ["imports", "precedence", "name_collision"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "precedence_test",
+              "version": "1.0.0"
+            }
+          },
+          "constants": [
+            {
+              "name": "batch_size",
+              "type": "scalar",
+              "dtype": "int32",
+              "value": 32
+            }
+          ],
+          "definitions": [
+            {
+              "name": "linear_layer",
+              "type": "linear",
+              "parameters": {
+                "output_size": 128
+              }
+            }
+          ],
+          "imports": [
+            {
+              "name": "external_defs",
+              "type": "neuro",
+              "path": "./external_definitions.neuro.json"
+            },
+            {
+              "name": "weights",
+              "type": "safetensors",
+              "path": "./weights.safetensors"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [100],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [128],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "primary_layer",
+              "type": "linear_layer",
+              "arguments": ["input"],
+              "parameters": {
+                "batch_size": "batch_size"
+              }
+            },
+            {
+              "name": "imported_layer",
+              "type": "external_defs:linear_layer",
+              "arguments": ["input"],
+              "parameters": {
+                "batch_size": "external_defs:batch_size"
+              }
+            }
+          ]
+        },
+        "parameters": {
+          "imported_files": {
+            "./external_definitions.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "external_definitions",
+                  "version": "1.0.0"
+                }
+              },
+              "constants": [
+                {
+                  "name": "batch_size",
+                  "type": "scalar",
+                  "dtype": "int32",
+                  "value": 64
+                }
+              ],
+              "definitions": [
+                {
+                  "name": "linear_layer",
+                  "type": "linear",
+                  "parameters": {
+                    "output_size": 256
+                  }
+                }
+              ],
+              "inputs": [],
+              "outputs": [],
+              "export": []
+            }
+          }
+        }
+      },
+      "expected": {
+        "success": true,
+        "primary_constants": {
+          "batch_size": {
+            "name": "batch_size",
+            "type": "scalar",
+            "dtype": "int32",
+            "value": 32
+          }
+        },
+        "primary_definitions": {
+          "linear_layer": {
+            "name": "linear_layer",
+            "type": "linear",
+            "parameters": {
+              "output_size": 128
+            }
+          }
+        },
+        "imported_constants": {
+          "external_defs:batch_size": {
+            "name": "batch_size",
+            "type": "scalar",
+            "dtype": "int32",
+            "value": 64
+          }
+        },
+        "imported_definitions": {
+          "external_defs:linear_layer": {
+            "name": "linear_layer",
+            "type": "linear",
+            "parameters": {
+              "output_size": 256
+            }
+          }
+        },
+        "external_data_references": {
+          "weights:data_reference": {
+            "source": "./weights.safetensors",
+            "format": "safetensors"
+          }
+        }
+      }
+    }
+  ]
+}

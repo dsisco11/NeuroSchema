@@ -1,0 +1,399 @@
+{
+  "$schema": "../../tests.schema.json",
+  "metadata": {
+    "name": "Import Security and Validation Tests",
+    "version": "1.0.0",
+    "description": "Tests for security validation and error handling in import resolution",
+    "category": "error_handling"
+  },
+  "tests": [
+    {
+      "id": "path_traversal_attack_prevention",
+      "title": "Path Traversal Attack Prevention",
+      "description": "Verify that path traversal attacks are blocked by security validation",
+      "feature": "error_handling",
+      "tags": ["security", "path_traversal", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "path_traversal_test",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "malicious",
+              "type": "neuro",
+              "path": "../../../etc/passwd"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.import_security_violation",
+          "message_pattern": ".*security.*constraint.*"
+        }
+      }
+    },
+    {
+      "id": "absolute_path_rejection",
+      "title": "Absolute Path Rejection",
+      "description": "Verify that absolute paths are rejected for security reasons",
+      "feature": "error_handling",
+      "tags": ["security", "absolute_paths", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "absolute_path_test",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "absolute_import",
+              "type": "neuro",
+              "path": "/usr/local/models/suspicious.neuro.json"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.import_security_violation",
+          "message_pattern": ".*absolute.*path.*not.*allowed.*"
+        }
+      }
+    },
+    {
+      "id": "empty_import_name_validation",
+      "title": "Empty Import Name Validation",
+      "description": "Verify that empty import names are properly rejected",
+      "feature": "error_handling",
+      "tags": ["validation", "empty_names"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "empty_name_test",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "",
+              "type": "neuro",
+              "path": "./valid_file.neuro.json"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.validation_failed",
+          "message_pattern": ".*empty.*name.*"
+        }
+      }
+    },
+    {
+      "id": "invalid_import_type_handling",
+      "title": "Invalid Import Type Handling",
+      "description": "Verify that invalid import types are properly rejected",
+      "feature": "error_handling",
+      "tags": ["validation", "invalid_types"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "invalid_type_test",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "unknown_type",
+              "type": "unsupported_format",
+              "path": "./file.unknown"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.validation_failed",
+          "message_pattern": ".*unsupported.*import.*type.*"
+        }
+      }
+    },
+    {
+      "id": "circular_import_detection_advanced",
+      "title": "Advanced Circular Import Detection",
+      "description": "Verify detection of circular imports in complex hierarchies (A→B→C→A)",
+      "feature": "error_handling",
+      "tags": ["circular_imports", "complex_hierarchy"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "circular_a",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "module_b",
+              "type": "neuro",
+              "path": "./module_b.neuro.json"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": []
+        },
+        "parameters": {
+          "imported_files": {
+            "./module_b.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "circular_b",
+                  "version": "1.0.0"
+                }
+              },
+              "imports": [
+                {
+                  "name": "module_c",
+                  "type": "neuro",
+                  "path": "./module_c.neuro.json"
+                }
+              ],
+              "inputs": [],
+              "outputs": [],
+              "export": []
+            },
+            "./module_c.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "circular_c",
+                  "version": "1.0.0"
+                }
+              },
+              "imports": [
+                {
+                  "name": "module_a",
+                  "type": "neuro",
+                  "path": "./circular_a.neuro.json"
+                }
+              ],
+              "inputs": [],
+              "outputs": [],
+              "export": []
+            }
+          }
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.circular_import",
+          "message_pattern": ".*circular.*import.*dependency.*"
+        }
+      }
+    },
+    {
+      "id": "large_import_chain_validation",
+      "title": "Large Import Chain Validation",
+      "description": "Verify that very large import chains are handled correctly",
+      "feature": "import_resolution",
+      "tags": ["performance", "large_chains", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "large_chain_test",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "module_1",
+              "type": "neuro",
+              "path": "./module_1.neuro.json"
+            },
+            {
+              "name": "module_2",
+              "type": "neuro",
+              "path": "./module_2.neuro.json"
+            },
+            {
+              "name": "module_3",
+              "type": "neuro",
+              "path": "./module_3.neuro.json"
+            },
+            {
+              "name": "weights_1",
+              "type": "safetensors",
+              "path": "./weights_1.safetensors"
+            },
+            {
+              "name": "weights_2",
+              "type": "safetensors",
+              "path": "./weights_2.safetensors"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [1000],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "stage_1",
+              "type": "module_1:layer_1",
+              "arguments": ["input"],
+              "parameters": {
+                "weights": "weights_1:data_reference"
+              }
+            },
+            {
+              "name": "stage_2",
+              "type": "module_2:layer_2",
+              "arguments": ["stage_1"],
+              "parameters": {
+                "weights": "weights_2:data_reference"
+              }
+            },
+            {
+              "name": "stage_3",
+              "type": "module_3:layer_3",
+              "arguments": ["stage_2"]
+            }
+          ]
+        },
+        "parameters": {
+          "imported_files": {
+            "./module_1.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": { "model": { "name": "module_1", "version": "1.0.0" }},
+              "definitions": [{"name": "layer_1", "type": "linear"}],
+              "inputs": [], "outputs": [], "export": []
+            },
+            "./module_2.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": { "model": { "name": "module_2", "version": "1.0.0" }},
+              "definitions": [{"name": "layer_2", "type": "relu"}],
+              "inputs": [], "outputs": [], "export": []
+            },
+            "./module_3.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": { "model": { "name": "module_3", "version": "1.0.0" }},
+              "definitions": [{"name": "layer_3", "type": "softmax"}],
+              "inputs": [], "outputs": [], "export": []
+            }
+          }
+        }
+      },
+      "expected": {
+        "success": true,
+        "imported_definitions": {
+          "module_1:layer_1": {"name": "layer_1", "type": "linear"},
+          "module_2:layer_2": {"name": "layer_2", "type": "relu"},
+          "module_3:layer_3": {"name": "layer_3", "type": "softmax"}
+        },
+        "external_data_references": {
+          "weights_1:data_reference": {"source": "./weights_1.safetensors", "format": "safetensors"},
+          "weights_2:data_reference": {"source": "./weights_2.safetensors", "format": "safetensors"}
+        }
+      }
+    }
+  ]
+}
