@@ -2,35 +2,13 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Test: Validate JSON Files",
+			"label": "NeuroSchema: Validate All JSON Files",
 			"type": "shell",
-			"command": "powershell",
+			"command": "pwsh",
 			"args": [
-				"-Command",
-				"Get-ChildItem -Path . -Recurse -Include *.json | ForEach-Object { Write-Host \"Validating: $($_.Name)\"; try { Get-Content $_.FullName | ConvertFrom-Json > $null; Write-Host \"✓ Valid: $($_.Name)\" -ForegroundColor Green } catch { Write-Host \"✗ Invalid: $($_.Name) - $($_.Exception.Message)\" -ForegroundColor Red } }"
-			],
-			"group": {
-				"kind": "test",
-				"isDefault": true
-			},
-			"isBackground": false,
-			"problemMatcher": [],
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": false
-			}
-		},
-		{
-			"label": "Build: Validate All Schemas",
-			"type": "shell",
-			"command": "powershell",
-			"args": [
-				"-Command",
-				"Write-Host 'Starting NeuroFormat Schema Validation...' -ForegroundColor Cyan; $errors = 0; Get-ChildItem -Path ./schema -Recurse -Include *.json | ForEach-Object { Write-Host \"Validating Schema: $($_.Name)\" -ForegroundColor Yellow; try { Get-Content $_.FullName | ConvertFrom-Json > $null; Write-Host \"✓ Valid: $($_.Name)\" -ForegroundColor Green } catch { Write-Host \"✗ Invalid: $($_.Name) - $($_.Exception.Message)\" -ForegroundColor Red; $global:errors++ } }; Get-ChildItem -Path ./docs/examples -Recurse -Include *.json | ForEach-Object { Write-Host \"Validating Example: $($_.Name)\" -ForegroundColor Yellow; try { Get-Content $_.FullName | ConvertFrom-Json > $null; Write-Host \"✓ Valid: $($_.Name)\" -ForegroundColor Green } catch { Write-Host \"✗ Invalid: $($_.Name) - $($_.Exception.Message)\" -ForegroundColor Red; $global:errors++ } }; Get-ChildItem -Path ./tests -Recurse -Include *.json | ForEach-Object { Write-Host \"Validating Test: $($_.Name)\" -ForegroundColor Yellow; try { Get-Content $_.FullName | ConvertFrom-Json > $null; Write-Host \"✓ Valid: $($_.Name)\" -ForegroundColor Green } catch { Write-Host \"✗ Invalid: $($_.Name) - $($_.Exception.Message)\" -ForegroundColor Red; $global:errors++ } }; if ($errors -eq 0) { Write-Host 'All JSON files are valid! ✓' -ForegroundColor Green } else { Write-Host \"Found $errors errors in JSON files ✗\" -ForegroundColor Red; exit 1 }"
+				"-ExecutionPolicy", "Bypass",
+				"-File", "./tools/validate_json_files.ps1",
+				"-Verbose"
 			],
 			"group": {
 				"kind": "build",
