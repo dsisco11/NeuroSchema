@@ -167,7 +167,7 @@
           "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
         },
         "parameters": {
-          "referenced_models": {
+          "imported_files": {
             "model.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "parameterized_model", "version": "1.0.0"}},
@@ -214,7 +214,7 @@
           "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
         },
         "parameters": {
-          "referenced_models": {
+          "imported_files": {
             "国際化_モデル.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "国際化_model", "version": "1.0.0"}},

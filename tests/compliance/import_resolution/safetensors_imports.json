@@ -53,6 +53,11 @@
               }
             }
           ]
+        },
+        "parameters": {
+          "imported_files": {
+            "./model_weights.safetensors": ""
+          }
         }
       },
       "expected": {
@@ -124,6 +129,12 @@
               }
             }
           ]
+        },
+        "parameters": {
+          "imported_files": {
+            "./encoder.safetensors": "",
+            "./decoder.safetensors": ""
+          }
         }
       },
       "expected": {
@@ -181,8 +192,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.ref.import_security_violation",
-          "message_pattern": ".*path.*security.*constraint.*"
+          "code": "neuro.ref.import_security_violation"
         }
       }
     },

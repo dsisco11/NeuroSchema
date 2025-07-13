@@ -89,6 +89,8 @@
         },
         "parameters": {
           "imported_files": {
+            "./weights_1.safetensors": "",
+            "./weights_2.safetensors": "",
             "./module_1.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": { "model": { "name": "module_1", "version": "1.0.0" }},

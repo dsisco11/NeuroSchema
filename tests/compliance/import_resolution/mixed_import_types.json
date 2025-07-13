@@ -67,6 +67,7 @@
         },
         "parameters": {
           "imported_files": {
+            "./model_weights.safetensors": "",
             "./layer_definitions.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {
@@ -271,7 +272,8 @@
               "inputs": [],
               "outputs": [],
               "export": []
-            }
+            },
+            "./shared.safetensors": ""
           }
         }
       },
@@ -405,7 +407,8 @@
               "inputs": [],
               "outputs": [],
               "export": []
-            }
+            },
+            "./weights.safetensors": ""
           }
         }
       },

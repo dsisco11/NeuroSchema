@@ -39,15 +39,15 @@
           "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
         },
         "parameters": {
-          "referenced_models": {
-            "model_a.neuro.json": {
+          "imported_files": {
+            "./model_a.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "model_a", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
               "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
             },
-            "model_b.neuro.json": {
+            "./model_b.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "model_b", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
@@ -91,8 +91,8 @@
           "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
         },
         "parameters": {
-          "referenced_models": {
-            "very/deeply/nested/directory/structure/with/many/levels/and/a/really/really/really/long/path/to/the/target/model/file/that/tests/path/length/limits/final_model.neuro.json": {
+          "imported_files": {
+            "./very/deeply/nested/directory/structure/with/many/levels/and/a/really/really/really/long/path/to/the/target/model/file/that/tests/path/length/limits/final_model.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "deep_model", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],

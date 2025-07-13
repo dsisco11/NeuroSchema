@@ -66,7 +66,7 @@
           ]
         },
         "parameters": {
-          "referenced_models": {
+          "imported_files": {
             "modules/text/encoder.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "text_encoder", "version": "1.0.0"}},
@@ -164,7 +164,7 @@
           ]
         },
         "parameters": {
-          "referenced_models": {
+          "imported_files": {
             "encoder/stack.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "encoder_stack", "version": "1.0.0"}},
@@ -287,7 +287,7 @@
           "export": [{"name": "process", "type": "composite", "arguments": ["input"]}]
         },
         "parameters": {
-          "referenced_models": {
+          "imported_files": {
             "legacy/component.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {

@@ -30,7 +30,7 @@
             },
             {
               "name": "shared_module",
-              "type": "neuro", 
+              "type": "neuro",
               "path": "./module2.neuro.json"
             }
           ],
@@ -55,6 +55,70 @@
               "arguments": ["input"]
             }
           ]
+        },
+        "parameters": {
+          "imported_files": {
+            "./module1.neuro.json": {
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "version": "1.0.0",
+                  "name": "module1.neuro"
+                }
+              },
+              "export": [
+                {
+                  "arguments": ["input"],
+                  "name": "identity",
+                  "type": "identity"
+                }
+              ]
+            },
+            "./module2.neuro.json": {
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "version": "1.0.0",
+                  "name": "module2.neuro"
+                }
+              },
+              "export": [
+                {
+                  "arguments": ["input"],
+                  "name": "identity",
+                  "type": "identity"
+                }
+              ]
+            }
+          }
         }
       },
       "expected": {

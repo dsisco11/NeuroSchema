@@ -34,7 +34,7 @@
           "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
         },
         "parameters": {
-          "referenced_models": {
+          "imported_files": {
             "level_02.neuro.json": {"imports": [{"name": "level_03", "type": "neuro", "path": "./level_03.neuro.json"}]},
             "level_03.neuro.json": {"imports": [{"name": "level_04", "type": "neuro", "path": "./level_04.neuro.json"}]},
             "level_04.neuro.json": {"imports": [{"name": "level_05", "type": "neuro", "path": "./level_05.neuro.json"}]},
@@ -107,7 +107,7 @@
           "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
         },
         "parameters": {
-          "referenced_models": {
+          "imported_files": {
             "modules/module_01.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "module_01", "version": "1.0.0"}},
@@ -290,7 +290,7 @@
           ]
         },
         "parameters": {
-          "referenced_models": {
+          "imported_files": {
             "large_module_1.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "large_module_1", "version": "1.0.0"}},
