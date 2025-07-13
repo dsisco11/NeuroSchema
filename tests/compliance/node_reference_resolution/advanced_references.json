@@ -4,7 +4,7 @@
     "name": "Advanced Reference Resolution Tests",
     "version": "1.0.0",
     "description": "Tests for complex reference resolution scenarios including nested scopes and cross-references",
-    "category": "validation"
+    "category": "linking"
   },
   "tests": [
     {

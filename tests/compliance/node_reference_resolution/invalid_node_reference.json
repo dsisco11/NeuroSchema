@@ -3,7 +3,8 @@
   "metadata": {
     "name": "Invalid Reference Tests",
     "version": "0.0.1",
-    "description": "Tests for validating basic NeuroFormat schema compliance"
+    "description": "Tests for validating basic NeuroFormat schema compliance",
+    "category": "linking"
   },
   "tests": [
     {

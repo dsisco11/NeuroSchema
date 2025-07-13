@@ -1,0 +1,234 @@
+{
+  "$schema": "../../tests.schema.json",
+  "metadata": {
+    "name": "JSON Parsing Tests",
+    "version": "1.0.0",
+    "description": "Tests for proper handling of JSON parsing errors at the DTO level",
+    "category": "json_parsing"
+  },
+  "tests": [
+    {
+      "id": "empty_import_name_validation",
+      "title": "Empty Import Name Validation",
+      "description": "Verify that empty import names are properly rejected",
+      "feature": "json_parsing",
+      "tags": ["parsing", "validation", "imports"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "empty_name_test",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "",
+              "type": "neuro",
+              "path": "./valid_file.neuro.json"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.validation_failed",
+          "message_pattern": ".*empty.*name.*"
+        }
+      }
+    },
+    {
+      "id": "empty_import_list",
+      "title": "Empty Import List",
+      "description": "Test handling of models with empty import arrays",
+      "feature": "import_resolution",
+      "tags": ["imports", "edge_case", "empty"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "standalone_model",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [1],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      }
+    },
+    {
+      "id": "missing_import_list",
+      "title": "Missing Import List",
+      "description": "Test handling of models without an imports field",
+      "feature": "import_resolution",
+      "tags": ["imports", "edge_case", "missing_field"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "no_imports_model",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [1],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      }
+    },
+    {
+      "id": "import_with_query_parameters",
+      "title": "Import with Query Parameters",
+      "description": "Test handling of import paths with query parameters",
+      "feature": "import_resolution",
+      "tags": ["imports", "edge_case", "query_params"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "query_import_model",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "parameterized_model",
+              "type": "neuro",
+              "path": "./model.neuro.json?version=v1&config=production"
+            }
+          ],
+          "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
+          "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
+          "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
+        },
+        "parameters": {
+          "referenced_models": {
+            "model.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "parameterized_model", "version": "1.0.0"}},
+              "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
+              "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
+              "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
+            }
+          }
+        }
+      },
+      "expected": {
+        "success": false,
+        "validation_result": false,
+        "error": {
+          "code": "neuro.ref.invalid_path",
+          "message_pattern": ".*invalid character.*"
+        }
+      }
+    },
+    {
+      "id": "unicode_import_paths",
+      "title": "Unicode Characters in Import Paths",
+      "description": "Test handling of Unicode characters in import paths and model names",
+      "feature": "import_resolution",
+      "tags": ["imports", "edge_case", "unicode"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "unicode_test_モデル",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "国際化_model",
+              "type": "neuro",
+              "path": "./国際化_モデル.neuro.json"
+            }
+          ],
+          "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
+          "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
+          "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
+        },
+        "parameters": {
+          "referenced_models": {
+            "国際化_モデル.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {"model": {"name": "国際化_model", "version": "1.0.0"}},
+              "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
+              "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
+              "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
+            }
+          }
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      }
+    }
+  ]
+}

@@ -160,6 +160,52 @@
           "message_pattern": ".*definition.*nonexistent_definition.*not found.*"
         }
       }
+    },
+    {
+      "id": "invalid_import_type_handling",
+      "title": "Invalid Import Type Handling",
+      "description": "Verify that invalid import types are properly rejected",
+      "feature": "error_handling",
+      "tags": ["validation", "invalid_types"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "invalid_type_test",
+              "version": "1.0.0"
+            }
+          },
+          "imports": [
+            {
+              "name": "unknown_type",
+              "type": "unsupported_format",
+              "path": "./file.unknown"
+            }
+          ],
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.validation_failed",
+          "message_pattern": ".*unsupported.*import.*type.*"
+        }
+      }
     }
   ]
 }
