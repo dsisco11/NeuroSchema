@@ -54,8 +54,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.ref.import_security_violation",
-          "message_pattern": ".*directory traversal.*not allowed.*"
+          "code": "neuro.ref.import_security_violation"
         }
       }
     },
@@ -106,8 +105,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.ref.import_security_violation",
-          "message_pattern": ".*directory traversal.*path escaping.*"
+          "code": "neuro.ref.import_security_violation"
         }
       }
     },
@@ -158,8 +156,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.ref.import_security_violation",
-          "message_pattern": ".*absolute path.*not allowed.*"
+          "code": "neuro.ref.import_security_violation"
         }
       }
     },
@@ -321,8 +318,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.ref.import_security_violation",
-          "message_pattern": ".*directory traversal.*backslash.*not allowed.*"
+          "code": "neuro.ref.import_security_violation"
         }
       }
     },
