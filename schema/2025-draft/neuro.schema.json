@@ -196,7 +196,7 @@
           },
           "path": {
             "type": "string",
-            "description": "Path or URI to the resource"
+            "description": "Path to the imported file or resource. For 'safetensors', this is the file path to the weights file. For 'neuro', this is the path to the model file"
           }
         }
       }
