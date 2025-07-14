@@ -1240,7 +1240,7 @@
         },
         "parameters": {
           "imported_files": {
-            "./module_b.neuro.json": {
+            "module_b.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {
                 "model": {
@@ -1259,7 +1259,7 @@
               "outputs": [],
               "export": []
             },
-            "./module_c.neuro.json": {
+            "module_c.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {
                 "model": {
@@ -1276,6 +1276,37 @@
               ],
               "inputs": [],
               "outputs": [],
+              "export": []
+            },
+            "circular_a.neuro.json": {
+              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "metadata": {
+                "model": {
+                  "name": "circular_a",
+                  "version": "1.0.0"
+                }
+              },
+              "imports": [
+                {
+                  "name": "module_b",
+                  "type": "neuro",
+                  "path": "./module_b.neuro.json"
+                }
+              ],
+              "inputs": [
+                {
+                  "name": "input",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "shape": [10],
+                  "dtype": "float32"
+                }
+              ],
               "export": []
             }
           }
