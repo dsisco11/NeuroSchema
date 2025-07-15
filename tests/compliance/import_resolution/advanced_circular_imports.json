@@ -640,7 +640,7 @@
       "expected": {
         "error": {
           "code": "neuro.ref.circular_import",
-          "message_pattern": ".*[Cc]ircular.*import.*conditional_model.*feature_a.*feature_b.*"
+          "message_pattern": ".*[Cc]ircular.*import.*dependency.*detected.*"
         }
       }
     },

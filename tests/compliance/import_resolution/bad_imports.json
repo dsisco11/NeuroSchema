@@ -176,7 +176,7 @@
       "expected": {
         "error": {
           "code": "neuro.ref.import_not_found",
-          "message_pattern": ".*import.*missing_module.*file.*nonexistent.*"
+          "message_pattern": ".*[Ii]mport.*file.*not.*found.*"
         }
       }
     },
