@@ -128,6 +128,21 @@
         "parameters": {
           "type": "object",
           "description": "Additional parameters for the test"
+        },
+        "import_target": {
+          "type": "string",
+          "description": "For import resolution tests: specifies which file from the 'files' collection should be used as the primary import target"
+        },
+        "files": {
+          "type": "object",
+          "description": "For import resolution tests: contains all files (primary and imported) for the test",
+          "patternProperties": {
+            "^.+\\.neuro\\.json$|^.+\\.safetensors$": {
+              "type": "object",
+              "description": "File content as JSON object"
+            }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": false

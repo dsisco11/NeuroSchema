@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Import and Reference Error Tests",
@@ -12,114 +12,135 @@
       "title": "Duplicate Import Names",
       "description": "Verify that duplicate import names produce the correct error code",
       "feature": "error_handling",
-      "tags": ["imports", "duplicates", "validation"],
+      "tags": [
+        "imports",
+        "duplicates",
+        "validation"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "duplicate_import_test",
-              "version": "1.0.0"
-            }
+        "files": {
+          "./module2.neuro.json": {
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "version": "1.0.0",
+                "name": "module2.neuro"
+              }
+            },
+            "export": [
+              {
+                "arguments": [
+                  "input"
+                ],
+                "name": "identity",
+                "type": "identity"
+              }
+            ]
           },
-          "imports": [
-            {
-              "name": "shared_module",
-              "type": "neuro",
-              "path": "./module1.neuro.json"
+          "duplicate_import_test.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "duplicate_import_test",
+                "version": "1.0.0"
+              }
             },
-            {
-              "name": "shared_module",
-              "type": "neuro",
-              "path": "./module2.neuro.json"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "identity",
-              "type": "identity",
-              "arguments": ["input"]
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "./module1.neuro.json": {
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "version": "1.0.0",
-                  "name": "module1.neuro"
-                }
+            "imports": [
+              {
+                "name": "shared_module",
+                "type": "neuro",
+                "path": "./module1.neuro.json"
               },
-              "export": [
-                {
-                  "arguments": ["input"],
-                  "name": "identity",
-                  "type": "identity"
-                }
-              ]
+              {
+                "name": "shared_module",
+                "type": "neuro",
+                "path": "./module2.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "./module1.neuro.json": {
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "version": "1.0.0",
+                "name": "module1.neuro"
+              }
             },
-            "./module2.neuro.json": {
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "version": "1.0.0",
-                  "name": "module2.neuro"
-                }
-              },
-              "export": [
-                {
-                  "arguments": ["input"],
-                  "name": "identity",
-                  "type": "identity"
-                }
-              ]
-            }
+            "export": [
+              {
+                "arguments": [
+                  "input"
+                ],
+                "name": "identity",
+                "type": "identity"
+              }
+            ]
           }
-        }
+        },
+        "import_target": "duplicate_import_test.neuro.json"
       },
       "expected": {
         "error": {
@@ -133,7 +154,11 @@
       "title": "Import Not Found",
       "description": "Verify that missing import files produce the correct error code",
       "feature": "error_handling",
-      "tags": ["imports", "file_not_found", "validation"],
+      "tags": [
+        "imports",
+        "file_not_found",
+        "validation"
+      ],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -153,14 +178,18 @@
           "inputs": [
             {
               "name": "input",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
@@ -168,7 +197,9 @@
             {
               "name": "imported_node",
               "type": "missing_module",
-              "arguments": ["input"]
+              "arguments": [
+                "input"
+              ]
             }
           ]
         }
@@ -185,7 +216,10 @@
       "title": "Invalid Import Type Handling",
       "description": "Verify that invalid import types are properly rejected",
       "feature": "error_handling",
-      "tags": ["validation", "invalid_types"],
+      "tags": [
+        "validation",
+        "invalid_types"
+      ],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -205,14 +239,18 @@
           "inputs": [
             {
               "name": "input",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],

@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Path Escaping and Security Tests",
@@ -12,7 +12,11 @@
       "title": "Directory Traversal - Parent Directory",
       "description": "Verify that path traversal attempts using '../' are properly handled",
       "feature": "import_resolution",
-      "tags": ["security", "path_traversal", "imports"],
+      "tags": [
+        "security",
+        "path_traversal",
+        "imports"
+      ],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -32,14 +36,18 @@
           "inputs": [
             {
               "name": "input",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
-              "name": "output", 
-              "shape": [10],
+              "name": "output",
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
@@ -47,7 +55,9 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["input"]
+              "arguments": [
+                "input"
+              ]
             }
           ]
         }
@@ -63,7 +73,11 @@
       "title": "Directory Traversal - Complex Relative Path",
       "description": "Verify that complex path traversal attempts are detected",
       "feature": "import_resolution",
-      "tags": ["security", "path_traversal", "imports"],
+      "tags": [
+        "security",
+        "path_traversal",
+        "imports"
+      ],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -83,14 +97,18 @@
           "inputs": [
             {
               "name": "input",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [10], 
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
@@ -98,7 +116,9 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["input"]
+              "arguments": [
+                "input"
+              ]
             }
           ]
         }
@@ -114,7 +134,11 @@
       "title": "Absolute Path Prevention",
       "description": "Verify that absolute paths in imports are rejected for security",
       "feature": "import_resolution",
-      "tags": ["security", "absolute_path", "imports"],
+      "tags": [
+        "security",
+        "absolute_path",
+        "imports"
+      ],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -134,22 +158,28 @@
           "inputs": [
             {
               "name": "input",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "export": [
             {
               "name": "identity",
-              "type": "identity", 
-              "arguments": ["input"]
+              "type": "identity",
+              "arguments": [
+                "input"
+              ]
             }
           ]
         }
@@ -165,7 +195,11 @@
       "title": "Path Injection - Null Byte",
       "description": "Verify that null byte injection attempts in paths are detected",
       "feature": "import_resolution",
-      "tags": ["security", "path_injection", "imports"],
+      "tags": [
+        "security",
+        "path_injection",
+        "imports"
+      ],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -185,14 +219,18 @@
           "inputs": [
             {
               "name": "input",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
@@ -200,7 +238,9 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["input"]
+              "arguments": [
+                "input"
+              ]
             }
           ]
         }
@@ -217,127 +257,150 @@
       "title": "Valid Relative Path",
       "description": "Verify that legitimate relative paths within the allowed scope are accepted",
       "feature": "import_resolution",
-      "tags": ["security", "valid_path", "imports"],
+      "tags": [
+        "security",
+        "valid_path",
+        "imports"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "valid_path_test",
-              "version": "1.0.0"
-            }
+        "files": {
+          "modules/encoder.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "encoder",
+                "version": "1.0.0"
+              }
+            },
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "encoder",
+                "type": "linear",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           },
-          "imports": [
-            {
-              "name": "encoder",
-              "type": "neuro", 
-              "path": "./modules/encoder.neuro.json"
+          "valid_path_test.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "valid_path_test",
+                "version": "1.0.0"
+              }
             },
-            {
-              "name": "weights",
-              "type": "safetensors",
-              "path": "./weights/model.safetensors"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "encoder_result",
-              "type": "encoder",
-              "arguments": ["input"]
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "./modules/encoder.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "encoder",
-                  "version": "1.0.0"
-                }
+            "imports": [
+              {
+                "name": "encoder",
+                "type": "neuro",
+                "path": "./modules/encoder.neuro.json"
               },
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "encoder",
-                  "type": "linear",
-                  "arguments": ["input"]
-                }
-              ]
+              {
+                "name": "weights",
+                "type": "safetensors",
+                "path": "./weights/model.safetensors"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "encoder_result",
+                "type": "encoder",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "./weights/model.safetensors": {
+            "mock_data": "safetensors_binary_data_placeholder"
+          },
+          "weights/model.safetensors": {
+            "mock_data": "safetensors_binary_data_placeholder"
+          },
+          "./modules/encoder.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "encoder",
+                "version": "1.0.0"
+              }
             },
-            "modules/encoder.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "encoder",
-                  "version": "1.0.0"
-                }
-              },
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "encoder",
-                  "type": "linear",
-                  "arguments": ["input"]
-                }
-              ]
-            },
-            "./weights/model.safetensors": {
-              "mock_data": "safetensors_binary_data_placeholder"
-            },
-            "weights/model.safetensors": {
-              "mock_data": "safetensors_binary_data_placeholder"
-            }
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "encoder",
+                "type": "linear",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           }
-        }
+        },
+        "import_target": "valid_path_test.neuro.json"
       },
       "expected": {
         "success": true,
         "parsed_structure": {
           "has_imports": true,
           "import_count": 2,
-          "resolved_types": ["encoder"]
+          "resolved_types": [
+            "encoder"
+          ]
         }
       }
     },
@@ -346,7 +409,12 @@
       "title": "Windows Path Traversal Prevention",
       "description": "Verify that Windows-specific path traversal attempts using backslashes are detected",
       "feature": "import_resolution",
-      "tags": ["security", "windows", "path_traversal", "imports"],
+      "tags": [
+        "security",
+        "windows",
+        "path_traversal",
+        "imports"
+      ],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -366,14 +434,18 @@
           "inputs": [
             {
               "name": "input",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
@@ -381,7 +453,9 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["input"]
+              "arguments": [
+                "input"
+              ]
             }
           ]
         }
@@ -397,7 +471,11 @@
       "title": "Special Character Path Validation",
       "description": "Verify that paths with special characters are properly validated",
       "feature": "import_resolution",
-      "tags": ["security", "special_chars", "imports"],
+      "tags": [
+        "security",
+        "special_chars",
+        "imports"
+      ],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -411,20 +489,24 @@
             {
               "name": "special_module",
               "type": "neuro",
-              "path": "./modules/<script>alert('xss')</script>.neuro.json"
+              "path": "./modules/</foo>.neuro.json"
             }
           ],
           "inputs": [
             {
               "name": "input",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
@@ -432,7 +514,9 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["input"]
+              "arguments": [
+                "input"
+              ]
             }
           ]
         }

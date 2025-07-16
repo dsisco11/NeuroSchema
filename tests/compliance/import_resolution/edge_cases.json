@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Edge Cases and Cross-Format Tests",
@@ -12,50 +12,136 @@
       "title": "Duplicate Import Names",
       "description": "Test error handling when multiple imports have the same name",
       "feature": "import_resolution",
-      "tags": ["imports", "edge_case", "duplicate_names", "validation"],
+      "tags": [
+        "imports",
+        "edge_case",
+        "duplicate_names",
+        "validation"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "duplicate_names_model",
-              "version": "1.0.0"
-            }
+        "files": {
+          "./model_b.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_b",
+                "version": "1.0.0"
+              }
+            },
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           },
-          "imports": [
-            {
-              "name": "duplicate",
-              "type": "neuro",
-              "path": "./model_a.neuro.json"
+          "duplicate_names_model.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "duplicate_names_model",
+                "version": "1.0.0"
+              }
             },
-            {
-              "name": "duplicate",
-              "type": "neuro",
-              "path": "./model_b.neuro.json"
-            }
-          ],
-          "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
-          "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
-          "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
-        },
-        "parameters": {
-          "imported_files": {
-            "./model_a.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {"model": {"name": "model_a", "version": "1.0.0"}},
-              "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
-              "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
+            "imports": [
+              {
+                "name": "duplicate",
+                "type": "neuro",
+                "path": "./model_a.neuro.json"
+              },
+              {
+                "name": "duplicate",
+                "type": "neuro",
+                "path": "./model_b.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "./model_a.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_a",
+                "version": "1.0.0"
+              }
             },
-            "./model_b.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {"model": {"name": "model_b", "version": "1.0.0"}},
-              "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
-              "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
-            }
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           }
-        }
+        },
+        "import_target": "duplicate_names_model.neuro.json"
       },
       "expected": {
         "error": {
@@ -69,38 +155,94 @@
       "title": "Very Long Import Path",
       "description": "Test handling of extremely long import paths",
       "feature": "import_resolution",
-      "tags": ["imports", "edge_case", "long_path"],
+      "tags": [
+        "imports",
+        "edge_case",
+        "long_path"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "long_path_model",
-              "version": "1.0.0"
-            }
+        "files": {
+          "long_path_model.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "long_path_model",
+                "version": "1.0.0"
+              }
+            },
+            "imports": [
+              {
+                "name": "deep_model",
+                "type": "neuro",
+                "path": "./very/deeply/nested/directory/structure/with/many/levels/and/a/really/really/really/long/path/to/the/target/model/file/that/tests/path/length/limits/final_model.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           },
-          "imports": [
-            {
-              "name": "deep_model",
-              "type": "neuro",
-              "path": "./very/deeply/nested/directory/structure/with/many/levels/and/a/really/really/really/long/path/to/the/target/model/file/that/tests/path/length/limits/final_model.neuro.json"
-            }
-          ],
-          "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
-          "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
-          "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
-        },
-        "parameters": {
-          "imported_files": {
-            "./very/deeply/nested/directory/structure/with/many/levels/and/a/really/really/really/long/path/to/the/target/model/file/that/tests/path/length/limits/final_model.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {"model": {"name": "deep_model", "version": "1.0.0"}},
-              "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
-              "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["input"]}]
-            }
+          "./very/deeply/nested/directory/structure/with/many/levels/and/a/really/really/really/long/path/to/the/target/model/file/that/tests/path/length/limits/final_model.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "deep_model",
+                "version": "1.0.0"
+              }
+            },
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           }
-        }
+        },
+        "import_target": "long_path_model.neuro.json"
       },
       "expected": {
         "success": true,

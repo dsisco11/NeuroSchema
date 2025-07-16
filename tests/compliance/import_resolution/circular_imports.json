@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Circular Import Tests",
@@ -12,155 +12,101 @@
       "title": "Direct Circular Import",
       "description": "Verify that direct circular imports (A imports B, B imports A) are detected",
       "feature": "import_resolution",
-      "tags": ["imports", "circular_dependency", "validation"],
+      "tags": [
+        "imports",
+        "circular_dependency",
+        "validation"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "model_a",
-              "version": "1.0.0"
-            }
-          },
-          "imports": [
-            {
-              "name": "model_b",
-              "type": "neuro",
-              "path": "./model_b.neuro.json"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [1],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "identity",
-              "type": "identity",
-              "arguments": ["input"]
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "model_b.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_b",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_a",
-                  "type": "neuro",
-                  "path": "./model_a.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
-            }
-          },
-          "imported_files": {
-            "./model_a.neuro.json": {
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "version": "1.0.0",
-                  "name": "model_a.neuro"
-                }
-              },
-              "export": [
-                {
-                  "arguments": ["input"],
-                  "name": "identity",
-                  "type": "identity"
-                }
-              ]
+        "files": {
+          "model_a.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_a",
+                "version": "1.0.0"
+              }
             },
-            "./model_b.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_b",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_a",
-                  "type": "neuro", 
-                  "path": "./model_a.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
-            }
+            "imports": [
+              {
+                "name": "model_b",
+                "type": "neuro",
+                "path": "./model_b.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "model_b.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_b",
+                "version": "1.0.0"
+              }
+            },
+            "imports": [
+              {
+                "name": "model_a",
+                "type": "neuro",
+                "path": "./model_a.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           }
-        }
+        },
+        "import_target": "model_a.neuro.json"
       },
       "expected": {
         "error": {
@@ -174,215 +120,181 @@
       "title": "Indirect Circular Import",
       "description": "Verify that indirect circular imports (A -> B -> C -> A) are detected",
       "feature": "import_resolution",
-      "tags": ["imports", "circular_dependency", "validation", "complex"],
+      "tags": [
+        "imports",
+        "circular_dependency",
+        "validation",
+        "complex"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "model_a",
-              "version": "1.0.0"
-            }
+        "files": {
+          "model_a.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_a",
+                "version": "1.0.0"
+              }
+            },
+            "imports": [
+              {
+                "name": "model_b",
+                "type": "neuro",
+                "path": "./model_b.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           },
-          "imports": [
-            {
-              "name": "model_b",
-              "type": "neuro",
-              "path": "./model_b.neuro.json"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [1],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "identity",
-              "type": "identity",
-              "arguments": ["input"]
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "model_b.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_b",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_c",
-                  "type": "neuro",
-                  "path": "./model_c.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
+          "./model_a.neuro.json": {
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "version": "1.0.0",
+                "name": "model_a.neuro"
+              }
             },
-            "model_c.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_c",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_a",
-                  "type": "neuro",
-                  "path": "./model_a.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
-            }
+            "export": [
+              {
+                "arguments": [
+                  "input"
+                ],
+                "name": "identity",
+                "type": "identity"
+              }
+            ]
           },
-          "imported_files": {
-            "./model_a.neuro.json": {
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "version": "1.0.0",
-                  "name": "model_a.neuro"
-                }
-              },
-              "export": [
-                {
-                  "arguments": ["input"],
-                  "name": "identity",
-                  "type": "identity"
-                }
-              ]
+          "./model_c.neuro.json": {
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "version": "1.0.0",
+                "name": "model_c.neuro"
+              }
             },
-            "./model_b.neuro.json": {
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "version": "1.0.0",
-                  "name": "model_b.neuro"
-                }
-              },
-              "export": [
-                {
-                  "arguments": ["input"],
-                  "name": "identity",
-                  "type": "identity"
-                }
-              ]
+            "imports": [
+              {
+                "name": "model_a",
+                "type": "neuro",
+                "path": "./model_a.neuro.json"
+              }
+            ],
+            "export": [
+              {
+                "arguments": [
+                  "input"
+                ],
+                "name": "identity",
+                "type": "identity"
+              }
+            ]
+          },
+          "./model_b.neuro.json": {
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "version": "1.0.0",
+                "name": "model_b.neuro"
+              }
             },
-            "./model_c.neuro.json": {
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "version": "1.0.0",
-                  "name": "model_c.neuro"
-                }
-              },
-              "export": [
-                {
-                  "arguments": ["input"],
-                  "name": "identity",
-                  "type": "identity"
-                }
-              ]
-            }
+            "imports": [
+              {
+                "name": "model_c",
+                "type": "neuro",
+                "path": "./model_c.neuro.json"
+              }
+            ],
+            "export": [
+              {
+                "arguments": [
+                  "input"
+                ],
+                "name": "identity",
+                "type": "identity"
+              }
+            ]
           }
-        }
+        },
+        "import_target": "model_a.neuro.json"
       },
       "expected": {
         "error": {
@@ -403,77 +315,88 @@
         "self_reference"
       ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "self_referencing_model",
-              "version": "1.0.0"
-            }
+        "files": {
+          "self_referencing_model.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "self_referencing_model",
+                "version": "1.0.0"
+              }
+            },
+            "imports": [
+              {
+                "name": "self",
+                "type": "neuro",
+                "path": "./self_referencing_model.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           },
-          "imports": [
-            {
-              "name": "self",
-              "type": "neuro",
-              "path": "./self_referencing_model.neuro.json"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [1],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "identity",
-              "type": "identity",
-              "arguments": ["input"]
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "./self_referencing_model.neuro.json": {
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "version": "1.0.0",
-                  "name": "self_referencing_model.neuro"
-                }
-              },
-              "export": [
-                {
-                  "arguments": ["input"],
-                  "name": "identity",
-                  "type": "identity"
-                }
-              ]
-            }
+          "./self_referencing_model.neuro.json": {
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "version": "1.0.0",
+                "name": "self_referencing_model.neuro"
+              }
+            },
+            "export": [
+              {
+                "arguments": [
+                  "input"
+                ],
+                "name": "identity",
+                "type": "identity"
+              }
+            ]
           }
-        }
+        },
+        "import_target": "self_referencing_model.neuro.json"
       },
       "expected": {
         "error": {
@@ -487,271 +410,317 @@
       "title": "Complex Circular Import Chain",
       "description": "Verify that complex circular import chains (A -> B -> C -> D -> B) are detected",
       "feature": "import_resolution",
-      "tags": ["imports", "circular_dependency", "validation", "complex_chain"],
+      "tags": [
+        "imports",
+        "circular_dependency",
+        "validation",
+        "complex_chain"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "model_a",
-              "version": "1.0.0"
-            }
+        "files": {
+          "model_d.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_d",
+                "version": "1.0.0"
+              }
+            },
+            "imports": [
+              {
+                "name": "model_b",
+                "type": "neuro",
+                "path": "./model_b.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           },
-          "imports": [
-            {
-              "name": "model_b",
-              "type": "neuro",
-              "path": "./model_b.neuro.json"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [1],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "identity",
-              "type": "identity",
-              "arguments": ["input"]
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "model_b.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_b",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_c",
-                  "type": "neuro",
-                  "path": "./model_c.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
+          "model_a.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_a",
+                "version": "1.0.0"
+              }
             },
-            "./model_b.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_b",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_c",
-                  "type": "neuro",
-                  "path": "./model_c.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
+            "imports": [
+              {
+                "name": "model_b",
+                "type": "neuro",
+                "path": "./model_b.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "./model_c.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_c",
+                "version": "1.0.0"
+              }
             },
-            "model_c.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_c",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_d",
-                  "type": "neuro",
-                  "path": "./model_d.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
+            "imports": [
+              {
+                "name": "model_d",
+                "type": "neuro",
+                "path": "./model_d.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "./model_d.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_d",
+                "version": "1.0.0"
+              }
             },
-            "./model_c.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_c",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_d",
-                  "type": "neuro",
-                  "path": "./model_d.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
+            "imports": [
+              {
+                "name": "model_b",
+                "type": "neuro",
+                "path": "./model_b.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "model_b.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_b",
+                "version": "1.0.0"
+              }
             },
-            "model_d.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_d",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_b",
-                  "type": "neuro",
-                  "path": "./model_b.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
+            "imports": [
+              {
+                "name": "model_c",
+                "type": "neuro",
+                "path": "./model_c.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "model_c.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_c",
+                "version": "1.0.0"
+              }
             },
-            "./model_d.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_d",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_b",
-                  "type": "neuro",
-                  "path": "./model_b.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
-            }
+            "imports": [
+              {
+                "name": "model_d",
+                "type": "neuro",
+                "path": "./model_d.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "./model_b.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_b",
+                "version": "1.0.0"
+              }
+            },
+            "imports": [
+              {
+                "name": "model_c",
+                "type": "neuro",
+                "path": "./model_c.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           }
-        }
+        },
+        "import_target": "model_a.neuro.json"
       },
       "expected": {
         "error": {
@@ -765,116 +734,137 @@
       "title": "Valid Import Chain",
       "description": "Verify that valid linear import chains (A -> B -> C) work correctly",
       "feature": "import_resolution",
-      "tags": ["imports", "validation", "positive_test"],
+      "tags": [
+        "imports",
+        "validation",
+        "positive_test"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "model_a",
-              "version": "1.0.0"
-            }
-          },
-          "imports": [
-            {
-              "name": "model_b",
-              "type": "neuro",
-              "path": "./model_b.neuro.json"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [1],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "identity",
-              "type": "identity",
-              "arguments": ["input"]
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "model_b.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_b",
-                  "version": "1.0.0"
-                }
-              },
-              "imports": [
-                {
-                  "name": "model_c",
-                  "type": "neuro",
-                  "path": "./model_c.neuro.json"
-                }
-              ],
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
+        "files": {
+          "model_b.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_b",
+                "version": "1.0.0"
+              }
             },
-            "model_c.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "model_c",
-                  "version": "1.0.0"
-                }
-              },
-              "inputs": [
-                {
-                  "name": "input",
-                  "shape": [10],
-                  "dtype": "float32"
-                }
-              ],
-              "outputs": [
-                {
-                  "name": "output",
-                  "shape": [1],
-                  "dtype": "float32"
-                }
-              ],
-              "export": [
-                {
-                  "name": "identity",
-                  "type": "identity",
-                  "arguments": ["input"]
-                }
-              ]
-            }
+            "imports": [
+              {
+                "name": "model_c",
+                "type": "neuro",
+                "path": "./model_c.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "model_a.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_a",
+                "version": "1.0.0"
+              }
+            },
+            "imports": [
+              {
+                "name": "model_b",
+                "type": "neuro",
+                "path": "./model_b.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
+          },
+          "model_c.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "model_c",
+                "version": "1.0.0"
+              }
+            },
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           }
-        }
+        },
+        "import_target": "model_a.neuro.json"
       },
       "expected": {
         "success": true,

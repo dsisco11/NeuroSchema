@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Safetensors Import Tests",
@@ -12,53 +12,62 @@
       "title": "Basic Safetensors Import",
       "description": "Verify that safetensors imports create proper ExternalDataReference objects",
       "feature": "import_resolution",
-      "tags": ["imports", "safetensors", "external_data"],
+      "tags": [
+        "imports",
+        "safetensors",
+        "external_data"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "test_model",
-              "version": "1.0.0"
-            }
-          },
-          "imports": [
-            {
-              "name": "weights",
-              "type": "safetensors",
-              "path": "./model_weights.safetensors"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [1],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "linear",
-              "type": "linear",
-              "arguments": ["input"],
-              "parameters": {
-                "weights": "weights:data_reference"
+        "files": {
+          "./model_weights.safetensors": "",
+          "test_model.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "test_model",
+                "version": "1.0.0"
               }
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "./model_weights.safetensors": ""
+            },
+            "imports": [
+              {
+                "name": "weights",
+                "type": "safetensors",
+                "path": "./model_weights.safetensors"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "linear",
+                "type": "linear",
+                "arguments": [
+                  "input"
+                ],
+                "parameters": {
+                  "weights": "weights:data_reference"
+                }
+              }
+            ]
           }
-        }
+        },
+        "import_target": "test_model.neuro.json"
       },
       "expected": {
         "success": true,
@@ -75,67 +84,79 @@
       "title": "Multiple Safetensors Imports",
       "description": "Verify handling of multiple safetensors imports with different namespaces",
       "feature": "import_resolution",
-      "tags": ["imports", "safetensors", "external_data", "multiple_imports"],
+      "tags": [
+        "imports",
+        "safetensors",
+        "external_data",
+        "multiple_imports"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "multi_weights_model",
-              "version": "1.0.0"
-            }
-          },
-          "imports": [
-            {
-              "name": "encoder_weights",
-              "type": "safetensors",
-              "path": "./encoder.safetensors"
-            },
-            {
-              "name": "decoder_weights",
-              "type": "safetensors",
-              "path": "./decoder.safetensors"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [512],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [256],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "encode",
-              "type": "linear",
-              "arguments": ["input"],
-              "parameters": {
-                "weights": "encoder_weights:data_reference"
+        "files": {
+          "./encoder.safetensors": "",
+          "./decoder.safetensors": "",
+          "multi_weights_model.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "multi_weights_model",
+                "version": "1.0.0"
               }
             },
-            {
-              "name": "decode",
-              "type": "linear",
-              "arguments": ["encode"],
-              "parameters": {
-                "weights": "decoder_weights:data_reference"
+            "imports": [
+              {
+                "name": "encoder_weights",
+                "type": "safetensors",
+                "path": "./encoder.safetensors"
+              },
+              {
+                "name": "decoder_weights",
+                "type": "safetensors",
+                "path": "./decoder.safetensors"
               }
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "./encoder.safetensors": "",
-            "./decoder.safetensors": ""
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  512
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  256
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "encode",
+                "type": "linear",
+                "arguments": [
+                  "input"
+                ],
+                "parameters": {
+                  "weights": "encoder_weights:data_reference"
+                }
+              },
+              {
+                "name": "decode",
+                "type": "linear",
+                "arguments": [
+                  "encode"
+                ],
+                "parameters": {
+                  "weights": "decoder_weights:data_reference"
+                }
+              }
+            ]
           }
-        }
+        },
+        "import_target": "multi_weights_model.neuro.json"
       },
       "expected": {
         "success": true,
@@ -156,7 +177,12 @@
       "title": "Safetensors Invalid Path",
       "description": "Verify proper error handling for safetensors imports with invalid paths",
       "feature": "import_resolution",
-      "tags": ["imports", "safetensors", "error_handling", "path_validation"],
+      "tags": [
+        "imports",
+        "safetensors",
+        "error_handling",
+        "path_validation"
+      ],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -176,14 +202,18 @@
           "inputs": [
             {
               "name": "input",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [1],
+              "shape": [
+                1
+              ],
               "dtype": "float32"
             }
           ],
@@ -201,7 +231,12 @@
       "title": "Safetensors Missing File",
       "description": "Verify proper error handling when safetensors file doesn't exist",
       "feature": "import_resolution",
-      "tags": ["imports", "safetensors", "error_handling", "missing_file"],
+      "tags": [
+        "imports",
+        "safetensors",
+        "error_handling",
+        "missing_file"
+      ],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -221,14 +256,18 @@
           "inputs": [
             {
               "name": "input",
-              "shape": [10],
+              "shape": [
+                10
+              ],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [1],
+              "shape": [
+                1
+              ],
               "dtype": "float32"
             }
           ],

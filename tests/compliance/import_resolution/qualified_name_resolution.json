@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Qualified Name Resolution Tests",
@@ -12,72 +12,81 @@
       "title": "Qualified Constant Resolution",
       "description": "Verify that constants imported with qualified names can be resolved correctly",
       "feature": "import_resolution",
-      "tags": ["imports", "constants", "qualified_names"],
+      "tags": [
+        "imports",
+        "constants",
+        "qualified_names"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "qualified_constant_test",
-              "version": "1.0.0"
-            }
-          },
-          "imports": [
-            {
-              "name": "config",
-              "type": "neuro",
-              "path": "./config.neuro.json"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [1],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "linear",
-              "type": "linear",
-              "arguments": ["input"],
-              "parameters": {
-                "output_size": "config:hidden_size"
+        "files": {
+          "./config.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "config_module",
+                "version": "1.0.0"
               }
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "./config.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "config_module",
-                  "version": "1.0.0"
+            },
+            "constants": [
+              {
+                "name": "hidden_size",
+                "type": "scalar",
+                "dtype": "int32",
+                "value": 256
+              }
+            ],
+            "inputs": [],
+            "outputs": [],
+            "export": []
+          },
+          "qualified_constant_test.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "qualified_constant_test",
+                "version": "1.0.0"
+              }
+            },
+            "imports": [
+              {
+                "name": "config",
+                "type": "neuro",
+                "path": "./config.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "linear",
+                "type": "linear",
+                "arguments": [
+                  "input"
+                ],
+                "parameters": {
+                  "output_size": "config:hidden_size"
                 }
-              },
-              "constants": [
-                {
-                  "name": "hidden_size",
-                  "type": "scalar",
-                  "dtype": "int32",
-                  "value": 256
-                }
-              ],
-              "inputs": [],
-              "outputs": [],
-              "export": []
-            }
+              }
+            ]
           }
-        }
+        },
+        "import_target": "qualified_constant_test.neuro.json"
       },
       "expected": {
         "success": true,
@@ -96,70 +105,79 @@
       "title": "Qualified Definition Resolution",
       "description": "Verify that definitions imported with qualified names can be resolved correctly",
       "feature": "import_resolution",
-      "tags": ["imports", "definitions", "qualified_names"],
+      "tags": [
+        "imports",
+        "definitions",
+        "qualified_names"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "qualified_definition_test",
-              "version": "1.0.0"
-            }
+        "files": {
+          "./layers.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "layer_definitions",
+                "version": "1.0.0"
+              }
+            },
+            "definitions": [
+              {
+                "name": "encoder_layer",
+                "type": "linear",
+                "parameters": {
+                  "output_size": 256
+                }
+              }
+            ],
+            "inputs": [],
+            "outputs": [],
+            "export": []
           },
-          "imports": [
-            {
-              "name": "layers",
-              "type": "neuro",
-              "path": "./layers.neuro.json"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [512],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [256],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "main_layer",
-              "type": "layers:encoder_layer",
-              "arguments": ["input"]
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "./layers.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "layer_definitions",
-                  "version": "1.0.0"
-                }
-              },
-              "definitions": [
-                {
-                  "name": "encoder_layer",
-                  "type": "linear",
-                  "parameters": {
-                    "output_size": 256
-                  }
-                }
-              ],
-              "inputs": [],
-              "outputs": [],
-              "export": []
-            }
+          "qualified_definition_test.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "qualified_definition_test",
+                "version": "1.0.0"
+              }
+            },
+            "imports": [
+              {
+                "name": "layers",
+                "type": "neuro",
+                "path": "./layers.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  512
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  256
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "main_layer",
+                "type": "layers:encoder_layer",
+                "arguments": [
+                  "input"
+                ]
+              }
+            ]
           }
-        }
+        },
+        "import_target": "qualified_definition_test.neuro.json"
       },
       "expected": {
         "success": true,
@@ -179,88 +197,99 @@
       "title": "Namespace Collision Handling",
       "description": "Verify that collisions between primary and imported names are handled correctly",
       "feature": "import_resolution",
-      "tags": ["imports", "namespace_collision", "qualified_names"],
+      "tags": [
+        "imports",
+        "namespace_collision",
+        "qualified_names"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "collision_test",
-              "version": "1.0.0"
-            }
-          },
-          "constants": [
-            {
-              "name": "learning_rate",
-              "type": "scalar",
-              "dtype": "float32",
-              "value": 0.01
-            }
-          ],
-          "imports": [
-            {
-              "name": "config",
-              "type": "neuro",
-              "path": "./config.neuro.json"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [1],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "test_primary",
-              "type": "identity",
-              "arguments": ["input"],
-              "parameters": {
-                "rate": "learning_rate"
+        "files": {
+          "collision_test.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "collision_test",
+                "version": "1.0.0"
               }
             },
-            {
-              "name": "test_imported",
-              "type": "identity",
-              "arguments": ["input"],
-              "parameters": {
-                "rate": "config:learning_rate"
+            "constants": [
+              {
+                "name": "learning_rate",
+                "type": "scalar",
+                "dtype": "float32",
+                "value": 0.01
               }
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "./config.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "config_module",
-                  "version": "1.0.0"
+            ],
+            "imports": [
+              {
+                "name": "config",
+                "type": "neuro",
+                "path": "./config.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  1
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "test_primary",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ],
+                "parameters": {
+                  "rate": "learning_rate"
                 }
               },
-              "constants": [
-                {
-                  "name": "learning_rate",
-                  "type": "scalar",
-                  "dtype": "float32",
-                  "value": 0.001
+              {
+                "name": "test_imported",
+                "type": "identity",
+                "arguments": [
+                  "input"
+                ],
+                "parameters": {
+                  "rate": "config:learning_rate"
                 }
-              ],
-              "inputs": [],
-              "outputs": [],
-              "export": []
-            }
+              }
+            ]
+          },
+          "./config.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "config_module",
+                "version": "1.0.0"
+              }
+            },
+            "constants": [
+              {
+                "name": "learning_rate",
+                "type": "scalar",
+                "dtype": "float32",
+                "value": 0.001
+              }
+            ],
+            "inputs": [],
+            "outputs": [],
+            "export": []
           }
-        }
+        },
+        "import_target": "collision_test.neuro.json"
       },
       "expected": {
         "success": true,
@@ -287,117 +316,128 @@
       "title": "Multiple Namespace Resolution",
       "description": "Verify handling of objects imported from multiple namespaces",
       "feature": "import_resolution",
-      "tags": ["imports", "multiple_namespaces", "qualified_names"],
+      "tags": [
+        "imports",
+        "multiple_namespaces",
+        "qualified_names"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "multi_namespace_test",
-              "version": "1.0.0"
-            }
+        "files": {
+          "./decoder.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "decoder_module",
+                "version": "1.0.0"
+              }
+            },
+            "constants": [
+              {
+                "name": "vocab_size",
+                "type": "scalar",
+                "dtype": "int32",
+                "value": 30000
+              }
+            ],
+            "definitions": [
+              {
+                "name": "output_layer",
+                "type": "linear"
+              }
+            ],
+            "inputs": [],
+            "outputs": [],
+            "export": []
           },
-          "imports": [
-            {
-              "name": "encoder",
-              "type": "neuro",
-              "path": "./encoder.neuro.json"
-            },
-            {
-              "name": "decoder",
-              "type": "neuro",
-              "path": "./decoder.neuro.json"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [512],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [256],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "encode",
-              "type": "encoder:attention_layer",
-              "arguments": ["input"],
-              "parameters": {
-                "hidden_size": "encoder:hidden_size"
+          "./encoder.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "encoder_module",
+                "version": "1.0.0"
               }
             },
-            {
-              "name": "decode",
-              "type": "decoder:output_layer",
-              "arguments": ["encode"],
-              "parameters": {
-                "output_size": "decoder:vocab_size"
+            "constants": [
+              {
+                "name": "hidden_size",
+                "type": "scalar",
+                "dtype": "int32",
+                "value": 512
               }
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "./encoder.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "encoder_module",
-                  "version": "1.0.0"
-                }
-              },
-              "constants": [
-                {
-                  "name": "hidden_size",
-                  "type": "scalar",
-                  "dtype": "int32",
-                  "value": 512
-                }
-              ],
-              "definitions": [
-                {
-                  "name": "attention_layer",
-                  "type": "multihead_attention"
-                }
-              ],
-              "inputs": [],
-              "outputs": [],
-              "export": []
+            ],
+            "definitions": [
+              {
+                "name": "attention_layer",
+                "type": "multihead_attention"
+              }
+            ],
+            "inputs": [],
+            "outputs": [],
+            "export": []
+          },
+          "multi_namespace_test.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "multi_namespace_test",
+                "version": "1.0.0"
+              }
             },
-            "./decoder.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": {
-                "model": {
-                  "name": "decoder_module",
-                  "version": "1.0.0"
+            "imports": [
+              {
+                "name": "encoder",
+                "type": "neuro",
+                "path": "./encoder.neuro.json"
+              },
+              {
+                "name": "decoder",
+                "type": "neuro",
+                "path": "./decoder.neuro.json"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  512
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  256
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "encode",
+                "type": "encoder:attention_layer",
+                "arguments": [
+                  "input"
+                ],
+                "parameters": {
+                  "hidden_size": "encoder:hidden_size"
                 }
               },
-              "constants": [
-                {
-                  "name": "vocab_size",
-                  "type": "scalar",
-                  "dtype": "int32",
-                  "value": 30000
+              {
+                "name": "decode",
+                "type": "decoder:output_layer",
+                "arguments": [
+                  "encode"
+                ],
+                "parameters": {
+                  "output_size": "decoder:vocab_size"
                 }
-              ],
-              "definitions": [
-                {
-                  "name": "output_layer",
-                  "type": "linear"
-                }
-              ],
-              "inputs": [],
-              "outputs": [],
-              "export": []
-            }
+              }
+            ]
           }
-        }
+        },
+        "import_target": "multi_namespace_test.neuro.json"
       },
       "expected": {
         "success": true,

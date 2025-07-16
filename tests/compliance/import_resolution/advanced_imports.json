@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Import Security and Validation Tests",
@@ -12,116 +12,180 @@
       "title": "Large Import Chain Validation",
       "description": "Verify that very large import chains are handled correctly",
       "feature": "import_resolution",
-      "tags": ["performance", "large_chains", "validation"],
+      "tags": [
+        "performance",
+        "large_chains",
+        "validation"
+      ],
       "inputs": {
-        "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-          "metadata": {
-            "model": {
-              "name": "large_chain_test",
-              "version": "1.0.0"
-            }
+        "files": {
+          "./module_1.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "module_1",
+                "version": "1.0.0"
+              }
+            },
+            "definitions": [
+              {
+                "name": "layer_1",
+                "type": "linear"
+              }
+            ],
+            "inputs": [],
+            "outputs": [],
+            "export": []
           },
-          "imports": [
-            {
-              "name": "module_1",
-              "type": "neuro",
-              "path": "./module_1.neuro.json"
-            },
-            {
-              "name": "module_2",
-              "type": "neuro",
-              "path": "./module_2.neuro.json"
-            },
-            {
-              "name": "module_3",
-              "type": "neuro",
-              "path": "./module_3.neuro.json"
-            },
-            {
-              "name": "weights_1",
-              "type": "safetensors",
-              "path": "./weights_1.safetensors"
-            },
-            {
-              "name": "weights_2",
-              "type": "safetensors",
-              "path": "./weights_2.safetensors"
-            }
-          ],
-          "inputs": [
-            {
-              "name": "input",
-              "shape": [1000],
-              "dtype": "float32"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "output",
-              "shape": [10],
-              "dtype": "float32"
-            }
-          ],
-          "export": [
-            {
-              "name": "stage_1",
-              "type": "module_1:layer_1",
-              "arguments": ["input"],
-              "parameters": {
-                "weights": "weights_1:data_reference"
+          "large_chain_test.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "large_chain_test",
+                "version": "1.0.0"
               }
             },
-            {
-              "name": "stage_2",
-              "type": "module_2:layer_2",
-              "arguments": ["stage_1"],
-              "parameters": {
-                "weights": "weights_2:data_reference"
+            "imports": [
+              {
+                "name": "module_1",
+                "type": "neuro",
+                "path": "./module_1.neuro.json"
+              },
+              {
+                "name": "module_2",
+                "type": "neuro",
+                "path": "./module_2.neuro.json"
+              },
+              {
+                "name": "module_3",
+                "type": "neuro",
+                "path": "./module_3.neuro.json"
+              },
+              {
+                "name": "weights_1",
+                "type": "safetensors",
+                "path": "./weights_1.safetensors"
+              },
+              {
+                "name": "weights_2",
+                "type": "safetensors",
+                "path": "./weights_2.safetensors"
+              }
+            ],
+            "inputs": [
+              {
+                "name": "input",
+                "shape": [
+                  1000
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "output",
+                "shape": [
+                  10
+                ],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "stage_1",
+                "type": "module_1:layer_1",
+                "arguments": [
+                  "input"
+                ],
+                "parameters": {
+                  "weights": "weights_1:data_reference"
+                }
+              },
+              {
+                "name": "stage_2",
+                "type": "module_2:layer_2",
+                "arguments": [
+                  "stage_1"
+                ],
+                "parameters": {
+                  "weights": "weights_2:data_reference"
+                }
+              },
+              {
+                "name": "stage_3",
+                "type": "module_3:layer_3",
+                "arguments": [
+                  "stage_2"
+                ]
+              }
+            ]
+          },
+          "./module_2.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "module_2",
+                "version": "1.0.0"
               }
             },
-            {
-              "name": "stage_3",
-              "type": "module_3:layer_3",
-              "arguments": ["stage_2"]
-            }
-          ]
-        },
-        "parameters": {
-          "imported_files": {
-            "./weights_1.safetensors": "",
-            "./weights_2.safetensors": "",
-            "./module_1.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": { "model": { "name": "module_1", "version": "1.0.0" }},
-              "definitions": [{"name": "layer_1", "type": "linear"}],
-              "inputs": [], "outputs": [], "export": []
+            "definitions": [
+              {
+                "name": "layer_2",
+                "type": "relu"
+              }
+            ],
+            "inputs": [],
+            "outputs": [],
+            "export": []
+          },
+          "./weights_2.safetensors": "",
+          "./weights_1.safetensors": "",
+          "./module_3.neuro.json": {
+            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "metadata": {
+              "model": {
+                "name": "module_3",
+                "version": "1.0.0"
+              }
             },
-            "./module_2.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": { "model": { "name": "module_2", "version": "1.0.0" }},
-              "definitions": [{"name": "layer_2", "type": "relu"}],
-              "inputs": [], "outputs": [], "export": []
-            },
-            "./module_3.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-              "metadata": { "model": { "name": "module_3", "version": "1.0.0" }},
-              "definitions": [{"name": "layer_3", "type": "softmax"}],
-              "inputs": [], "outputs": [], "export": []
-            }
+            "definitions": [
+              {
+                "name": "layer_3",
+                "type": "softmax"
+              }
+            ],
+            "inputs": [],
+            "outputs": [],
+            "export": []
           }
-        }
+        },
+        "import_target": "large_chain_test.neuro.json"
       },
       "expected": {
         "success": true,
         "imported_definitions": {
-          "module_1:layer_1": {"name": "layer_1", "type": "linear"},
-          "module_2:layer_2": {"name": "layer_2", "type": "relu"},
-          "module_3:layer_3": {"name": "layer_3", "type": "softmax"}
+          "module_1:layer_1": {
+            "name": "layer_1",
+            "type": "linear"
+          },
+          "module_2:layer_2": {
+            "name": "layer_2",
+            "type": "relu"
+          },
+          "module_3:layer_3": {
+            "name": "layer_3",
+            "type": "softmax"
+          }
         },
         "external_data_references": {
-          "weights_1:data_reference": {"source": "./weights_1.safetensors", "format": "safetensors"},
-          "weights_2:data_reference": {"source": "./weights_2.safetensors", "format": "safetensors"}
+          "weights_1:data_reference": {
+            "source": "./weights_1.safetensors",
+            "format": "safetensors"
+          },
+          "weights_2:data_reference": {
+            "source": "./weights_2.safetensors",
+            "format": "safetensors"
+          }
         }
       }
     }
