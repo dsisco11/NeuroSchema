@@ -482,7 +482,7 @@
             "export": [
               {
                 "name": "primary_layer",
-                "type": "linear_layer",
+                "type": "linear",
                 "arguments": [
                   "input"
                 ],
@@ -549,7 +549,7 @@
               }
             ]
           },
-          "./weights.safetensors": ""
+          "./weights.safetensors": {}
         },
         "import_target": "precedence_test.neuro.json"
       },

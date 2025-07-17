@@ -340,8 +340,8 @@
             ],
             "export": [
               {
-                "name": "encoder_result",
-                "type": "encoder",
+                "name": "identity",
+                "type": "identity",
                 "arguments": [
                   "input"
                 ]

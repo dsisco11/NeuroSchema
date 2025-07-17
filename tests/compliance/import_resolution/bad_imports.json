@@ -195,8 +195,8 @@
           ],
           "export": [
             {
-              "name": "imported_node",
-              "type": "missing_module",
+              "name": "identity",
+              "type": "identity",
               "arguments": [
                 "input"
               ]
@@ -254,7 +254,14 @@
               "dtype": "float32"
             }
           ],
-          "export": []
+          "export": [
+            {
+              "name": "identity",
+              "type": "identity",
+              "arguments": [
+                "input"
+              ]
+            }]
         }
       },
       "expected": {
