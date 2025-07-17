@@ -44,18 +44,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -63,9 +59,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -87,18 +81,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -106,9 +96,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -130,18 +118,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -149,9 +133,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -173,18 +155,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -192,9 +170,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }
@@ -244,18 +220,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -263,9 +235,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -287,18 +257,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -306,9 +272,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -330,18 +294,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -349,9 +309,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -373,18 +331,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -392,9 +346,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -416,18 +368,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -435,9 +383,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -459,18 +405,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -478,9 +420,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }
@@ -498,12 +438,7 @@
       "title": "Conditional Circular Import",
       "description": "Test circular import that depends on specific model configurations",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "circular_dependency",
-        "conditional",
-        "validation"
-      ],
+      "tags": ["imports", "circular_dependency", "conditional", "validation"],
       "inputs": {
         "import_target": "conditional_model.neuro.json",
         "files": {
@@ -525,18 +460,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -544,9 +475,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -568,18 +497,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -587,9 +512,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -611,18 +534,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -630,9 +549,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }
@@ -650,12 +567,7 @@
       "title": "Large Circular Import Chain",
       "description": "Test performance with a large circular import chain (10 models)",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "circular_dependency",
-        "performance",
-        "stress_test"
-      ],
+      "tags": ["imports", "circular_dependency", "performance", "stress_test"],
       "inputs": {
         "files": {
           "model_09.neuro.json": {
@@ -676,18 +588,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -695,9 +603,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -719,18 +625,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -738,9 +640,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -762,18 +662,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -781,9 +677,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -805,18 +699,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -824,9 +714,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -848,18 +736,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -867,9 +751,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -891,18 +773,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -910,9 +788,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -934,18 +810,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -953,9 +825,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -977,18 +847,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -996,9 +862,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -1020,18 +884,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -1039,9 +899,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -1063,18 +921,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -1082,9 +936,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }
@@ -1103,12 +955,7 @@
       "title": "Nested Directory Circular Import",
       "description": "Test circular imports across nested directory structures",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "circular_dependency",
-        "nested_paths",
-        "validation"
-      ],
+      "tags": ["imports", "circular_dependency", "nested_paths", "validation"],
       "inputs": {
         "files": {
           "root_model.neuro.json": {
@@ -1129,18 +976,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -1148,9 +991,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -1172,18 +1013,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -1191,9 +1028,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -1215,18 +1050,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -1234,9 +1065,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }
@@ -1255,10 +1084,7 @@
       "title": "Advanced Circular Import Detection",
       "description": "Verify detection of circular imports in complex hierarchies (A→B→C→A)",
       "feature": "error_handling",
-      "tags": [
-        "circular_imports",
-        "complex_hierarchy"
-      ],
+      "tags": ["circular_imports", "complex_hierarchy"],
       "inputs": {
         "files": {
           "./module_b.neuro.json": {
@@ -1353,22 +1179,24 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
-            "export": []
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "circular_a.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -1388,22 +1216,24 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
-            "export": []
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "./module_c.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
