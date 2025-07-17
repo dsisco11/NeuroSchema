@@ -1276,9 +1276,27 @@
                 "path": "./module_c.neuro.json"
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "module_b.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -1295,9 +1313,27 @@
                 "path": "./module_c.neuro.json"
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "./circular_a.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -1384,9 +1420,27 @@
                 "path": "./circular_a.neuro.json"
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "module_c.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -1403,9 +1457,27 @@
                 "path": "./circular_a.neuro.json"
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           }
         },
         "import_target": "circular_a.neuro.json"

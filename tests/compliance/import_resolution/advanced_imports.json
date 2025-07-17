@@ -33,9 +33,27 @@
                 "type": "linear"
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "large_chain_test.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -134,9 +152,27 @@
                 "type": "relu"
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "./weights_2.safetensors": "",
           "./weights_1.safetensors": "",
@@ -154,9 +190,27 @@
                 "type": "softmax"
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           }
         },
         "import_target": "large_chain_test.neuro.json"

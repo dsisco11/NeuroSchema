@@ -93,11 +93,29 @@
                 "value": 512
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output", 
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
-          "./model_weights.safetensors": "",
+          "./model_weights.safetensors": {},
           "./layer_definitions.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
             "metadata": {
@@ -115,9 +133,27 @@
                 }
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1], 
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           }
         },
         "import_target": "mixed_imports_test.neuro.json"
@@ -179,9 +215,27 @@
                 }
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "./attention.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -200,9 +254,27 @@
                 }
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "./encoder.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -225,9 +297,27 @@
                 "type": "attention_primitives:multi_head_attention"
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "complex_hierarchy_test.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -437,9 +527,27 @@
                 }
               }
             ],
-            "inputs": [],
-            "outputs": [],
-            "export": []
+            "inputs": [
+              {
+                "name": "placeholder_input",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "placeholder_output",
+                "shape": [1],
+                "dtype": "float32"
+              }
+            ],
+            "export": [
+              {
+                "name": "identity",
+                "type": "identity",
+                "arguments": ["placeholder_input"]
+              }
+            ]
           },
           "./weights.safetensors": ""
         },
