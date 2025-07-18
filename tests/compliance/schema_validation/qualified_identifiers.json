@@ -1,0 +1,188 @@
+{
+  "$schema": "../../tests.schema.json",
+  "metadata": {
+    "name": "Schema Validation Identifier Tests",
+    "version": "1.0.0",
+    "description": "Tests for validating qualified identifiers in NeuroSchema",
+    "category": "validation"
+  },
+  "tests": [
+    {
+      "id": "invalid_identifier_format",
+      "title": "Invalid Identifier Format",
+      "description": "Verify that malformed identifiers produce the correct error code",
+      "feature": "schema_validation",
+      "tags": ["qualified-identifier", "syntax", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "identifier_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "invalid_identifier_format",
+              "type": "my_company:name:invalid",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.type.invalid_identifier",
+          "message_pattern": ".*invalid.*identifier.*[\"']my_company:name:invalid[\"'].*"
+        }
+      }
+    },
+    {
+      "id": "invalid_namespace_format",
+      "title": "Invalid Namespace Format",
+      "description": "Verify that malformed namespaces produce the correct error code",
+      "feature": "schema_validation",
+      "tags": ["qualified-identifier", "syntax", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "namespace_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "invalid_ns",
+              "type": "my@company:name",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.type.invalid_namespace",
+          "message_pattern": ".*invalid.*namespace.*[\"']my@company[\"'].*"
+        }
+      }
+    },
+    {
+      "id": "invalid_name_format",
+      "title": "Invalid Name Format",
+      "description": "Verify that malformed names produce the correct error code",
+      "feature": "schema_validation",
+      "tags": ["qualified-identifier", "syntax", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "name_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "invalid_ns",
+              "type": "my_company:invalid@name",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.type.invalid_name",
+          "message_pattern": ".*invalid.*name.*[\"']invalid@name[\"'].*"
+        }
+      }
+    },
+    {
+      "id": "valid_identifier_format",
+      "title": "Valid Identifier Format",
+      "description": "Verify that valid identifiers succeed without errors",
+      "feature": "schema_validation",
+      "tags": ["qualified-identifier", "syntax", "validation"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "name_test",
+              "version": "1.0.0"
+            }
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "shape": [10],
+              "dtype": "float32"
+            }
+          ],
+          "export": [
+            {
+              "name": "valid_identifier",
+              "type": "my_company:name/path/to/item",
+              "arguments": ["input"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "success": true
+      }
+    }
+  ]
+}
