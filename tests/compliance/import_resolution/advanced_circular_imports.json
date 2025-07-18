@@ -1087,43 +1087,6 @@
       "tags": ["circular_imports", "complex_hierarchy"],
       "inputs": {
         "files": {
-          "./module_b.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-            "metadata": {
-              "model": {
-                "name": "circular_b",
-                "version": "1.0.0"
-              }
-            },
-            "imports": [
-              {
-                "name": "module_c",
-                "type": "neuro",
-                "path": "./module_c.neuro.json"
-              }
-            ],
-            "inputs": [
-              {
-                "name": "placeholder_input",
-                "shape": [1],
-                "dtype": "float32"
-              }
-            ],
-            "outputs": [
-              {
-                "name": "placeholder_output",
-                "shape": [1],
-                "dtype": "float32"
-              }
-            ],
-            "export": [
-              {
-                "name": "identity",
-                "type": "identity",
-                "arguments": ["placeholder_input"]
-              }
-            ]
-          },
           "module_b.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
             "metadata": {
@@ -1161,43 +1124,6 @@
               }
             ]
           },
-          "./circular_a.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-            "metadata": {
-              "model": {
-                "name": "circular_a",
-                "version": "1.0.0"
-              }
-            },
-            "imports": [
-              {
-                "name": "module_b",
-                "type": "neuro",
-                "path": "./module_b.neuro.json"
-              }
-            ],
-            "inputs": [
-              {
-                "name": "input",
-                "shape": [10],
-                "dtype": "float32"
-              }
-            ],
-            "outputs": [
-              {
-                "name": "output",
-                "shape": [10],
-                "dtype": "float32"
-              }
-            ],
-            "export": [
-              {
-                "name": "identity",
-                "type": "identity",
-                "arguments": ["placeholder_input"]
-              }
-            ]
-          },
           "circular_a.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
             "metadata": {
@@ -1224,43 +1150,6 @@
               {
                 "name": "output",
                 "shape": [10],
-                "dtype": "float32"
-              }
-            ],
-            "export": [
-              {
-                "name": "identity",
-                "type": "identity",
-                "arguments": ["placeholder_input"]
-              }
-            ]
-          },
-          "./module_c.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
-            "metadata": {
-              "model": {
-                "name": "circular_c",
-                "version": "1.0.0"
-              }
-            },
-            "imports": [
-              {
-                "name": "module_a",
-                "type": "neuro",
-                "path": "./circular_a.neuro.json"
-              }
-            ],
-            "inputs": [
-              {
-                "name": "placeholder_input",
-                "shape": [1],
-                "dtype": "float32"
-              }
-            ],
-            "outputs": [
-              {
-                "name": "placeholder_output",
-                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -1315,7 +1204,7 @@
       "expected": {
         "error": {
           "code": "neuro.ref.circular_import",
-          "message_pattern": ".*[Cc]ircular.*import.*circular_a.*circular_b.*circular_c.*"
+          "message_pattern": ".*[Cc]ircular.*import.*circular_a.*module_b.*module_c.*"
         }
       }
     }
