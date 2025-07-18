@@ -962,7 +962,7 @@
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
             "metadata": {
               "model": {
-                "name": "root_model",
+                "name": "modelname_01",
                 "version": "1.0.0"
               }
             },
@@ -970,7 +970,7 @@
               {
                 "name": "deep_model",
                 "type": "neuro",
-                "path": "./deep/nested/model.neuro.json"
+                "path": "./deep/nested/deep_model.neuro.json"
               }
             ],
             "inputs": [
@@ -999,7 +999,7 @@
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
             "metadata": {
               "model": {
-                "name": "intermediate",
+                "name": "modelname_02",
                 "version": "1.0.0"
               }
             },
@@ -1032,11 +1032,11 @@
               }
             ]
           },
-          "deep/nested/model.neuro.json": {
+          "deep/nested/deep_model.neuro.json": {
             "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
             "metadata": {
               "model": {
-                "name": "deep_model",
+                "name": "modelname_03",
                 "version": "1.0.0"
               }
             },
