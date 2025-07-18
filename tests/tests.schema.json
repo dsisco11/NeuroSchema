@@ -215,7 +215,6 @@
             "neuro.type.unknown_architecture",
             "neuro.type.invalid_identifier",
             "neuro.type.invalid_namespace",
-            "neuro.type.invalid_name",
             "neuro.exec.shape_mismatch",
             "neuro.exec.dtype_mismatch",
             "neuro.exec.missing_weights",

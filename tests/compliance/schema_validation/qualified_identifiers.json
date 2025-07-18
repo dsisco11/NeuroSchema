@@ -137,8 +137,8 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.type.invalid_name",
-          "message_pattern": ".*invalid.*name.*[\"']invalid@name[\"'].*"
+          "code": "neuro.type.invalid_identifier",
+          "message_pattern": ".*invalid.*identifier.*[\"']invalid@name[\"'].*"
         }
       }
     },

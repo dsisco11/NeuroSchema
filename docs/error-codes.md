@@ -128,19 +128,13 @@ Error codes follow the format: `neuro.category.specific_error`
 
 **Description**: Invalid identifier format in type specification
 **When to use**: Malformed identifiers in custom types or references
-**Example**: `"Invalid identifier 'my@layer': identifiers must match 'name', 'namespace:name', or 'namespace:path/to/item' patterns"`
+**Example**: `"Invalid identifier 'my@layer!foo': identifiers must match 'name', 'namespace:name', or 'namespace:path/to/item' patterns"`
 
 ### neuro.type.invalid_namespace
 
 **Description**: Invalid namespace format in type specification  
 **When to use**: Malformed namespace syntax in custom types  
 **Example**: `"Invalid namespace format 'my@company:layer': namespaces may only contain letters, digits, and underscores"`
-
-### neuro.type.invalid_name
-
-**Description**: Invalid name format in type specification
-**When to use**: Malformed local-names in qualified-identifiers
-**Example**: `"Invalid name format 'my-layer!': names may only contain letters, digits, and underscores"`
 
 ## Execution Errors
 
