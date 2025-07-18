@@ -128,8 +128,8 @@
           ],
           "export": [
             {
-              "name": "invalid_ns",
-              "type": "my_company:invalid@name",
+              "name": "invalid_name",
+              "type": "invalid@name",
               "arguments": ["input"]
             }
           ]
