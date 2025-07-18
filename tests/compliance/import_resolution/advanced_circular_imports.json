@@ -1315,7 +1315,7 @@
       "expected": {
         "error": {
           "code": "neuro.ref.circular_import",
-          "message_pattern": ".*circular.*import.*dependency.*"
+          "message_pattern": ".*[Cc]ircular.*import.*circular_a.*circular_b.*circular_c.*"
         }
       }
     }
