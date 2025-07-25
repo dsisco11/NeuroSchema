@@ -42,15 +42,13 @@
     {
       "name": "multihead_attention",
       "type": "sequential",
-      "parameters": {
-        "inputs": [
-          {"name": "query", "type": "tensor"},
-          {"name": "key", "type": "tensor"}
-        ],
-        "attributes": {
-          "num_heads": "@{constants/attention_heads}",
-          "embed_dim": "@{constants/fusion_dimension}"
-        }
+      "arguments": [
+        {"name": "query", "type": "tensor"},
+        {"name": "key", "type": "tensor"}
+      ],
+      "attributes": {
+        "num_heads": "@{constants/attention_heads}",
+        "embed_dim": "@{constants/fusion_dimension}"
       },
       "implementation": {
         "graph": {
@@ -71,9 +69,7 @@
     {
       "name": "attention_extractor",
       "type": "sequential",
-      "parameters": {
-        "inputs": [{"name": "features", "type": "tensor"}]
-      },
+      "arguments": [{"name": "features", "type": "tensor"}],
       "implementation": {
         "graph": {
           "nodes": [

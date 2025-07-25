@@ -66,13 +66,11 @@
     {
       "name": "vit_encoder",
       "type": "sequential",
-      "parameters": {
-        "inputs": [{"name": "image", "type": "tensor"}],
-        "attributes": {
-          "patch_size": "@{constants/patch_size}",
-          "embed_dim": "@{constants/feature_dim}",
-          "num_layers": "@{constants/num_layers}"
-        }
+      "arguments": [{"name": "image", "type": "tensor"}],
+      "attributes": {
+        "patch_size": "@{constants/patch_size}",
+        "embed_dim": "@{constants/feature_dim}",
+        "num_layers": "@{constants/num_layers}"
       },
       "implementation": {
         "graph": {

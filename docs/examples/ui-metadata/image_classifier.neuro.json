@@ -72,9 +72,7 @@
     {
       "name": "resnet_classifier",
       "type": "sequential",
-      "parameters": {
-        "inputs": [{"name": "x", "type": "tensor"}]
-      },
+      "arguments": [{"name": "x", "type": "tensor"}],
       "implementation": {
         "graph": {
           "nodes": [

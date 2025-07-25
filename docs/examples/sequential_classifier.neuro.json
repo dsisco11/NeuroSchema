@@ -56,19 +56,17 @@
     {
       "name": "mnist_classifier",
       "type": "sequential",
-      "parameters": {
-        "inputs": [
-          {
-            "name": "input",
-            "type": "tensor",
-            "shape": [784],
-            "description": "Flattened input image"
-          }
-        ],
-        "attributes": {
-          "input_shape": ["@{constants/input_size}"],
-          "output_shape": ["@{constants/output_size}"]
+      "arguments": [
+        {
+          "name": "input",
+          "type": "tensor",
+          "shape": [784],
+          "description": "Flattened input image"
         }
+      ],
+      "attributes": {
+        "input_shape": ["@{constants/input_size}"],
+        "output_shape": ["@{constants/output_size}"]
       },
       "implementation": {
         "graph": {

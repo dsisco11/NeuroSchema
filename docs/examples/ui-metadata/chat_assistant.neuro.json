@@ -89,12 +89,10 @@
     {
       "name": "chat_model",
       "type": "sequential",
-      "parameters": {
-        "inputs": [
-          {"name": "context", "type": "tensor"},
-          {"name": "message", "type": "tensor"}
-        ]
-      },
+      "arguments": [
+        {"name": "context", "type": "tensor"},
+        {"name": "message", "type": "tensor"}
+      ],
       "implementation": {
         "graph": {
           "nodes": [

@@ -56,13 +56,11 @@
     {
       "name": "bert_encoder",
       "type": "sequential",
-      "parameters": {
-        "inputs": [{ "name": "tokens", "type": "tensor" }],
-        "attributes": {
-          "vocab_size": "@{constants/vocab_size}",
-          "hidden_size": "@{constants/hidden_size}",
-          "num_layers": "@{constants/num_layers}"
-        }
+      "arguments": [{ "name": "tokens", "type": "tensor" }],
+      "attributes": {
+        "vocab_size": "@{constants/vocab_size}",
+        "hidden_size": "@{constants/hidden_size}",
+        "num_layers": "@{constants/num_layers}"
       },
       "implementation": {
         "graph": {

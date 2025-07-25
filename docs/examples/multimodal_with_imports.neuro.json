@@ -146,12 +146,10 @@
     {
       "name": "classification_head",
       "type": "sequential",
-      "parameters": {
-        "inputs": [{ "name": "fused_features", "type": "tensor" }],
-        "attributes": {
-          "input_dim": "@{config:constants/fusion_dimension}",
-          "output_dim": "@{config:constants/output_classes}"
-        }
+      "arguments": [{ "name": "fused_features", "type": "tensor" }],
+      "attributes": {
+        "input_dim": "@{config:constants/fusion_dimension}",
+        "output_dim": "@{config:constants/output_classes}"
       },
       "implementation": {
         "graph": {

@@ -82,9 +82,7 @@
     {
       "name": "sentiment_classifier",
       "type": "sequential",
-      "parameters": {
-        "inputs": [{"name": "tokens", "type": "tensor"}]
-      },
+      "arguments": [{"name": "tokens", "type": "tensor"}],
       "implementation": {
         "graph": {
           "nodes": [
