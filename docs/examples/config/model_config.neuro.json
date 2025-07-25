@@ -7,7 +7,11 @@
       "description": "Shared configuration constants and definitions for multimodal models",
       "author": "NeuroFormat Team",
       "license": "MIT",
-      "tags": ["config", "constants", "shared"]
+      "tags": ["config", "constants", "shared"],
+      "modalities": {
+        "inputs": ["custom"],
+        "outputs": ["custom"]
+      }
     }
   },
   "inputs": [],

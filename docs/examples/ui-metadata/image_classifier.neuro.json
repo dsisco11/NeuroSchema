@@ -8,6 +8,10 @@
       "author": "Computer Vision Lab",
       "license": "BSD-3-Clause",
       "tags": ["resnet", "cnn", "image-classification", "computer-vision"],
+      "modalities": {
+        "inputs": ["vision"],
+        "outputs": ["tabular"]
+      },
       "ui": {
         "display_name": "ResNet-50 Image Classifier",
         "description": "Classify images into 1000+ categories with state-of-the-art accuracy",

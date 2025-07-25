@@ -8,6 +8,10 @@
       "author": "NeuroFormat Team",
       "license": "Apache-2.0",
       "tags": ["bert", "sentiment", "classification", "nlp"],
+      "modalities": {
+        "inputs": ["text"],
+        "outputs": ["tabular"]
+      },
       "ui": {
         "display_name": "BERT Sentiment Analyzer",
         "description": "Analyze the emotional tone of text with high accuracy using BERT",

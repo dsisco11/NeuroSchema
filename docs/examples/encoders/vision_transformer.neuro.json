@@ -7,7 +7,11 @@
       "description": "Vision Transformer (ViT) image encoder",
       "author": "NeuroFormat Team",
       "license": "MIT",
-      "tags": ["vit", "vision", "transformer", "encoder"]
+      "tags": ["vit", "vision", "transformer", "encoder"],
+      "modalities": {
+        "inputs": ["vision"],
+        "outputs": ["tabular"]
+      }
     }
   },
   "inputs": [

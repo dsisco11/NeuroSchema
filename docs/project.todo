@@ -13,6 +13,6 @@ Neuro Format:
     ✔ Document the `metadata.model.ui` section of the Neuro format. @done(25-06-26 01:07)
     
 Refactoring:
-    ☐ Refactor NeuroFormat to use new reference syntax for sections.
+    ✔ Refactor NeuroFormat to use new reference syntax for sections. @done(25-07-24 21:44)
     ☐ Explore refactoring `definitions` section to use object-property syntax instead of array-of-objects-with-names.
-    ☐ Refactor `parameters` section to be a flattened key-value structure instead of nested objects such as `inputs`, `config`, etc.
+    ✔ Refactor `parameters` section to be a flattened key-value structure instead of nested objects such as `inputs`, `config`, etc. @done(25-07-25 16:34)

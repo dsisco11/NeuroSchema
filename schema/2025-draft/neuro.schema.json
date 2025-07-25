@@ -170,7 +170,7 @@
           {
             "properties": {
               "value": {
-                "$ref": "#/definitions/output_reference",
+                "$ref": "#/definitions/qualified_ref",
                 "description": "Reference to the source of this output value"
               }
             }
@@ -225,7 +225,7 @@
           },
           "value": {
             "oneOf": [
-              { "$ref": "#/definitions/data_reference" },
+              { "$ref": "#/definitions/qualified_ref" },
               { "$ref": "#/definitions/base64_value" },
               { "$ref": "#/definitions/hex_value" },
               { "type": "array" },
@@ -361,51 +361,20 @@
     },
     "qualified_name": {
       "type": "string",
-      "pattern": "^(\\w+:)?\\w+(\\/\\w+)*$",
-      "description": "A qualified name that can optionally include a namespace and path segments in the format 'namespace:path/to/item', 'path/to/item', or just 'name'. Used for type references, node names, and other identifiers throughout the schema."
+      "pattern": "^(\\w+:)?(\\.\\.?/|/)?[\\w./]+(\\.[\\w]+)?$",
+      "description": "A qualified name that can optionally include a namespace, relative path segments (./,../), path segments, and trailing property access. Examples: 'name', 'namespace:name', './path/name', '../parent/name.property', 'inputs.text_features'"
+    },
+    "qualified_ref": {
+      "type": "string",
+      "pattern": "^@\\{(\\w+:)?(\\.\\.?/|/)?[\\w./]+(\\.[\\w]+)?\\}$",
+      "description": "A qualified reference using @{qualified-identifier} syntax. Examples: '@{name}', '@{namespace:name}', '@{./path/name}', '@{inputs.text_features}', '@{../parent/name.property}'"
     },
     "node_reference": {
-      "$ref": "#/definitions/qualified_name",
-      "description": "Path reference to a named node (input, definition, or local node within a graph). Simple name for local references, or path-like notation for nested references. Supports namespace syntax 'import_name:section/item' for accessing imported model contents."
-    },
-    "data_reference": {
-      "type": "object",
-      "required": ["ref"],
-      "properties": {
-        "ref": {
-          "type": "string",
-          "pattern": "^((\\w+:)?(variables|constants)\\/\\w+|variables\\/\\w+)$",
-          "description": "Path reference to a data object in the variables/constants section or imported namespace (e.g., 'variables/name', 'import_name:constants/value')"
-        }
-      },
-      "description": "Reference to a data object defined in the variables/constants section or imported from another model"
-    },
-    "weight_reference": {
-      "type": "object",
-      "required": ["ref"],
-      "properties": {
-        "ref": {
-          "type": "string",
-          "pattern": "^((\\w+[:\\/])?\\w+\\/\\w+|(variables|weights)\\/\\w+)$",
-          "description": "Path reference to weight data in variables/weights section or imported resources (e.g., 'weights/name', 'safetensors_import/tensor_name')"
-        }
-      },
-      "description": "Reference to weight data defined in the variables/weights section or imported from safetensors files"
-    },
-    "output_reference": {
-      "type": "object",
-      "required": ["ref"],
-      "properties": {
-        "ref": {
-          "$ref": "#/definitions/node_reference",
-          "description": "Path reference to a node output"
-        },
-        "output": {
-          "type": "string",
-          "description": "Specific output name for nodes with multiple outputs (optional)"
-        }
-      },
-      "description": "Reference to the output of a specific node, optionally specifying which output for multi-output nodes"
+      "oneOf": [
+        { "$ref": "#/definitions/qualified_name" },
+        { "$ref": "#/definitions/qualified_ref" }
+      ],
+      "description": "Path reference to a named node (input, definition, or local node within a graph). Can be a simple name for local references, or path-like notation for nested references. Supports namespace syntax 'import_name:section/item' for accessing imported model contents. Can also use @{} syntax for explicit references."
     },
     "base64_value": {
       "type": "object",
@@ -462,42 +431,36 @@
           ],
           "description": "Type of the node operation - can be an operator, layer, or architecture"
         },
-        "parameters": {
-          "type": "object",
-          "description": "Parameter schema that defines what inputs this node type expects",
-          "properties": {
-            "inputs": {
-              "type": "array",
-              "description": "Expected input parameters for this node type",
-              "items": {
-                "type": "object",
-                "required": ["name", "type"],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "Name of the input parameter"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Expected type of the input"
-                  },
-                  "required": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Whether this input is required"
-                  },
-                  "description": {
-                    "type": "string",
-                    "description": "Description of the input parameter"
-                  }
-                }
+        "arguments": {
+          "type": "array",
+          "description": "Expected input arguments for this node type (renamed from inputs)",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the input argument"
+              },
+              "type": {
+                "type": "string",
+                "description": "Expected type of the input"
+              },
+              "required": {
+                "type": "boolean",
+                "default": true,
+                "description": "Whether this input is required"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the input argument"
               }
-            },
-            "attributes": {
-              "type": "object",
-              "description": "Expected attributes schema for this node type"
             }
           }
+        },
+        "attributes": {
+          "type": "object",
+          "description": "Expected attributes schema for this node type"
         },
         "implementation": {
           "type": "object",
@@ -523,7 +486,7 @@
             },
             "weights": {
               "oneOf": [
-                { "$ref": "#/definitions/weight_reference" },
+                { "$ref": "#/definitions/qualified_ref" },
                 { "$ref": "#/definitions/hex_value" }
               ],
               "description": "Default weights for the node definition"
@@ -564,7 +527,7 @@
         },
         "weights": {
           "oneOf": [
-            { "$ref": "#/definitions/weight_reference" },
+            { "$ref": "#/definitions/qualified_ref" },
             { "$ref": "#/definitions/hex_value" }
           ],
           "description": "Specific weights for this node instance"
@@ -599,7 +562,7 @@
         },
         "value": {
           "oneOf": [
-            { "$ref": "#/definitions/data_reference" },
+            { "$ref": "#/definitions/qualified_ref" },
             { "type": "array" },
             { "type": "number" }
           ]
@@ -617,14 +580,14 @@
         },
         "weights": {
           "oneOf": [
-            { "$ref": "#/definitions/weight_reference" },
+            { "$ref": "#/definitions/qualified_ref" },
             { "$ref": "#/definitions/hex_value" }
           ],
           "description": "Weights for this specific node"
         },
         "bias": {
           "oneOf": [
-            { "$ref": "#/definitions/weight_reference" },
+            { "$ref": "#/definitions/qualified_ref" },
             { "$ref": "#/definitions/hex_value" }
           ],
           "description": "Bias for this specific node"

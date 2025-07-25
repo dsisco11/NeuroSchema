@@ -8,6 +8,10 @@
       "author": "AI Research Collective",
       "license": "MIT",
       "tags": ["gpt", "chat", "conversational", "large-language-model"],
+      "modalities": {
+        "inputs": ["text"],
+        "outputs": ["text"]
+      },
       "ui": {
         "display_name": "GPT Chat Assistant",
         "description": "An intelligent conversational AI that can help with a wide variety of tasks",

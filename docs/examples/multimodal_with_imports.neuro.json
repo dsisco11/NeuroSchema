@@ -90,16 +90,14 @@
     {
       "name": "cross_attention_fusion",
       "type": "sequential",
-      "parameters": {
-        "inputs": [
-          { "name": "text_features", "type": "tensor" },
-          { "name": "image_features", "type": "tensor" }
-        ],
-        "attributes": {
-          "text_dim": "@{text_encoder:constants/hidden_size}",
-          "image_dim": "@{image_encoder:constants/feature_dim}",
-          "output_dim": "@{config:constants/fusion_dimension}"
-        }
+      "arguments": [
+        { "name": "text_features", "type": "tensor" },
+        { "name": "image_features", "type": "tensor" }
+      ],
+      "attributes": {
+        "text_dim": "@{text_encoder:constants/hidden_size}",
+        "image_dim": "@{image_encoder:constants/feature_dim}",
+        "output_dim": "@{config:constants/fusion_dimension}"
       },
       "implementation": {
         "graph": {
