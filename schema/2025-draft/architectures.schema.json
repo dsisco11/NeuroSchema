@@ -30,7 +30,7 @@
     },
     "sequential_architecture": {
       "type": "object",
-      "required": ["name", "type", "parameters", "implementation"],
+      "required": ["name", "type", "arguments", "implementation"],
       "properties": {
         "name": {
           "type": "string",
@@ -40,56 +40,50 @@
           "type": "string",
           "enum": ["sequential"]
         },
-        "parameters": {
+        "arguments": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "input"
+              },
+              "type": {
+                "type": "string",
+                "description": "Expected input tensor type"
+              },
+              "shape": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 1 },
+                "description": "Expected input shape (excluding batch dimension)"
+              },
+              "required": {
+                "type": "boolean",
+                "default": true
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the input"
+              }
+            }
+          }
+        },
+        "attributes": {
           "type": "object",
-          "required": ["inputs"],
           "properties": {
-            "inputs": {
+            "input_shape": {
               "type": "array",
-              "minItems": 1,
-              "maxItems": 1,
-              "items": {
-                "type": "object",
-                "required": ["name", "type"],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "const": "input"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Expected input tensor type"
-                  },
-                  "shape": {
-                    "type": "array",
-                    "items": { "type": "integer", "minimum": 1 },
-                    "description": "Expected input shape (excluding batch dimension)"
-                  },
-                  "required": {
-                    "type": "boolean",
-                    "default": true
-                  },
-                  "description": {
-                    "type": "string",
-                    "description": "Description of the input"
-                  }
-                }
-              }
+              "items": { "type": "integer", "minimum": 1 },
+              "description": "Expected input shape (excluding batch dimension)"
             },
-            "attributes": {
-              "type": "object",
-              "properties": {
-                "input_shape": {
-                  "type": "array",
-                  "items": { "type": "integer", "minimum": 1 },
-                  "description": "Expected input shape (excluding batch dimension)"
-                },
-                "output_shape": {
-                  "type": "array",
-                  "items": { "type": "integer", "minimum": 1 },
-                  "description": "Expected output shape (excluding batch dimension)"
-                }
-              }
+            "output_shape": {
+              "type": "array",
+              "items": { "type": "integer", "minimum": 1 },
+              "description": "Expected output shape (excluding batch dimension)"
             }
           }
         },
