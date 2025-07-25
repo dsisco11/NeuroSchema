@@ -66,8 +66,8 @@
           }
         ],
         "attributes": {
-          "input_shape": [{ "ref": "constants/input_size" }],
-          "output_shape": [{ "ref": "constants/output_size" }]
+          "input_shape": ["@{constants/input_size}"],
+          "output_shape": ["@{constants/output_size}"]
         }
       },
       "implementation": {
@@ -78,8 +78,8 @@
               "type": "linear",
               "arguments": ["@{inputs.input}"],
               "attributes": {
-                "in_features": { "ref": "constants/input_size" },
-                "out_features": { "ref": "constants/hidden1_size" },
+                "in_features": "@{constants/input_size}",
+                "out_features": "@{constants/hidden1_size}",
                 "bias": true
               }
             },
@@ -96,8 +96,8 @@
               "type": "linear",
               "arguments": ["@{./relu1}"],
               "attributes": {
-                "in_features": { "ref": "constants/hidden1_size" },
-                "out_features": { "ref": "constants/hidden2_size" },
+                "in_features": "@{constants/hidden1_size}",
+                "out_features": "@{constants/hidden2_size}",
                 "bias": true
               }
             },
@@ -114,8 +114,8 @@
               "type": "linear",
               "arguments": ["@{./relu2}"],
               "attributes": {
-                "in_features": { "ref": "constants/hidden2_size" },
-                "out_features": { "ref": "constants/output_size" },
+                "in_features": "@{constants/hidden2_size}",
+                "out_features": "@{constants/output_size}",
                 "bias": true
               }
             },

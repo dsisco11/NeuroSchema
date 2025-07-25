@@ -49,7 +49,7 @@
       "description": "Sentiment classification scores",
       "shape": [3],
       "dtype": "float32",
-      "value": {"ref": "sentiment_classifier"}
+      "value": "@{sentiment_classifier}"
     }
   ],
   "constants": [
@@ -89,9 +89,9 @@
               "type": "transformer",
               "arguments": ["@{inputs.tokens}"],
               "attributes": {
-                "num_layers": {"ref": "constants/bert_layers"},
-                "hidden_size": {"ref": "constants/bert_hidden_size"},
-                "num_heads": {"ref": "constants/bert_attention_heads"}
+                "num_layers": "@{constants/bert_layers}",
+                "hidden_size": "@{constants/bert_hidden_size}",
+                "num_heads": "@{constants/bert_attention_heads}"
               }
             },
             {
@@ -107,8 +107,8 @@
               "type": "linear",
               "arguments": ["@{./pooler}"],
               "attributes": {
-                "in_features": {"ref": "constants/bert_hidden_size"},
-                "out_features": {"ref": "constants/num_sentiment_classes"}
+                "in_features": "@{constants/bert_hidden_size}",
+                "out_features": "@{constants/num_sentiment_classes}"
               }
             }
           ]

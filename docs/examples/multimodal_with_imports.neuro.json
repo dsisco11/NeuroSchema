@@ -68,22 +68,22 @@
     {
       "name": "text_hidden_size",
       "type": "scalar",
-      "value": { "ref": "text_encoder:constants/hidden_size" }
+      "value": "@{text_encoder:constants/hidden_size}"
     },
     {
       "name": "image_feature_dim",
       "type": "scalar",
-      "value": { "ref": "image_encoder:constants/feature_dim" }
+      "value": "@{image_encoder:constants/feature_dim}"
     },
     {
       "name": "fusion_dim",
       "type": "scalar",
-      "value": { "ref": "config:constants/fusion_dimension" }
+      "value": "@{config:constants/fusion_dimension}"
     },
     {
       "name": "num_classes",
       "type": "scalar",
-      "value": { "ref": "config:constants/output_classes" }
+      "value": "@{config:constants/output_classes}"
     }
   ],
   "definitions": [
@@ -96,9 +96,9 @@
           { "name": "image_features", "type": "tensor" }
         ],
         "attributes": {
-          "text_dim": { "ref": "text_encoder:constants/hidden_size" },
-          "image_dim": { "ref": "image_encoder:constants/feature_dim" },
-          "output_dim": { "ref": "config:constants/fusion_dimension" }
+          "text_dim": "@{text_encoder:constants/hidden_size}",
+          "image_dim": "@{image_encoder:constants/feature_dim}",
+          "output_dim": "@{config:constants/fusion_dimension}"
         }
       },
       "implementation": {
@@ -108,32 +108,32 @@
               "name": "text_projection",
               "type": "linear",
               "arguments": ["@{inputs.text_features}"],
-              "weights": { "ref": "pretrained_weights/text_proj_weight" },
-              "bias": { "ref": "pretrained_weights/text_proj_bias" },
+              "weights": "@{pretrained_weights/text_proj_weight}",
+              "bias": "@{pretrained_weights/text_proj_bias}",
               "attributes": {
-                "in_features": { "ref": "text_encoder:constants/hidden_size" },
-                "out_features": { "ref": "config:constants/fusion_dimension" }
+                "in_features": "@{text_encoder:constants/hidden_size}",
+                "out_features": "@{config:constants/fusion_dimension}"
               }
             },
             {
               "name": "image_projection",
               "type": "linear",
               "arguments": ["@{inputs.image_features}"],
-              "weights": { "ref": "pretrained_weights/image_proj_weight" },
-              "bias": { "ref": "pretrained_weights/image_proj_bias" },
+              "weights": "@{pretrained_weights/image_proj_weight}",
+              "bias": "@{pretrained_weights/image_proj_bias}",
               "attributes": {
-                "in_features": { "ref": "image_encoder:constants/feature_dim" },
-                "out_features": { "ref": "config:constants/fusion_dimension" }
+                "in_features": "@{image_encoder:constants/feature_dim}",
+                "out_features": "@{config:constants/fusion_dimension}"
               }
             },
             {
               "name": "cross_attention",
               "type": "config:definitions/multihead_attention",
               "arguments": ["@{text_projection}", "@{image_projection}"],
-              "weights": { "ref": "pretrained_weights/attention_weights" },
+              "weights": "@{pretrained_weights/attention_weights}",
               "attributes": {
-                "num_heads": { "ref": "config:constants/attention_heads" },
-                "embed_dim": { "ref": "config:constants/fusion_dimension" }
+                "num_heads": "@{config:constants/attention_heads}",
+                "embed_dim": "@{config:constants/fusion_dimension}"
               }
             },
             {
@@ -151,8 +151,8 @@
       "parameters": {
         "inputs": [{ "name": "fused_features", "type": "tensor" }],
         "attributes": {
-          "input_dim": { "ref": "config:constants/fusion_dimension" },
-          "output_dim": { "ref": "config:constants/output_classes" }
+          "input_dim": "@{config:constants/fusion_dimension}",
+          "output_dim": "@{config:constants/output_classes}"
         }
       },
       "implementation": {
@@ -163,18 +163,18 @@
               "type": "dropout",
               "arguments": ["@{inputs.fused_features}"],
               "attributes": {
-                "p": { "ref": "config:constants/dropout_rate" }
+                "p": "@{config:constants/dropout_rate}"
               }
             },
             {
               "name": "classifier",
               "type": "linear",
               "arguments": ["@{./dropout}"],
-              "weights": { "ref": "pretrained_weights/classifier_weight" },
-              "bias": { "ref": "pretrained_weights/classifier_bias" },
+              "weights": "@{pretrained_weights/classifier_weight}",
+              "bias": "@{pretrained_weights/classifier_bias}",
               "attributes": {
-                "in_features": { "ref": "config:constants/fusion_dimension" },
-                "out_features": { "ref": "config:constants/output_classes" }
+                "in_features": "@{config:constants/fusion_dimension}",
+                "out_features": "@{config:constants/output_classes}"
               }
             }
           ]

@@ -175,7 +175,7 @@ Define named constants for model configuration and reusable values:
       "type": "tensor",
       "dtype": "float32",
       "shape": [768, 512],
-      "value": { "ref": "weights_file/layer_weights" },
+      "value": "@{weights_file/layer_weights}",
       "description": "Pretrained weights for the linear layer"
     }
   ]
@@ -190,7 +190,7 @@ Define named constants for model configuration and reusable values:
 **Value Sources:**
 
 - **Direct values**: Numbers, strings, arrays embedded in the file
-- **References**: `{"ref": "import_name/tensor_name"}` for imported data
+- **References**: `"@{import_name/tensor_name}"` for imported data
 - **Base64/Hex**: Encoded binary data for embedding weights directly
 
 ### 🎯 `export` (Required)
@@ -267,13 +267,13 @@ Enable modular model design through importing external resources:
   - Imported model becomes available as a node type
   - All sections accessible via namespace syntax: `import_name:section/item`
 - **`type: "safetensors"`**: Import tensor data for weights
-  - Tensors accessible via: `{"ref": "import_name/tensor_name"}`
+  - Tensors accessible via: `"@{import_name/tensor_name}"`
 
 **Namespace Reference Syntax:**
 
-- **Constants**: `{"ref": "encoder:constants/hidden_size"}`
+- **Constants**: `"@{encoder:constants/hidden_size}"`
 - **Definitions**: `"type": "encoder:definitions/attention_layer"`
-- **Weights**: `{"ref": "weights/layer1_weight"}`
+- **Weights**: `"@{weights/layer1_weight}"`
 
 For complete documentation and examples, see [`docs/imports-and-references.md`](./docs/imports-and-references.md).
 

@@ -39,7 +39,7 @@
       "description": "Probability distribution over ImageNet classes",
       "shape": [1000],
       "dtype": "float32",
-      "value": {"ref": "resnet_classifier"}
+      "value": "@{resnet_classifier}"
     }
   ],
   "constants": [
@@ -82,8 +82,8 @@
                 "kernel_size": [7, 7],
                 "stride": [2, 2],
                 "padding": [3, 3],
-                "in_channels": {"ref": "constants/input_channels"},
-                "out_channels": {"ref": "constants/conv1_out_channels"}
+                "in_channels": "@{constants/input_channels}",
+                "out_channels": "@{constants/conv1_out_channels}"
               }
             },
             {
@@ -91,7 +91,7 @@
               "type": "batch_norm",
               "arguments": ["@{./conv1}"],
               "attributes": {
-                "num_features": {"ref": "constants/conv1_out_channels"}
+                "num_features": "@{constants/conv1_out_channels}"
               }
             },
             {
@@ -119,8 +119,8 @@
               "type": "linear",
               "arguments": ["@{./global_avgpool}"],
               "attributes": {
-                "in_features": {"ref": "constants/final_feature_dim"},
-                "out_features": {"ref": "constants/num_classes"}
+                "in_features": "@{constants/final_feature_dim}",
+                "out_features": "@{constants/num_classes}"
               }
             }
           ]

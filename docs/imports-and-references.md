@@ -62,7 +62,7 @@ All sections of the imported model become accessible via namespace syntax: `impo
     {
       "name": "learning_rate",
       "type": "scalar",
-      "value": { "ref": "encoder:constants/lr" } // Access imported constant
+      "value": "@{encoder:constants/lr}" // Access imported constant
     }
   ]
 }
@@ -132,7 +132,7 @@ For referencing nodes, use the simple string format:
 For referencing data (constants, weights), use the object format:
 
 ```json
-"value": {"ref": "encoder:constants/hidden_size"}
+"value": "@{encoder:constants/hidden_size}"
 ```
 
 ### Weight References
@@ -140,7 +140,7 @@ For referencing data (constants, weights), use the object format:
 For referencing weights, use the object format:
 
 ```json
-"weights": {"ref": "weights/embedding_matrix"}
+"weights": "@{weights/embedding_matrix}"
 ```
 
 ## Practical Examples
@@ -184,12 +184,12 @@ For referencing weights, use the object format:
     {
       "name": "text_dim",
       "type": "scalar",
-      "value": { "ref": "text_encoder:constants/hidden_size" }
+      "value": "@{text_encoder:constants/hidden_size}"
     },
     {
       "name": "image_dim",
       "type": "scalar",
-      "value": { "ref": "image_encoder:constants/feature_dim" }
+      "value": "@{image_encoder:constants/feature_dim}"
     }
   ],
   "export": [
@@ -207,9 +207,9 @@ For referencing weights, use the object format:
       "name": "fusion",
       "type": "linear",
       "arguments": ["@{text_features}", "@{image_features}"],
-      "weights": { "ref": "pretrained_weights/fusion_weights" },
+      "weights": "@{pretrained_weights/fusion_weights}",
       "attributes": {
-        "in_features": { "ref": "text_encoder:constants/hidden_size" },
+        "in_features": "@{text_encoder:constants/hidden_size}",
         "out_features": 1000
       }
     }
@@ -365,12 +365,12 @@ All references must be resolvable at model validation time:
     {
       "name": "valid_ref",
       "type": "scalar",
-      "value": { "ref": "encoder:constants/hidden_size" } // ✓ Valid
+      "value": "@{encoder:constants/hidden_size}" // ✓ Valid
     },
     {
       "name": "invalid_ref",
       "type": "scalar",
-      "value": { "ref": "missing:constants/value" } // ✗ Import 'missing' not found
+      "value": "@{missing:constants/value}" // ✗ Import 'missing' not found
     }
   ]
 }
@@ -471,12 +471,12 @@ Multiple nodes can reference the same weights:
     {
       "name": "encoder_layer_1",
       "type": "transformer_layer",
-      "weights": { "ref": "shared_weights/encoder_params" }
+      "weights": "@{shared_weights/encoder_params}"
     },
     {
       "name": "encoder_layer_2",
       "type": "transformer_layer",
-      "weights": { "ref": "shared_weights/encoder_params" } // Same weights
+      "weights": "@{shared_weights/encoder_params}" // Same weights
     }
   ]
 }
@@ -504,12 +504,12 @@ Different precision for different components:
     {
       "name": "backbone",
       "type": "resnet",
-      "weights": { "ref": "fp16_weights/backbone" } // Lower precision for backbone
+      "weights": "@{fp16_weights/backbone}" // Lower precision for backbone
     },
     {
       "name": "classifier",
       "type": "linear",
-      "weights": { "ref": "fp32_weights/head" } // Higher precision for final layer
+      "weights": "@{fp32_weights/head}" // Higher precision for final layer
     }
   ]
 }
@@ -570,7 +570,7 @@ Import shared configuration and reference it:
     {
       "name": "hidden_size",
       "type": "scalar",
-      "value": { "ref": "config:constants/hidden_dim" }
+      "value": "@{config:constants/hidden_dim}"
     }
   ]
 }
@@ -652,12 +652,12 @@ Access imported constants using the `ref` object pattern:
     {
       "name": "vocab_size",
       "type": "scalar",
-      "value": { "ref": "bert_model:constants/vocabulary_size" }
+      "value": "@{bert_model:constants/vocabulary_size}"
     },
     {
       "name": "max_length",
       "type": "scalar",
-      "value": { "ref": "config:constants/sequence_length" }
+      "value": "@{config:constants/sequence_length}"
     }
   ]
 }
@@ -693,8 +693,8 @@ Reference imported tensor specifications:
   "inputs": [
     {
       "name": "processed_input",
-      "shape": { "ref": "preprocessor:inputs/raw_data/shape" },
-      "dtype": { "ref": "preprocessor:inputs/raw_data/dtype" }
+      "shape": "@{preprocessor:inputs/raw_data/shape}",
+      "dtype": "@{preprocessor:inputs/raw_data/dtype}"
     }
   ]
 }
@@ -710,7 +710,7 @@ For deeply nested structures, use forward slash separation:
     {
       "name": "attention_heads",
       "type": "scalar",
-      "value": { "ref": "config:constants/model_config/attention/num_heads" }
+      "value": "@{config:constants/model_config/attention/num_heads}"
     }
   ]
 }
@@ -729,8 +729,8 @@ Namespace references work seamlessly with the type system:
       "parameters": {
         "inputs": [{ "name": "x", "type": "tensor" }],
         "attributes": {
-          "hidden_size": { "ref": "base_model:constants/d_model" },
-          "num_heads": { "ref": "base_model:constants/n_heads" }
+          "hidden_size": "@{base_model:constants/d_model}",
+          "num_heads": "@{base_model:constants/n_heads}"
         }
       }
     }
@@ -785,17 +785,17 @@ A typical multi-stage model using imports:
   "outputs": [
     {
       "name": "extracted_text",
-      "shape": [{ "ref": "ocr_model:constants/max_text_length" }],
+      "shape": ["@{ocr_model:constants/max_text_length}"],
       "dtype": "int32"
     },
     {
       "name": "layout_regions",
-      "shape": [{ "ref": "layout_analyzer:constants/max_regions" }, 4],
+      "shape": ["@{layout_analyzer:constants/max_regions}", 4],
       "dtype": "float32"
     },
     {
       "name": "content_categories",
-      "shape": [{ "ref": "content_classifier:constants/num_categories" }],
+      "shape": ["@{content_classifier:constants/num_categories}"],
       "dtype": "float32"
     }
   ],
@@ -814,7 +814,7 @@ A typical multi-stage model using imports:
       "name": "content_classification",
       "type": "content_classifier",
       "arguments": ["@{text_extraction}", "@{layout_analysis}"],
-      "weights": { "ref": "pipeline_weights/fusion_classifier" }
+      "weights": "@{pipeline_weights/fusion_classifier}"
     }
   ]
 }
@@ -862,12 +862,12 @@ Centralized configuration with multiple model variants:
     {
       "name": "hidden_size",
       "type": "scalar",
-      "value": {"ref": "config:constants/model_variants/base/hidden_size"}
+      "value": "@{config:constants/model_variants/base/hidden_size}"
     },
     {
       "name": "num_layers",
       "type": "scalar",
-      "value": {"ref": "config:constants/model_variants/base/num_layers"}
+      "value": "@{config:constants/model_variants/base/num_layers}"
     }
   ]
   // ...rest of model using the configuration
@@ -918,10 +918,10 @@ Complex fusion of different modalities:
           { "name": "audio_features", "type": "tensor" }
         ],
         "attributes": {
-          "text_dim": { "ref": "text_encoder:constants/output_dim" },
-          "image_dim": { "ref": "image_encoder:constants/output_dim" },
-          "audio_dim": { "ref": "audio_encoder:constants/output_dim" },
-          "fusion_dim": { "ref": "fusion_components:constants/unified_dim" }
+          "text_dim": "@{text_encoder:constants/output_dim}",
+          "image_dim": "@{image_encoder:constants/output_dim}",
+          "audio_dim": "@{audio_encoder:constants/output_dim}",
+          "fusion_dim": "@{fusion_components:constants/unified_dim}"
         }
       }
     }
@@ -946,7 +946,7 @@ Complex fusion of different modalities:
       "name": "fused_representation",
       "type": "adaptive_fusion",
       "arguments": ["text_features", "image_features", "audio_features"],
-      "weights": { "ref": "pretrained_weights/fusion_weights" }
+      "weights": "@{pretrained_weights/fusion_weights}"
     }
   ]
 }

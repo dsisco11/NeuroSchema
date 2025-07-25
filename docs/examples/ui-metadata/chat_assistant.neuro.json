@@ -56,7 +56,7 @@
       "description": "Generated response from the assistant",
       "shape": [1024],
       "dtype": "int32",
-      "value": {"ref": "chat_model"}
+      "value": "@{chat_model}"
     }
   ],
   "constants": [
@@ -99,9 +99,9 @@
               "type": "transformer",
               "arguments": ["@{inputs.context}"],
               "attributes": {
-                "num_layers": {"ref": "constants/encoder_layers"},
-                "hidden_size": {"ref": "constants/hidden_size"},
-                "num_heads": {"ref": "constants/num_attention_heads"}
+                "num_layers": "@{constants/encoder_layers}",
+                "hidden_size": "@{constants/hidden_size}",
+                "num_heads": "@{constants/num_attention_heads}"
               }
             },
             {
@@ -109,9 +109,9 @@
               "type": "transformer",
               "arguments": ["@{inputs.message}"],
               "attributes": {
-                "num_layers": {"ref": "constants/encoder_layers"},
-                "hidden_size": {"ref": "constants/hidden_size"},
-                "num_heads": {"ref": "constants/num_attention_heads"}
+                "num_layers": "@{constants/encoder_layers}",
+                "hidden_size": "@{constants/hidden_size}",
+                "num_heads": "@{constants/num_attention_heads}"
               }
             },
             {
@@ -119,8 +119,8 @@
               "type": "cross_attention",
               "arguments": ["@{context_encoder}", "@{message_encoder}"],
               "attributes": {
-                "num_heads": {"ref": "constants/num_attention_heads"},
-                "hidden_size": {"ref": "constants/hidden_size"}
+                "num_heads": "@{constants/num_attention_heads}",
+                "hidden_size": "@{constants/hidden_size}"
               }
             },
             {
@@ -128,9 +128,9 @@
               "type": "transformer",
               "arguments": ["@{./fusion}"],
               "attributes": {
-                "num_layers": {"ref": "constants/generator_layers"},
-                "hidden_size": {"ref": "constants/hidden_size"},
-                "num_heads": {"ref": "constants/num_attention_heads"},
+                "num_layers": "@{constants/generator_layers}",
+                "hidden_size": "@{constants/hidden_size}",
+                "num_heads": "@{constants/num_attention_heads}",
                 "generation_mode": "autoregressive"
               }
             }

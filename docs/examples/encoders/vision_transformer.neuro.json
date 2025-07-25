@@ -65,9 +65,9 @@
       "parameters": {
         "inputs": [{"name": "image", "type": "tensor"}],
         "attributes": {
-          "patch_size": {"ref": "constants/patch_size"},
-          "embed_dim": {"ref": "constants/feature_dim"},
-          "num_layers": {"ref": "constants/num_layers"}
+          "patch_size": "@{constants/patch_size}",
+          "embed_dim": "@{constants/feature_dim}",
+          "num_layers": "@{constants/num_layers}"
         }
       },
       "implementation": {
@@ -78,10 +78,10 @@
               "type": "convolution",
               "arguments": ["@{inputs.image}"],
               "attributes": {
-                "kernel_size": [{"ref": "constants/patch_size"}, {"ref": "constants/patch_size"}],
-                "stride": [{"ref": "constants/patch_size"}, {"ref": "constants/patch_size"}],
-                "in_channels": {"ref": "constants/input_channels"},
-                "out_channels": {"ref": "constants/feature_dim"}
+                "kernel_size": ["@{constants/patch_size}", "@{constants/patch_size}"],
+                "stride": ["@{constants/patch_size}", "@{constants/patch_size}"],
+                "in_channels": "@{constants/input_channels}",
+                "out_channels": "@{constants/feature_dim}"
               }
             },
             {
@@ -89,9 +89,9 @@
               "type": "transformer",
               "arguments": ["@{./patch_embedding}"],
               "attributes": {
-                "num_layers": {"ref": "constants/num_layers"},
-                "hidden_size": {"ref": "constants/feature_dim"},
-                "num_heads": {"ref": "constants/num_attention_heads"}
+                "num_layers": "@{constants/num_layers}",
+                "hidden_size": "@{constants/feature_dim}",
+                "num_heads": "@{constants/num_attention_heads}"
               }
             }
           ]
