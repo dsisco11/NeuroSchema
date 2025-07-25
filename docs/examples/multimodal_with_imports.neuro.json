@@ -107,7 +107,7 @@
             {
               "name": "text_projection",
               "type": "linear",
-              "arguments": ["text_features"],
+              "arguments": ["@{inputs.text_features}"],
               "weights": { "ref": "pretrained_weights/text_proj_weight" },
               "bias": { "ref": "pretrained_weights/text_proj_bias" },
               "attributes": {
@@ -118,7 +118,7 @@
             {
               "name": "image_projection",
               "type": "linear",
-              "arguments": ["image_features"],
+              "arguments": ["@{inputs.image_features}"],
               "weights": { "ref": "pretrained_weights/image_proj_weight" },
               "bias": { "ref": "pretrained_weights/image_proj_bias" },
               "attributes": {
@@ -129,7 +129,7 @@
             {
               "name": "cross_attention",
               "type": "config:definitions/multihead_attention",
-              "arguments": ["text_projection", "image_projection"],
+              "arguments": ["@{text_projection}", "@{image_projection}"],
               "weights": { "ref": "pretrained_weights/attention_weights" },
               "attributes": {
                 "num_heads": { "ref": "config:constants/attention_heads" },
@@ -139,7 +139,7 @@
             {
               "name": "fusion_output",
               "type": "add",
-              "arguments": ["text_projection", "cross_attention"]
+              "arguments": ["@{text_projection}", "@{cross_attention}"]
             }
           ]
         }
@@ -161,7 +161,7 @@
             {
               "name": "dropout",
               "type": "dropout",
-              "arguments": ["fused_features"],
+              "arguments": ["@{inputs.fused_features}"],
               "attributes": {
                 "p": { "ref": "config:constants/dropout_rate" }
               }
@@ -169,7 +169,7 @@
             {
               "name": "classifier",
               "type": "linear",
-              "arguments": ["dropout"],
+              "arguments": ["@{./dropout}"],
               "weights": { "ref": "pretrained_weights/classifier_weight" },
               "bias": { "ref": "pretrained_weights/classifier_bias" },
               "attributes": {
@@ -186,27 +186,27 @@
     {
       "name": "text_features",
       "type": "text_encoder",
-      "arguments": ["text_tokens"]
+      "arguments": ["@{inputs.text_tokens}"]
     },
     {
       "name": "image_features",
       "type": "image_encoder",
-      "arguments": ["image"]
+      "arguments": ["@{inputs.image}"]
     },
     {
       "name": "fused_features",
       "type": "cross_attention_fusion",
-      "arguments": ["text_features", "image_features"]
+      "arguments": ["@{./text_features}", "@{./image_features}"]
     },
     {
       "name": "classification_logits",
       "type": "classification_head",
-      "arguments": ["fused_features"]
+      "arguments": ["@{inputs.fused_features}"]
     },
     {
       "name": "attention_weights",
       "type": "config:definitions/attention_extractor",
-      "arguments": ["fused_features"]
+      "arguments": ["@{inputs.fused_features}"]
     }
   ]
 }

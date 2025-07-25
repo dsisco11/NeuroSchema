@@ -54,7 +54,7 @@
             {
               "name": "attention_output",
               "type": "multi_head_attention",
-              "arguments": ["query", "key"],
+              "arguments": ["@{inputs.query}", "@{inputs.key}"],
               "attributes": {
                 "heads": {"ref": "constants/num_heads"},
                 "dim": {"ref": "constants/embed_dim"}
@@ -76,7 +76,7 @@
             {
               "name": "attention_weights",
               "type": "identity",
-              "arguments": ["features"]
+              "arguments": ["@{inputs.features}"]
             }
           ]
         }

@@ -77,7 +77,7 @@
             {
               "name": "conv1",
               "type": "convolution",
-              "arguments": ["x"],
+              "arguments": ["@{inputs.x}"],
               "attributes": {
                 "kernel_size": [7, 7],
                 "stride": [2, 2],
@@ -89,7 +89,7 @@
             {
               "name": "bn1",
               "type": "batch_norm",
-              "arguments": ["conv1"],
+              "arguments": ["@{./conv1}"],
               "attributes": {
                 "num_features": {"ref": "constants/conv1_out_channels"}
               }
@@ -97,12 +97,12 @@
             {
               "name": "relu1",
               "type": "relu",
-              "arguments": ["bn1"]
+              "arguments": ["@{./bn1}"]
             },
             {
               "name": "maxpool",
               "type": "max_pool",
-              "arguments": ["relu1"],
+              "arguments": ["@{./relu1}"],
               "attributes": {
                 "kernel_size": [3, 3],
                 "stride": [2, 2],
@@ -112,12 +112,12 @@
             {
               "name": "global_avgpool",
               "type": "global_avg_pool",
-              "arguments": ["maxpool"]
+              "arguments": ["@{./maxpool}"]
             },
             {
               "name": "classifier",
               "type": "linear",
-              "arguments": ["global_avgpool"],
+              "arguments": ["@{./global_avgpool}"],
               "attributes": {
                 "in_features": {"ref": "constants/final_feature_dim"},
                 "out_features": {"ref": "constants/num_classes"}
@@ -132,7 +132,7 @@
     {
       "name": "resnet_classifier",
       "type": "resnet_classifier", 
-      "arguments": ["image"]
+      "arguments": ["@{inputs.image}"]
     }
   ]
 }

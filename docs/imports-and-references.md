@@ -43,8 +43,8 @@ The imported model becomes available as a node type using the import `name`:
   "export": [
     {
       "name": "my_encoder",
-      "type": "encoder",  // References the imported model by name
-      "arguments": ["input_tensor"]
+      "type": "encoder", // References the imported model by name
+      "arguments": ["@{inputs.input_tensor}"]
     }
   ]
 }
@@ -62,7 +62,7 @@ All sections of the imported model become accessible via namespace syntax: `impo
     {
       "name": "learning_rate",
       "type": "scalar",
-      "value": {"ref": "encoder:constants/lr"}  // Access imported constant
+      "value": { "ref": "encoder:constants/lr" } // Access imported constant
     }
   ]
 }
@@ -75,8 +75,8 @@ All sections of the imported model become accessible via namespace syntax: `impo
   "export": [
     {
       "name": "custom_layer",
-      "type": "encoder:definitions/attention_layer",  // Use imported definition
-      "arguments": ["input"]
+      "type": "encoder:definitions/attention_layer", // Use imported definition
+      "arguments": ["@{inputs.input_01}"]
     }
   ]
 }
@@ -87,7 +87,7 @@ All sections of the imported model become accessible via namespace syntax: `impo
 The namespace syntax works for any section in the imported model:
 
 - `encoder:constants/value_name` - Access constants
-- `encoder:definitions/node_name` - Access node definitions  
+- `encoder:definitions/node_name` - Access node definitions
 - `encoder:inputs/tensor_name` - Reference input specifications
 - `encoder:outputs/tensor_name` - Reference output specifications
 
@@ -100,7 +100,7 @@ When you import tensor data with `type: "safetensors"`, the tensors become avail
   "imports": [
     {
       "name": "pretrained_weights",
-      "type": "safetensors", 
+      "type": "safetensors",
       "path": "./weights/model.safetensors"
     }
   ],
@@ -108,9 +108,9 @@ When you import tensor data with `type: "safetensors"`, the tensors become avail
     {
       "name": "linear_layer",
       "type": "linear",
-      "arguments": ["input"],
+      "arguments": ["@{inputs.input_01}"],
       "weights": {
-        "ref": "pretrained_weights/layer1_weight"  // Reference imported tensor
+        "ref": "pretrained_weights/layer1_weight" // Reference imported tensor
       }
     }
   ]
@@ -127,7 +127,7 @@ For referencing nodes, use the simple string format:
 "arguments": ["encoder:definitions/transformer_block"]
 ```
 
-### Data References  
+### Data References
 
 For referencing data (constants, weights), use the object format:
 
@@ -163,7 +163,7 @@ For referencing weights, use the object format:
       "path": "./encoders/bert_base.neuro.json"
     },
     {
-      "name": "image_encoder", 
+      "name": "image_encoder",
       "type": "neuro",
       "path": "./encoders/vit_b16.neuro.json"
     },
@@ -174,42 +174,42 @@ For referencing weights, use the object format:
     }
   ],
   "inputs": [
-    {"name": "text", "shape": [512], "dtype": "int32"},
-    {"name": "image", "shape": [224, 224, 3], "dtype": "float32"}
+    { "name": "text", "shape": [512], "dtype": "int32" },
+    { "name": "image", "shape": [224, 224, 3], "dtype": "float32" }
   ],
   "outputs": [
-    {"name": "classification", "shape": [1000], "dtype": "float32"}
+    { "name": "classification", "shape": [1000], "dtype": "float32" }
   ],
   "constants": [
     {
       "name": "text_dim",
-      "type": "scalar", 
-      "value": {"ref": "text_encoder:constants/hidden_size"}
+      "type": "scalar",
+      "value": { "ref": "text_encoder:constants/hidden_size" }
     },
     {
       "name": "image_dim",
       "type": "scalar",
-      "value": {"ref": "image_encoder:constants/feature_dim"}
+      "value": { "ref": "image_encoder:constants/feature_dim" }
     }
   ],
   "export": [
     {
       "name": "text_features",
-      "type": "text_encoder", 
-      "arguments": ["text"]
+      "type": "text_encoder",
+      "arguments": ["@{inputs.text}"]
     },
     {
       "name": "image_features",
       "type": "image_encoder",
-      "arguments": ["image"] 
+      "arguments": ["@{inputs.image}"]
     },
     {
       "name": "fusion",
       "type": "linear",
-      "arguments": ["text_features", "image_features"],
-      "weights": {"ref": "pretrained_weights/fusion_weights"},
+      "arguments": ["@{text_features}", "@{image_features}"],
+      "weights": { "ref": "pretrained_weights/fusion_weights" },
       "attributes": {
-        "in_features": {"ref": "text_encoder:constants/hidden_size"},
+        "in_features": { "ref": "text_encoder:constants/hidden_size" },
         "out_features": 1000
       }
     }
@@ -224,7 +224,7 @@ For referencing weights, use the object format:
   "imports": [
     {
       "name": "backbone",
-      "type": "neuro", 
+      "type": "neuro",
       "path": "../shared/resnet_backbone.neuro.json"
     },
     {
@@ -237,12 +237,12 @@ For referencing weights, use the object format:
     {
       "name": "features",
       "type": "backbone",
-      "arguments": ["input"]
+      "arguments": ["@{inputs.input_01}"]
     },
     {
-      "name": "logits", 
-      "type": "head:definitions/classifier",  // Use specific definition from import
-      "arguments": ["features"]
+      "name": "logits",
+      "type": "head:definitions/classifier", // Use specific definition from import
+      "arguments": ["@{./features}"]
     }
   ]
 }
@@ -268,23 +268,23 @@ Imported models can themselves have imports, creating a hierarchy of dependencie
     {
       "name": "output",
       "type": "multimodal_encoder",
-      "arguments": ["text", "image"]
+      "arguments": ["@{text}", "@{image}"]
     }
   ]
 }
 
-// encoders/multimodal.neuro.json  
+// encoders/multimodal.neuro.json
 {
   "imports": [
     {
       "name": "text_model",
-      "type": "neuro", 
+      "type": "neuro",
       "path": "./text_encoder.neuro.json"
     },
     {
       "name": "vision_model",
       "type": "neuro",
-      "path": "./vision_encoder.neuro.json"  
+      "path": "./vision_encoder.neuro.json"
     }
   ]
   // ...rest of model
@@ -305,7 +305,7 @@ While not directly supported by the schema, you can structure imports for condit
     },
     {
       "name": "low_precision_weights",
-      "type": "safetensors", 
+      "type": "safetensors",
       "path": "./weights/fp16_weights.safetensors"
     },
     {
@@ -365,12 +365,12 @@ All references must be resolvable at model validation time:
     {
       "name": "valid_ref",
       "type": "scalar",
-      "value": {"ref": "encoder:constants/hidden_size"}  // ✓ Valid
+      "value": { "ref": "encoder:constants/hidden_size" } // ✓ Valid
     },
     {
-      "name": "invalid_ref", 
+      "name": "invalid_ref",
       "type": "scalar",
-      "value": {"ref": "missing:constants/value"}  // ✗ Import 'missing' not found
+      "value": { "ref": "missing:constants/value" } // ✗ Import 'missing' not found
     }
   ]
 }
@@ -389,12 +389,12 @@ Paths are resolved relative to the importing file:
     {
       "name": "backbone",
       "type": "neuro",
-      "path": "../shared/resnet_backbone.neuro.json"  // → /models/shared/resnet_backbone.neuro.json
+      "path": "../shared/resnet_backbone.neuro.json" // → /models/shared/resnet_backbone.neuro.json
     },
     {
       "name": "weights",
-      "type": "safetensors", 
-      "path": "./weights/resnet50.safetensors"  // → /models/classification/weights/resnet50.safetensors
+      "type": "safetensors",
+      "path": "./weights/resnet50.safetensors" // → /models/classification/weights/resnet50.safetensors
     }
   ]
 }
@@ -449,9 +449,13 @@ Access specific tensor slices or transformations:
     {
       "name": "layer1",
       "type": "linear",
-      "arguments": ["input"],
-      "weights": {"ref": "weights/transformer.encoder.layers.0.self_attn.q_proj.weight"},
-      "bias": {"ref": "weights/transformer.encoder.layers.0.self_attn.q_proj.bias"}
+      "arguments": ["@{inputs.input_01}"],
+      "weights": {
+        "ref": "weights/transformer.encoder.layers.0.self_attn.q_proj.weight"
+      },
+      "bias": {
+        "ref": "weights/transformer.encoder.layers.0.self_attn.q_proj.bias"
+      }
     }
   ]
 }
@@ -467,12 +471,12 @@ Multiple nodes can reference the same weights:
     {
       "name": "encoder_layer_1",
       "type": "transformer_layer",
-      "weights": {"ref": "shared_weights/encoder_params"}
+      "weights": { "ref": "shared_weights/encoder_params" }
     },
     {
-      "name": "encoder_layer_2", 
+      "name": "encoder_layer_2",
       "type": "transformer_layer",
-      "weights": {"ref": "shared_weights/encoder_params"}  // Same weights
+      "weights": { "ref": "shared_weights/encoder_params" } // Same weights
     }
   ]
 }
@@ -488,7 +492,7 @@ Different precision for different components:
     {
       "name": "fp16_weights",
       "type": "safetensors",
-      "path": "./weights/model_fp16.safetensors" 
+      "path": "./weights/model_fp16.safetensors"
     },
     {
       "name": "fp32_weights",
@@ -500,12 +504,12 @@ Different precision for different components:
     {
       "name": "backbone",
       "type": "resnet",
-      "weights": {"ref": "fp16_weights/backbone"}  // Lower precision for backbone
+      "weights": { "ref": "fp16_weights/backbone" } // Lower precision for backbone
     },
     {
       "name": "classifier",
-      "type": "linear", 
-      "weights": {"ref": "fp32_weights/head"}  // Higher precision for final layer
+      "type": "linear",
+      "weights": { "ref": "fp32_weights/head" } // Higher precision for final layer
     }
   ]
 }
@@ -514,17 +518,19 @@ Different precision for different components:
 ## Best Practices
 
 ### 1. Clear Import Names
+
 Use descriptive names that indicate the purpose:
 
 ```json
 {
-  "name": "text_encoder",      // Good: clear purpose
-  "name": "bert",              // Okay: recognizable
-  "name": "model1"             // Poor: unclear
+  "name": "text_encoder", // Good: clear purpose
+  "name": "bert", // Okay: recognizable
+  "name": "model1" // Poor: unclear
 }
 ```
 
 ### 2. Organize Related Imports
+
 Group related functionality:
 
 ```json
@@ -535,7 +541,7 @@ Group related functionality:
     "path": "./vision/resnet50.neuro.json"
   },
   {
-    "name": "vision_head", 
+    "name": "vision_head",
     "type": "neuro",
     "path": "./vision/classification_head.neuro.json"
   },
@@ -548,6 +554,7 @@ Group related functionality:
 ```
 
 ### 3. Use Namespace Access for Configuration
+
 Import shared configuration and reference it:
 
 ```json
@@ -555,7 +562,7 @@ Import shared configuration and reference it:
   "imports": [
     {
       "name": "config",
-      "type": "neuro", 
+      "type": "neuro",
       "path": "./config/model_config.neuro.json"
     }
   ],
@@ -563,7 +570,7 @@ Import shared configuration and reference it:
     {
       "name": "hidden_size",
       "type": "scalar",
-      "value": {"ref": "config:constants/hidden_dim"}
+      "value": { "ref": "config:constants/hidden_dim" }
     }
   ]
 }
@@ -574,7 +581,7 @@ Import shared configuration and reference it:
 The NeuroFormat compliance system defines specific error codes for import issues:
 
 - `neuro.ref.circular_import` - Circular import dependencies detected
-- `neuro.ref.import_not_found` - Referenced import file not found  
+- `neuro.ref.import_not_found` - Referenced import file not found
 - `neuro.ref.node_not_found` - Referenced node/section not found in import
 - `neuro.schema.validation_failed` - Imported file fails schema validation
 
@@ -592,6 +599,7 @@ When validating models with imports, implementations should:
 ## Migration from Other Formats
 
 ### From ONNX
+
 ```json
 {
   "imports": [
@@ -605,11 +613,12 @@ When validating models with imports, implementations should:
 ```
 
 ### From PyTorch/TensorFlow
+
 ```json
 {
   "imports": [
     {
-      "name": "checkpoint_weights", 
+      "name": "checkpoint_weights",
       "type": "safetensors",
       "path": "./converted_checkpoint.safetensors"
     }
@@ -626,6 +635,7 @@ The import system enables flexible, modular model design while maintaining clear
 The namespace syntax follows the pattern: `import_name:section/item_path`
 
 **Components:**
+
 - `import_name` - The name given to the import in the imports array
 - `section` - The target section in the imported model (`constants`, `definitions`, `inputs`, `outputs`)
 - `item_path` - Path to the specific item, using forward slashes for nested access
@@ -642,12 +652,12 @@ Access imported constants using the `ref` object pattern:
     {
       "name": "vocab_size",
       "type": "scalar",
-      "value": {"ref": "bert_model:constants/vocabulary_size"}
+      "value": { "ref": "bert_model:constants/vocabulary_size" }
     },
     {
-      "name": "max_length", 
+      "name": "max_length",
       "type": "scalar",
-      "value": {"ref": "config:constants/sequence_length"}
+      "value": { "ref": "config:constants/sequence_length" }
     }
   ]
 }
@@ -662,8 +672,8 @@ Use imported definitions as node types:
   "export": [
     {
       "name": "encoder_block",
-      "type": "transformer_lib:definitions/encoder_layer",  // Direct type reference
-      "arguments": ["input"]
+      "type": "transformer_lib:definitions/encoder_layer", // Direct type reference
+      "arguments": ["@{inputs.input_01}"]
     },
     {
       "name": "custom_attention",
@@ -683,8 +693,8 @@ Reference imported tensor specifications:
   "inputs": [
     {
       "name": "processed_input",
-      "shape": {"ref": "preprocessor:inputs/raw_data/shape"},
-      "dtype": {"ref": "preprocessor:inputs/raw_data/dtype"}
+      "shape": { "ref": "preprocessor:inputs/raw_data/shape" },
+      "dtype": { "ref": "preprocessor:inputs/raw_data/dtype" }
     }
   ]
 }
@@ -700,7 +710,7 @@ For deeply nested structures, use forward slash separation:
     {
       "name": "attention_heads",
       "type": "scalar",
-      "value": {"ref": "config:constants/model_config/attention/num_heads"}
+      "value": { "ref": "config:constants/model_config/attention/num_heads" }
     }
   ]
 }
@@ -717,10 +727,10 @@ Namespace references work seamlessly with the type system:
       "name": "custom_layer",
       "type": "base_model:definitions/transformer_block",
       "parameters": {
-        "inputs": [{"name": "x", "type": "tensor"}],
+        "inputs": [{ "name": "x", "type": "tensor" }],
         "attributes": {
-          "hidden_size": {"ref": "base_model:constants/d_model"},
-          "num_heads": {"ref": "base_model:constants/n_heads"}
+          "hidden_size": { "ref": "base_model:constants/d_model" },
+          "num_heads": { "ref": "base_model:constants/n_heads" }
         }
       }
     }
@@ -751,7 +761,7 @@ A typical multi-stage model using imports:
     },
     {
       "name": "layout_analyzer",
-      "type": "neuro", 
+      "type": "neuro",
       "path": "./stages/layout_analysis.neuro.json"
     },
     {
@@ -775,17 +785,17 @@ A typical multi-stage model using imports:
   "outputs": [
     {
       "name": "extracted_text",
-      "shape": [{"ref": "ocr_model:constants/max_text_length"}],
+      "shape": [{ "ref": "ocr_model:constants/max_text_length" }],
       "dtype": "int32"
     },
     {
       "name": "layout_regions",
-      "shape": [{"ref": "layout_analyzer:constants/max_regions"}, 4],
+      "shape": [{ "ref": "layout_analyzer:constants/max_regions" }, 4],
       "dtype": "float32"
     },
     {
       "name": "content_categories",
-      "shape": [{"ref": "content_classifier:constants/num_categories"}],
+      "shape": [{ "ref": "content_classifier:constants/num_categories" }],
       "dtype": "float32"
     }
   ],
@@ -793,18 +803,18 @@ A typical multi-stage model using imports:
     {
       "name": "text_extraction",
       "type": "ocr_model",
-      "arguments": ["document_image"]
+      "arguments": ["@{inputs.document_image}"]
     },
     {
       "name": "layout_analysis",
-      "type": "layout_analyzer", 
-      "arguments": ["document_image"]
+      "type": "layout_analyzer",
+      "arguments": ["@{inputs.document_image}"]
     },
     {
       "name": "content_classification",
       "type": "content_classifier",
-      "arguments": ["text_extraction", "layout_analysis"],
-      "weights": {"ref": "pipeline_weights/fusion_classifier"}
+      "arguments": ["@{text_extraction}", "@{layout_analysis}"],
+      "weights": { "ref": "pipeline_weights/fusion_classifier" }
     }
   ]
 }
@@ -831,7 +841,7 @@ Centralized configuration with multiple model variants:
       }
     },
     {
-      "name": "training_config", 
+      "name": "training_config",
       "type": "object",
       "value": {
         "learning_rate": 0.0001,
@@ -851,7 +861,7 @@ Centralized configuration with multiple model variants:
   "constants": [
     {
       "name": "hidden_size",
-      "type": "scalar", 
+      "type": "scalar",
       "value": {"ref": "config:constants/model_variants/base/hidden_size"}
     },
     {
@@ -877,7 +887,7 @@ Complex fusion of different modalities:
       "path": "./modalities/text/bert_encoder.neuro.json"
     },
     {
-      "name": "image_encoder", 
+      "name": "image_encoder",
       "type": "neuro",
       "path": "./modalities/vision/vit_encoder.neuro.json"
     },
@@ -903,15 +913,15 @@ Complex fusion of different modalities:
       "type": "fusion_components:definitions/attention_fusion",
       "parameters": {
         "inputs": [
-          {"name": "text_features", "type": "tensor"},
-          {"name": "image_features", "type": "tensor"}, 
-          {"name": "audio_features", "type": "tensor"}
+          { "name": "text_features", "type": "tensor" },
+          { "name": "image_features", "type": "tensor" },
+          { "name": "audio_features", "type": "tensor" }
         ],
         "attributes": {
-          "text_dim": {"ref": "text_encoder:constants/output_dim"},
-          "image_dim": {"ref": "image_encoder:constants/output_dim"},
-          "audio_dim": {"ref": "audio_encoder:constants/output_dim"},
-          "fusion_dim": {"ref": "fusion_components:constants/unified_dim"}
+          "text_dim": { "ref": "text_encoder:constants/output_dim" },
+          "image_dim": { "ref": "image_encoder:constants/output_dim" },
+          "audio_dim": { "ref": "audio_encoder:constants/output_dim" },
+          "fusion_dim": { "ref": "fusion_components:constants/unified_dim" }
         }
       }
     }
@@ -920,23 +930,23 @@ Complex fusion of different modalities:
     {
       "name": "text_features",
       "type": "text_encoder",
-      "arguments": ["text_input"]
+      "arguments": ["@{inputs.text_input}"]
     },
     {
       "name": "image_features",
-      "type": "image_encoder", 
-      "arguments": ["image_input"]
+      "type": "image_encoder",
+      "arguments": ["@{inputs.image_input}"]
     },
     {
       "name": "audio_features",
       "type": "audio_encoder",
-      "arguments": ["audio_input"]
+      "arguments": ["@{inputs.audio_input}"]
     },
     {
       "name": "fused_representation",
       "type": "adaptive_fusion",
       "arguments": ["text_features", "image_features", "audio_features"],
-      "weights": {"ref": "pretrained_weights/fusion_weights"}
+      "weights": { "ref": "pretrained_weights/fusion_weights" }
     }
   ]
 }
@@ -955,6 +965,7 @@ Model A → imports → Model B → imports → Model C → imports → Model A 
 ```
 
 **Detection Algorithm:**
+
 1. Maintain a stack of currently resolving imports
 2. Before resolving an import, check if it's already in the stack
 3. If found, report `neuro.ref.circular_import` error
@@ -983,13 +994,17 @@ Load imports only when actually referenced:
   "imports": [
     {
       "name": "large_model",
-      "type": "neuro", 
-      "path": "./large_expensive_model.neuro.json"  // Only load if used
+      "type": "neuro",
+      "path": "./large_expensive_model.neuro.json" // Only load if used
     }
   ],
   "export": [
     // If this export section doesn't use 'large_model', don't load it
-    {"name": "simple_output", "type": "identity", "arguments": ["input"]}
+    {
+      "name": "simple_output",
+      "type": "identity",
+      "arguments": ["@{inputs.input}"]
+    }
   ]
 }
 ```
@@ -1006,7 +1021,7 @@ Validate import paths to prevent directory traversal attacks:
     {
       "name": "malicious",
       "type": "neuro",
-      "path": "../../etc/passwd"  // ❌ Should be rejected
+      "path": "../../etc/passwd" // ❌ Should be rejected
     }
   ]
 }
@@ -1029,19 +1044,21 @@ Message: Import file './models/encoder.neuro.json' not found
 ```
 
 **Solutions:**
+
 - Verify the file path is correct relative to the importing file
-- Check file permissions and accessibility  
+- Check file permissions and accessibility
 - Ensure the file extension matches the import type
 - Verify the file exists in the expected location
 
 #### Circular Import Detected
 
 ```
-Error: neuro.ref.circular_import  
+Error: neuro.ref.circular_import
 Message: Circular import dependency: model_a → model_b → model_c → model_a
 ```
 
 **Solutions:**
+
 - Restructure models to eliminate cycles
 - Extract shared components to a common base model
 - Use composition instead of inheritance patterns
@@ -1054,6 +1071,7 @@ Message: Reference 'encoder:constants/hidden_size' not found in import 'encoder'
 ```
 
 **Solutions:**
+
 - Verify the referenced section exists in the imported model
 - Check spelling and case sensitivity in the reference path
 - Ensure the imported model defines the referenced constant/definition
@@ -1067,6 +1085,7 @@ Message: Imported file 'model.neuro.json' fails schema validation
 ```
 
 **Solutions:**
+
 - Validate the imported file independently
 - Check that the imported file uses the correct schema version
 - Fix any schema violations in the imported file

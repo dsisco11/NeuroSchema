@@ -76,7 +76,7 @@
             {
               "name": "fc1",
               "type": "linear",
-              "arguments": ["input"],
+              "arguments": ["@{inputs.input}"],
               "attributes": {
                 "in_features": { "ref": "constants/input_size" },
                 "out_features": { "ref": "constants/hidden1_size" },
@@ -86,7 +86,7 @@
             {
               "name": "relu1",
               "type": "activation",
-              "arguments": ["fc1"],
+              "arguments": ["@{./fc1}"],
               "attributes": {
                 "function": "relu"
               }
@@ -94,7 +94,7 @@
             {
               "name": "fc2",
               "type": "linear",
-              "arguments": ["relu1"],
+              "arguments": ["@{./relu1}"],
               "attributes": {
                 "in_features": { "ref": "constants/hidden1_size" },
                 "out_features": { "ref": "constants/hidden2_size" },
@@ -104,7 +104,7 @@
             {
               "name": "relu2",
               "type": "activation",
-              "arguments": ["fc2"],
+              "arguments": ["@{./fc2}"],
               "attributes": {
                 "function": "relu"
               }
@@ -112,7 +112,7 @@
             {
               "name": "fc3",
               "type": "linear",
-              "arguments": ["relu2"],
+              "arguments": ["@{./relu2}"],
               "attributes": {
                 "in_features": { "ref": "constants/hidden2_size" },
                 "out_features": { "ref": "constants/output_size" },
@@ -122,7 +122,7 @@
             {
               "name": "output",
               "type": "activation",
-              "arguments": ["fc3"],
+              "arguments": ["@{./fc3}"],
               "attributes": {
                 "function": "softmax"
               }
@@ -136,7 +136,7 @@
     {
       "name": "classifier",
       "type": "mnist_classifier",
-      "arguments": ["image"]
+      "arguments": ["@{inputs.image}"]
     }
   ]
 }

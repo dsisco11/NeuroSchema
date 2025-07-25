@@ -11,7 +11,7 @@ NeuroFormat introduces the **NeuroGraph** format - a human-readable, framework-a
 
 **🖊️ Human-Readable & Editable**  
 Unlike binary or complex serialization formats, NeuroGraph uses clean JSON that model authors can write, read, and edit directly without specialized tools.  
-No more wrestling with export scripts or format-specific APIs - just define your model structure in JSON.  
+No more wrestling with export scripts or format-specific APIs - just define your model structure in JSON.
 
 **🌐 Language & Provider Agnostic Architecture**  
 NeuroGraph employs a two-layer abstraction system:
@@ -22,14 +22,14 @@ NeuroGraph employs a two-layer abstraction system:
 This separation means you write your model once in NeuroGraph, then deploy it anywhere without format conversion hassles.
 
 **⚡ Direct Model Authoring**  
-Instead of being an export target, *NeuroGraph* is designed as a primary authoring format. Model developers can define their architectures directly in `.neuro.json` files, making model sharing, version control, and collaboration as simple as sharing a text file.  
+Instead of being an export target, _NeuroGraph_ is designed as a primary authoring format. Model developers can define their architectures directly in `.neuro.json` files, making model sharing, version control, and collaboration as simple as sharing a text file.
 
 ## Design Goals
 
 NeuroGraph prioritizes human-centric development over serialization efficiency:
 
 - **🖊️ Human Authoring**: Write and edit models directly in JSON without specialized tools
-- **📖 Readability**: Clear structure that developers can understand at a glance  
+- **📖 Readability**: Clear structure that developers can understand at a glance
 - **🔗 Universal Deployment**: Language-agnostic format with provider-specific translation layers
 - **📝 Version Control Friendly**: Text-based format that works seamlessly with Git
 - **🔄 Modularity**: Reusable components across models, languages, and frameworks
@@ -39,7 +39,7 @@ NeuroGraph prioritizes human-centric development over serialization efficiency:
 ## Getting Started
 
 1. **Explore Examples**: Check the `docs/examples/` directory for complete model definitions
-2. **Validate Models**: Use JSON Schema validators with the provided `.schema.json` files  
+2. **Validate Models**: Use JSON Schema validators with the provided `.schema.json` files
 3. **Reference Schema Version**: Include the `$schema` field in your `.neuro.json` files for validation and tooling support
 4. **Build Language Libraries**: Implement parsers for your preferred programming language
 5. **Create Provider Libraries**: Add support for your compute framework (PyTorch, TensorFlow, etc.)
@@ -63,13 +63,21 @@ All nodes, regardless of complexity, follow the same structural pattern:
 ```json
 {
   "name": "node_name",
-  "type": "node_type", 
+  "type": "node_type",
   "parameters": {
-    "inputs": [/* input specifications */],
-    "attributes": {/* node-specific parameters */}
+    "inputs": [
+      /* input specifications */
+    ],
+    "attributes": {
+      /* node-specific parameters */
+    }
   },
   "implementation": {
-    "graph": {"nodes": [/* internal node composition */]},
+    "graph": {
+      "nodes": [
+        /* internal node composition */
+      ]
+    },
     "weights": "/* optional weight data */"
   }
 }
@@ -103,7 +111,7 @@ Defines model information and configuration:
   "metadata": {
     "model": {
       "name": "example_model",
-      "version": "1.0.0", 
+      "version": "1.0.0",
       "description": "Model description",
       "author": "Author Name",
       "license": "MIT",
@@ -141,7 +149,7 @@ Defines the output tensors the model produces:
   "outputs": [
     {
       "name": "predictions",
-      "description": "Class probabilities", 
+      "description": "Class probabilities",
       "shape": [1000],
       "dtype": "float32"
     }
@@ -165,9 +173,9 @@ Define named constants for model configuration and reusable values:
     {
       "name": "model_weights",
       "type": "tensor",
-      "dtype": "float32", 
+      "dtype": "float32",
       "shape": [768, 512],
-      "value": {"ref": "weights_file/layer_weights"},
+      "value": { "ref": "weights_file/layer_weights" },
       "description": "Pretrained weights for the linear layer"
     }
   ]
@@ -195,7 +203,7 @@ The main execution graph - defines how the model processes inputs to produce out
     {
       "name": "classifier",
       "type": "resnet50",
-      "arguments": ["image"]
+      "arguments": ["@{image}"]
     }
   ]
 }
@@ -212,14 +220,18 @@ Reusable node definitions for operators, layers, and architectures:
       "name": "my_sequential_classifier",
       "type": "sequential",
       "parameters": {
-        "inputs": [{"name": "input", "type": "tensor"}]
+        "inputs": [{ "name": "input", "type": "tensor" }]
       },
       "implementation": {
         "graph": {
           "nodes": [
-            {"name": "fc1", "type": "linear", "arguments": ["input"]},
-            {"name": "relu1", "type": "activation", "arguments": ["fc1"]},
-            {"name": "output", "type": "linear", "arguments": ["relu1"]}
+            {
+              "name": "fc1",
+              "type": "linear",
+              "arguments": ["@{inputs.input}"]
+            },
+            { "name": "relu1", "type": "activation", "arguments": ["@{fc1}"] },
+            { "name": "output", "type": "linear", "arguments": ["@{relu1}"] }
           ]
         }
       }
@@ -237,7 +249,7 @@ Enable modular model design through importing external resources:
   "imports": [
     {
       "name": "text_encoder",
-      "type": "neuro", 
+      "type": "neuro",
       "path": "./encoders/bert_base.neuro.json"
     },
     {
@@ -283,7 +295,7 @@ The NeuroFormat schema system is modular and extensible:
 The schemas use concise "catchall" type definitions to reduce redundancy:
 
 - **`anyint`**: Any signed integer type (`int8`, `int16`, `int32`, `int64`)
-- **`anyuint`**: Any unsigned integer type (`uint8`, `uint16`, `uint32`, `uint64`)  
+- **`anyuint`**: Any unsigned integer type (`uint8`, `uint16`, `uint32`, `uint64`)
 - **`anyfloat`**: Any floating-point type (`float16`, `float32`, `float64`)
 - **`anynumeric`**: Any numeric type (combination of above)
 
@@ -314,33 +326,33 @@ Third-party extensions are supported through namespaced types:
       "description": "Simple MNIST digit classifier"
     }
   },
-  "inputs": [
-    {"name": "image", "shape": [1, 784], "dtype": "float32"}
-  ],
-  "outputs": [
-    {"name": "predictions", "shape": [1, 10], "dtype": "float32"}
-  ],
+  "inputs": [{ "name": "image", "shape": [1, 784], "dtype": "float32" }],
+  "outputs": [{ "name": "predictions", "shape": [1, 10], "dtype": "float32" }],
   "definitions": [
     {
-      "name": "classifier", 
+      "name": "classifier",
       "type": "sequential",
       "parameters": {
-        "inputs": [{"name": "input", "type": "tensor", "shape": [784]}]
+        "inputs": [{ "name": "input", "type": "tensor", "shape": [784] }]
       },
       "implementation": {
         "graph": {
           "nodes": [
-            {"name": "fc1", "type": "linear", "arguments": ["input"]},
-            {"name": "relu1", "type": "activation", "arguments": ["fc1"]},
-            {"name": "fc2", "type": "linear", "arguments": ["relu1"]},
-            {"name": "output", "type": "activation", "arguments": ["fc2"]}
+            {
+              "name": "fc1",
+              "type": "linear",
+              "arguments": ["@{./inputs.input}"]
+            },
+            { "name": "relu1", "type": "activation", "arguments": ["@{fc1}"] },
+            { "name": "fc2", "type": "linear", "arguments": ["@{relu1}"] },
+            { "name": "output", "type": "activation", "arguments": ["@{fc2}"] }
           ]
         }
       }
     }
   ],
   "export": [
-    {"name": "main", "type": "classifier", "arguments": ["image"]}
+    { "name": "main", "type": "classifier", "arguments": ["@{inputs.image}"] }
   ]
 }
 ```
@@ -350,7 +362,7 @@ Third-party extensions are supported through namespaced types:
 For a complete example demonstrating the import system, see [`docs/examples/multimodal_with_imports.neuro.json`](./docs/examples/multimodal_with_imports.neuro.json). This example shows:
 
 - **Model Imports**: Importing text and image encoders as reusable components
-- **Weight Imports**: Loading pretrained weights from safetensors files  
+- **Weight Imports**: Loading pretrained weights from safetensors files
 - **Configuration Imports**: Sharing constants and definitions across models
 - **Namespace References**: Accessing imported constants, definitions, and weights
 - **Cross-Modal Architecture**: Combining multiple imported models into a unified system
@@ -392,8 +404,8 @@ flowchart LR
     C["<b>Provider Library</b><br/><i>(PyTorch, ONNX,<br/>TensorFlow, etc.)</i>"]
     A --> B
     B --> C
-    
+
     style A stroke:#01579b,stroke-width:2px
-    style B stroke:#4a148c,stroke-width:2px  
+    style B stroke:#4a148c,stroke-width:2px
     style C stroke:#1b5e20,stroke-width:2px
 ```

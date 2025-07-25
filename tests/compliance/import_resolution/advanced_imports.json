@@ -51,7 +51,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["placeholder_input"]
+                "arguments": ["@{inputs.placeholder_input}"]
               }
             ]
           },
@@ -170,7 +170,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["placeholder_input"]
+                "arguments": ["@{inputs.placeholder_input}"]
               }
             ]
           },
@@ -208,7 +208,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["placeholder_input"]
+                "arguments": ["@{inputs.placeholder_input}"]
               }
             ]
           }

@@ -97,7 +97,7 @@
             {
               "name": "context_encoder",
               "type": "transformer",
-              "arguments": ["context"],
+              "arguments": ["@{inputs.context}"],
               "attributes": {
                 "num_layers": {"ref": "constants/encoder_layers"},
                 "hidden_size": {"ref": "constants/hidden_size"},
@@ -107,7 +107,7 @@
             {
               "name": "message_encoder", 
               "type": "transformer",
-              "arguments": ["message"],
+              "arguments": ["@{inputs.message}"],
               "attributes": {
                 "num_layers": {"ref": "constants/encoder_layers"},
                 "hidden_size": {"ref": "constants/hidden_size"},
@@ -117,7 +117,7 @@
             {
               "name": "fusion",
               "type": "cross_attention",
-              "arguments": ["context_encoder", "message_encoder"],
+              "arguments": ["@{context_encoder}", "@{message_encoder}"],
               "attributes": {
                 "num_heads": {"ref": "constants/num_attention_heads"},
                 "hidden_size": {"ref": "constants/hidden_size"}
@@ -126,7 +126,7 @@
             {
               "name": "response_generator",
               "type": "transformer",
-              "arguments": ["fusion"],
+              "arguments": ["@{./fusion}"],
               "attributes": {
                 "num_layers": {"ref": "constants/generator_layers"},
                 "hidden_size": {"ref": "constants/hidden_size"},
@@ -143,7 +143,7 @@
     {
       "name": "chat_model",
       "type": "chat_model",
-      "arguments": ["conversation_history", "user_message"]
+      "arguments": ["@{inputs.conversation_history}", "@{inputs.user_message}"]
     }
   ]
 }

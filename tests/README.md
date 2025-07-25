@@ -7,7 +7,7 @@ This folder contains the compliance tests that any implementation of the NeuroFo
 The tests are organized into different categories based on the functionality they validate:
 
 - **Parsing Tests**: JSON parsing and schema validation
-- **Serialization Tests**: Round-trip serialization accuracy  
+- **Serialization Tests**: Round-trip serialization accuracy
 - **Validation Tests**: Input/output validation and error handling
 - **Execution Tests**: Node execution and data flow
 - **Integration Tests**: End-to-end model functionality
@@ -189,7 +189,7 @@ Downstream library implementers should:
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["input"]
+              "arguments": ["@{inputs.input}"]
             }
           ]
         }
@@ -227,7 +227,7 @@ All error tests use **canonical NeuroFormat error codes** as defined in `docs/er
 Key error code categories:
 
 - **`neuro.schema.*`**: Schema validation errors
-- **`neuro.ref.*`**: Reference resolution errors  
+- **`neuro.ref.*`**: Reference resolution errors
 - **`neuro.type.*`**: Type system errors
 - **`neuro.exec.*`**: Runtime execution errors
 - **`neuro.impl.*`**: Implementation-specific errors

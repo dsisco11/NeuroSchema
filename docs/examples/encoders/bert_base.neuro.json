@@ -70,7 +70,7 @@
             {
               "name": "embeddings",
               "type": "embedding",
-              "arguments": ["tokens"],
+              "arguments": ["@{inputs.tokens}"],
               "attributes": {
                 "num_embeddings": { "ref": "constants/vocab_size" },
                 "embedding_dim": { "ref": "constants/hidden_size" }
@@ -79,7 +79,7 @@
             {
               "name": "encoder_output",
               "type": "transformer",
-              "arguments": ["embeddings"],
+              "arguments": ["@{./embeddings}"],
               "attributes": {
                 "num_layers": { "ref": "constants/num_layers" },
                 "hidden_size": { "ref": "constants/hidden_size" },
@@ -95,7 +95,7 @@
     {
       "name": "hidden_states",
       "type": "bert_encoder",
-      "arguments": ["input_ids"]
+      "arguments": ["@{inputs.input_ids}"]
     }
   ]
 }

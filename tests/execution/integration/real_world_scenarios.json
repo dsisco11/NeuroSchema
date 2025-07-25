@@ -55,14 +55,14 @@
             {"name": "classification_logits", "shape": [100], "dtype": "float32"}
           ],
           "nodes": [
-            {"name": "text_features", "type": "reference", "arguments": ["text_input"], "reference": "text_encoder/encode"},
-            {"name": "image_features", "type": "reference", "arguments": ["image_input"], "reference": "image_encoder/extract_features"},
-            {"name": "audio_features", "type": "reference", "arguments": ["audio_input"], "reference": "audio_encoder/encode_spectral"},
+            {"name": "text_features", "type": "reference", "arguments": ["@{inputs.text_input}"], "reference": "text_encoder/encode"},
+            {"name": "image_features", "type": "reference", "arguments": ["@{inputs.image_input}"], "reference": "image_encoder/extract_features"},
+            {"name": "audio_features", "type": "reference", "arguments": ["@{inputs.audio_input}"], "reference": "audio_encoder/encode_spectral"},
             {"name": "fused", "type": "reference", "arguments": ["text_features", "image_features", "audio_features"], "reference": "fusion_layer/multi_head_fusion"}
           ],
           "export": [
-            {"name": "get_representation", "type": "identity", "arguments": ["fused"]},
-            {"name": "classify", "type": "linear", "arguments": ["fused"], "shape": [1024, 100]}
+            {"name": "get_representation", "type": "identity", "arguments": ["@{./fused}"]},
+            {"name": "classify", "type": "linear", "arguments": ["@{./fused}"], "shape": [1024, 100]}
           ]
         },
         "parameters": {
@@ -72,7 +72,7 @@
               "metadata": {"model": {"name": "text_encoder", "version": "1.0.0"}},
               "inputs": [{"name": "tokens", "shape": [512], "dtype": "int32"}],
               "outputs": [{"name": "embeddings", "shape": [512, 768], "dtype": "float32"}],
-              "export": [{"name": "encode", "type": "embedding", "arguments": ["tokens"], "vocab_size": 50000, "embedding_dim": 768}]
+              "export": [{"name": "encode", "type": "embedding", "arguments": ["@{inputs.tokens}"], "vocab_size": 50000, "embedding_dim": 768}]
             },
             "modules/vision/cnn_encoder.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -80,7 +80,7 @@
               "imports": [{"name": "backbone", "type": "neuro", "path": "../shared/resnet_backbone.neuro.json"}],
               "inputs": [{"name": "image", "shape": [224, 224, 3], "dtype": "float32"}],
               "outputs": [{"name": "features", "shape": [2048], "dtype": "float32"}],
-              "export": [{"name": "extract_features", "type": "reference", "arguments": ["image"], "reference": "backbone/forward"}]
+              "export": [{"name": "extract_features", "type": "reference", "arguments": ["@{inputs.image}"], "reference": "backbone/forward"}]
             },
             "modules/audio/spectral_encoder.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -88,11 +88,11 @@
               "inputs": [{"name": "waveform", "shape": [16000], "dtype": "float32"}],
               "outputs": [{"name": "spectral_features", "shape": [256], "dtype": "float32"}],
               "nodes": [
-                {"name": "spectrogram", "type": "stft", "arguments": ["waveform"], "n_fft": 512, "hop_length": 160},
-                {"name": "mel_features", "type": "mel_scale", "arguments": ["spectrogram"], "n_mels": 80},
-                {"name": "encoded", "type": "linear", "arguments": ["mel_features"], "shape": [80, 256]}
+                {"name": "spectrogram", "type": "stft", "arguments": ["@{inputs.waveform}"], "n_fft": 512, "hop_length": 160},
+                {"name": "mel_features", "type": "mel_scale", "arguments": ["@{./spectrogram}"], "n_mels": 80},
+                {"name": "encoded", "type": "linear", "arguments": ["@{./mel_features}"], "shape": [80, 256]}
               ],
-              "export": [{"name": "encode_spectral", "type": "identity", "arguments": ["encoded"]}]
+              "export": [{"name": "encode_spectral", "type": "identity", "arguments": ["@{./encoded}"]}]
             },
             "modules/fusion/attention_fusion.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -110,7 +110,7 @@
               "metadata": {"model": {"name": "backbone", "version": "1.0.0"}},
               "inputs": [{"name": "x", "shape": [224, 224, 3], "dtype": "float32"}],
               "outputs": [{"name": "features", "shape": [2048], "dtype": "float32"}],
-              "export": [{"name": "forward", "type": "resnet50", "arguments": ["x"], "pretrained": true}]
+              "export": [{"name": "forward", "type": "resnet50", "arguments": ["@{inputs.x}"], "pretrained": true}]
             }
           }
         }
@@ -160,7 +160,7 @@
             {"name": "logits", "shape": [128, 50000], "dtype": "float32"}
           ],
           "export": [
-            {"name": "encode_decode", "type": "transformer", "arguments": ["source_ids", "target_ids"]}
+            {"name": "encode_decode", "type": "transformer", "arguments": ["@{inputs.source_ids}", "@{inputs.target_ids}"]}
           ]
         },
         "parameters": {
@@ -174,7 +174,7 @@
               ],
               "inputs": [{"name": "embeddings", "shape": [128, 512], "dtype": "float32"}],
               "outputs": [{"name": "encoded", "shape": [128, 512], "dtype": "float32"}],
-              "export": [{"name": "encode", "type": "transformer_encoder", "arguments": ["embeddings"], "num_layers": 6}]
+              "export": [{"name": "encode", "type": "transformer_encoder", "arguments": ["@{inputs.embeddings}"], "num_layers": 6}]
             },
             "encoder/layer.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -185,7 +185,7 @@
               ],
               "inputs": [{"name": "x", "shape": [128, 512], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [128, 512], "dtype": "float32"}],
-              "export": [{"name": "forward", "type": "encoder_layer", "arguments": ["x"]}]
+              "export": [{"name": "forward", "type": "encoder_layer", "arguments": ["@{inputs.x}"]}]
             },
             "decoder/stack.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -198,7 +198,7 @@
                 {"name": "encoder_output", "shape": [128, 512], "dtype": "float32"}
               ],
               "outputs": [{"name": "decoded", "shape": [128, 512], "dtype": "float32"}],
-              "export": [{"name": "decode", "type": "transformer_decoder", "arguments": ["target_embeddings", "encoder_output"], "num_layers": 6}]
+              "export": [{"name": "decode", "type": "transformer_decoder", "arguments": ["@{inputs.target_embeddings}", "@{inputs.encoder_output}"], "num_layers": 6}]
             },
             "decoder/layer.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -213,14 +213,14 @@
                 {"name": "memory", "shape": [128, 512], "dtype": "float32"}
               ],
               "outputs": [{"name": "output", "shape": [128, 512], "dtype": "float32"}],
-              "export": [{"name": "forward", "type": "decoder_layer", "arguments": ["x", "memory"]}]
+              "export": [{"name": "forward", "type": "decoder_layer", "arguments": ["@{inputs.x}", "@{inputs.memory}"]}]
             },
             "common/embeddings.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "embeddings", "version": "1.0.0"}},
               "inputs": [{"name": "token_ids", "shape": [128], "dtype": "int32"}],
               "outputs": [{"name": "embeddings", "shape": [128, 512], "dtype": "float32"}],
-              "export": [{"name": "embed", "type": "embedding", "arguments": ["token_ids"], "vocab_size": 50000, "embedding_dim": 512}]
+              "export": [{"name": "embed", "type": "embedding", "arguments": ["@{inputs.token_ids}"], "vocab_size": 50000, "embedding_dim": 512}]
             },
             "common/attention.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -238,14 +238,14 @@
               "metadata": {"model": {"name": "feedforward", "version": "1.0.0"}},
               "inputs": [{"name": "x", "shape": [128, 512], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [128, 512], "dtype": "float32"}],
-              "export": [{"name": "forward", "type": "feed_forward", "arguments": ["x"], "hidden_dim": 2048}]
+              "export": [{"name": "forward", "type": "feed_forward", "arguments": ["@{inputs.x}"], "hidden_dim": 2048}]
             },
             "common/positional.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "position_encoding", "version": "1.0.0"}},
               "inputs": [{"name": "sequence_length", "shape": [], "dtype": "int32"}],
               "outputs": [{"name": "encodings", "shape": [128, 512], "dtype": "float32"}],
-              "export": [{"name": "encode_positions", "type": "positional_encoding", "arguments": ["sequence_length"], "max_length": 1024}]
+              "export": [{"name": "encode_positions", "type": "positional_encoding", "arguments": ["@{inputs.sequence_length}"], "max_length": 1024}]
             }
           }
         }
@@ -284,7 +284,7 @@
           ],
           "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
           "outputs": [{"name": "output", "shape": [50], "dtype": "float32"}],
-          "export": [{"name": "process", "type": "composite", "arguments": ["input"]}]
+          "export": [{"name": "process", "type": "composite", "arguments": ["@{inputs.input}"]}]
         },
         "parameters": {
           "imported_files": {
@@ -298,7 +298,7 @@
               },
               "inputs": [{"name": "x", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "y", "shape": [75], "dtype": "float32"}],
-              "export": [{"name": "transform", "type": "linear", "arguments": ["x"], "shape": [100, 75]}]
+              "export": [{"name": "transform", "type": "linear", "arguments": ["@{inputs.x}"], "shape": [100, 75]}]
             },
             "modern/component.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
@@ -310,7 +310,7 @@
               },
               "inputs": [{"name": "features", "shape": [75], "dtype": "float32"}],
               "outputs": [{"name": "predictions", "shape": [50], "dtype": "float32"}],
-              "export": [{"name": "predict", "type": "linear", "arguments": ["features"], "shape": [75, 50]}]
+              "export": [{"name": "predict", "type": "linear", "arguments": ["@{inputs.features}"], "shape": [75, 50]}]
             }
           }
         }

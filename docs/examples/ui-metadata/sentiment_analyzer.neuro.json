@@ -87,7 +87,7 @@
             {
               "name": "bert_encoder",
               "type": "transformer",
-              "arguments": ["tokens"],
+              "arguments": ["@{inputs.tokens}"],
               "attributes": {
                 "num_layers": {"ref": "constants/bert_layers"},
                 "hidden_size": {"ref": "constants/bert_hidden_size"},
@@ -97,7 +97,7 @@
             {
               "name": "pooler",
               "type": "pooling",
-              "arguments": ["bert_encoder"],
+              "arguments": ["@{./bert_encoder}"],
               "attributes": {
                 "method": "cls_token"
               }
@@ -105,7 +105,7 @@
             {
               "name": "classifier",
               "type": "linear",
-              "arguments": ["pooler"],
+              "arguments": ["@{./pooler}"],
               "attributes": {
                 "in_features": {"ref": "constants/bert_hidden_size"},
                 "out_features": {"ref": "constants/num_sentiment_classes"}
@@ -120,7 +120,7 @@
     {
       "name": "sentiment_classifier",
       "type": "sentiment_classifier",
-      "arguments": ["text_input"]
+      "arguments": ["@{inputs.text_input}"]
     }
   ]
 }

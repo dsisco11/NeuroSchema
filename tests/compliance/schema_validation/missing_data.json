@@ -53,7 +53,7 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["input"]
+              "arguments": ["@{inputs.input}"]
             }
           ]
         }
@@ -91,7 +91,7 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["input"]
+              "arguments": ["@{inputs.input}"]
             }
           ]
         }

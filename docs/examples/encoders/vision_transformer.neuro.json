@@ -76,7 +76,7 @@
             {
               "name": "patch_embedding",
               "type": "convolution",
-              "arguments": ["image"],
+              "arguments": ["@{inputs.image}"],
               "attributes": {
                 "kernel_size": [{"ref": "constants/patch_size"}, {"ref": "constants/patch_size"}],
                 "stride": [{"ref": "constants/patch_size"}, {"ref": "constants/patch_size"}],
@@ -87,7 +87,7 @@
             {
               "name": "transformer_encoder",
               "type": "transformer",
-              "arguments": ["patch_embedding"],
+              "arguments": ["@{./patch_embedding}"],
               "attributes": {
                 "num_layers": {"ref": "constants/num_layers"},
                 "hidden_size": {"ref": "constants/feature_dim"},
@@ -103,7 +103,7 @@
     {
       "name": "features",
       "type": "vit_encoder", 
-      "arguments": ["image"]
+      "arguments": ["@{inputs.image}"]
     }
   ]
 }

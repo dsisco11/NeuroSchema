@@ -45,7 +45,7 @@
             {
               "name": "incompatible_add",
               "type": "add",
-              "arguments": ["input1", "input2"]
+              "arguments": ["@{inputs.input1}", "@{inputs.input2}"]
             }
           ]
         }
@@ -95,7 +95,7 @@
             {
               "name": "incompatible_mul",
               "type": "mul",
-              "arguments": ["float_input", "int_input"]
+              "arguments": ["@{inputs.float_input}", "@{inputs.int_input}"]
             }
           ]
         }
@@ -140,7 +140,7 @@
             {
               "name": "linear_layer",
               "type": "linear",
-              "arguments": ["input"],
+              "arguments": ["@{inputs.input}"],
               "attributes": {
                 "in_features": 5,
                 "out_features": 3
@@ -189,7 +189,7 @@
             {
               "name": "invalid_linear",
               "type": "linear",
-              "arguments": ["input"],
+              "arguments": ["@{inputs.input}"],
               "attributes": {
                 "in_features": 5,
                 "out_features": -3
@@ -243,7 +243,7 @@
             {
               "name": "incompatible_matmul",
               "type": "matmul",
-              "arguments": ["matrix_a", "matrix_b"]
+              "arguments": ["@{inputs.matrix_a}", "@{inputs.matrix_b}"]
             }
           ]
         }
@@ -288,7 +288,7 @@
             {
               "name": "complex_fft",
               "type": "fft",
-              "arguments": ["input"]
+              "arguments": ["@{inputs.input}"]
             }
           ]
         }
@@ -335,7 +335,7 @@
                 {
                   "name": "division_by_zero",
                   "type": "div",
-                  "arguments": ["input", "zero_constant"]
+                  "arguments": ["@{./inputs.input}", "@{./constants.zero_constant}"]
                 }
               ],
               "constants": [
@@ -367,7 +367,7 @@
             {
               "name": "failing_computation",
               "type": "failing_layer",
-              "arguments": ["input"]
+              "arguments": ["@{inputs.input}"]
             }
           ]
         }
