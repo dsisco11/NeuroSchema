@@ -40,7 +40,7 @@
                   "nodes": [
                     {
                       "name": "inner_transform",
-                      "type": "custom:inner_layer",
+                      "type": "this:inner_layer",
                       "arguments": ["@{inputs.x}"]
                     }
                   ]
@@ -58,7 +58,7 @@
                   "nodes": [
                     {
                       "name": "linear1",
-                      "type": "custom:linear",
+                      "type": "this:linear",
                       "arguments": ["@{inputs.y}"],
                       "attributes": {"in_features": 10, "out_features": 5}
                     }
@@ -68,7 +68,7 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "custom:outer_layer", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "this:outer_layer", "arguments": ["@{inputs.input}"]}
           ]
         }
       },
@@ -108,7 +108,7 @@
               "implementation": {
                 "graph": {
                   "nodes": [
-                    {"name": "encode", "type": "custom:linear", "arguments": ["@{inputs.x}"], "attributes": {"in_features": 10, "out_features": 5}}
+                    {"name": "encode", "type": "this:linear", "arguments": ["@{inputs.x}"], "attributes": {"in_features": 10, "out_features": 5}}
                   ]
                 }
               }
@@ -122,7 +122,7 @@
               "implementation": {
                 "graph": {
                   "nodes": [
-                    {"name": "classify", "type": "custom:linear", "arguments": ["@{inputs.features}"], "attributes": {"in_features": 5, "out_features": 1}}
+                    {"name": "classify", "type": "this:linear", "arguments": ["@{inputs.features}"], "attributes": {"in_features": 5, "out_features": 1}}
                   ]
                 }
               }
@@ -136,15 +136,15 @@
               "implementation": {
                 "graph": {
                   "nodes": [
-                    {"name": "encoded", "type": "custom:encoder", "arguments": ["@{inputs.input}"]},
-                    {"name": "result", "type": "custom:classifier", "arguments": ["@{./encoded}"]}
+                    {"name": "encoded", "type": "this:encoder", "arguments": ["@{inputs.input}"]},
+                    {"name": "result", "type": "this:classifier", "arguments": ["@{./encoded}"]}
                   ]
                 }
               }
             }
           ],
           "export": [
-            {"name": "main", "type": "custom:full_model", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "this:full_model", "arguments": ["@{inputs.input}"]}
           ]
         }
       },
@@ -184,7 +184,7 @@
               "implementation": {
                 "graph": {
                   "nodes": [
-                    {"name": "hidden", "type": "custom:linear", "arguments": ["@{inputs.x}"], "attributes": {"in_features": 10, "out_features": 5}}
+                    {"name": "hidden", "type": "this:linear", "arguments": ["@{inputs.x}"], "attributes": {"in_features": 10, "out_features": 5}}
                   ]
                 }
               }
@@ -198,14 +198,14 @@
               "implementation": {
                 "graph": {
                   "nodes": [
-                    {"name": "invalid_ref", "type": "custom:linear", "arguments": ["@{hidden}"], "attributes": {"in_features": 5, "out_features": 5}}
+                    {"name": "invalid_ref", "type": "this:linear", "arguments": ["@{hidden}"], "attributes": {"in_features": 5, "out_features": 5}}
                   ]
                 }
               }
             }
           ],
           "export": [
-            {"name": "main", "type": "custom:layer_b", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "this:layer_b", "arguments": ["@{inputs.input}"]}
           ]
         }
       },
@@ -247,7 +247,7 @@
               "implementation": {
                 "graph": {
                   "nodes": [
-                    {"name": "l3_linear", "type": "custom:linear", "arguments": ["@{inputs.x}"], "attributes": {"in_features": 4, "out_features": 2}}
+                    {"name": "l3_linear", "type": "this:linear", "arguments": ["@{inputs.x}"], "attributes": {"in_features": 4, "out_features": 2}}
                   ]
                 }
               }
@@ -261,8 +261,8 @@
               "implementation": {
                 "graph": {
                   "nodes": [
-                    {"name": "l2_linear", "type": "custom:linear", "arguments": ["@{inputs.x}"], "attributes": {"in_features": 8, "out_features": 4}},
-                    {"name": "l2_to_l3", "type": "custom:level_3_block", "arguments": ["@{./l2_linear}"]}
+                    {"name": "l2_linear", "type": "this:linear", "arguments": ["@{inputs.x}"], "attributes": {"in_features": 8, "out_features": 4}},
+                    {"name": "l2_to_l3", "type": "this:level_3_block", "arguments": ["@{./l2_linear}"]}
                   ]
                 }
               }
@@ -276,15 +276,15 @@
               "implementation": {
                 "graph": {
                   "nodes": [
-                    {"name": "l1_linear", "type": "custom:linear", "arguments": ["@{inputs.x}"], "attributes": {"in_features": 16, "out_features": 8}},
-                    {"name": "l1_to_l2", "type": "custom:level_2_block", "arguments": ["@{./l1_linear}"]}
+                    {"name": "l1_linear", "type": "this:linear", "arguments": ["@{inputs.x}"], "attributes": {"in_features": 16, "out_features": 8}},
+                    {"name": "l1_to_l2", "type": "this:level_2_block", "arguments": ["@{./l1_linear}"]}
                   ]
                 }
               }
             }
           ],
           "export": [
-            {"name": "main", "type": "custom:level_1_block", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "this:level_1_block", "arguments": ["@{inputs.input}"]}
           ]
         }
       },
