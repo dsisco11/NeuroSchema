@@ -1,18 +1,3 @@
 Neuro Format:
-    ✔ Implement 'metadata' section for model metadata. @done(25-06-25 20:58)
-    ✔ Implement 'imports' section for external data importing (eg: model weights). @done(25-06-25 20:58)
-    ✔ Implement 'constants' section for defining constant values. @done(25-06-25 20:58)
-    ✔ Implement 'inputs' section for defining input tensors. @done(25-06-25 20:58)
-    ✔ Implement 'outputs' section for defining output tensors. @done(25-06-25 20:59)
-    ✔ Implement 'definitions' section for specifying reusable node definitions. @done(25-06-25 20:59)
-    ✔ Implement common data value types (int8-64, float16-64, bool, etc). @done(25-06-25 21:01)
-    ✔ Implement common math operator types (add, subtract, multiply, divide, etc). @done(25-06-25 21:01)
-    ✔ Implement common tensor operations (reshape, transpose, slice, etc). @done(25-06-25 21:01)
     ☐ Implement common neural network layers (conv2d, linear, relu, etc).
     ☐ Implement common neural network architectures (resnet, vgg, transformer, unet, etc).
-    ✔ Document the `metadata.model.ui` section of the Neuro format. @done(25-06-26 01:07)
-    
-Refactoring:
-    ✔ Refactor NeuroFormat to use new reference syntax for sections. @done(25-07-24 21:44)
-    ☐ Explore refactoring `definitions` section to use object-property syntax instead of array-of-objects-with-names.
-    ✔ Refactor `parameters` section to be a flattened key-value structure instead of nested objects such as `inputs`, `config`, etc. @done(25-07-25 16:34)
