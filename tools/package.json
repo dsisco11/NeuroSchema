@@ -1,0 +1,21 @@
+{
+  "name": "neurograph-schema-validator",
+  "version": "1.0.0",
+  "description": "JSON Schema validator for NeuroGraph files",
+  "main": "validate-json-schema.js",
+  "scripts": {
+    "validate": "node validate-json-schema.js",
+    "test": "node validate-json-schema.js --verbose"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "commander": "^11.0.0"
+  },
+  "bin": {
+    "validate-json-schema": "./validate-json-schema.js"
+  },
+  "keywords": ["json-schema", "validation", "neurograph"],
+  "author": "",
+  "license": "MIT"
+}
