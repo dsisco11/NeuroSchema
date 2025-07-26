@@ -199,8 +199,78 @@ async function loadSchema(schemaPath) {
     }
 }
 
+/**
+ * Find line and column number for a JSON path
+ * @param {string} jsonContent - The JSON file content
+ * @param {string} path - Dot-separated path like "definitions.0.name"
+ * @returns {Object|null} - {line, column} or null if not found
+ */
+function findJsonLocation(jsonContent, path) {
+    if (!path) return findJsonLocationByPosition(jsonContent, 0);
+    
+    try {
+        // Parse JSON to get structure
+        const data = JSON.parse(jsonContent);
+        
+        // Navigate to the path
+        const pathParts = path.split('.');
+        let current = data;
+        let jsonPath = '';
+        
+        for (let i = 0; i < pathParts.length; i++) {
+            const part = pathParts[i];
+            if (current === null || current === undefined) break;
+            
+            if (Array.isArray(current)) {
+                const index = parseInt(part);
+                if (isNaN(index) || index >= current.length) break;
+                current = current[index];
+                jsonPath += `[${index}]`;
+            } else if (typeof current === 'object') {
+                if (!(part in current)) break;
+                current = current[part];
+                jsonPath += jsonPath ? `.${part}` : part;
+            } else {
+                break;
+            }
+        }
+        
+        // Find the position of this path in the JSON string
+        // This is a simplified approach - we'll look for the key name
+        const lastPart = pathParts[pathParts.length - 1];
+        if (!lastPart) return null;
+        
+        // Look for the property key in the JSON
+        const keyPattern = new RegExp(`"${lastPart}"\\s*:`);
+        const match = keyPattern.exec(jsonContent);
+        
+        if (match) {
+            return findJsonLocationByPosition(jsonContent, match.index);
+        }
+        
+        return null;
+    } catch (error) {
+        return null;
+    }
+}
+
+/**
+ * Convert character position to line/column
+ * @param {string} content - The file content
+ * @param {number} position - Character position
+ * @returns {Object} - {line, column}
+ */
+function findJsonLocationByPosition(content, position) {
+    const lines = content.substring(0, position).split('\n');
+    return {
+        line: lines.length,
+        column: lines[lines.length - 1].length + 1
+    };
+}
+
 function validateJsonFile(jsonFilePath, validator) {
     const fileName = path.basename(jsonFilePath);
+    const relativePath = path.relative(process.cwd(), jsonFilePath);
     
     if (options.verbose) {
         console.log(`Validating: ${fileName}`);
@@ -223,10 +293,24 @@ function validateJsonFile(jsonFilePath, validator) {
             console.log(`✗ Schema validation failed: ${fileName}`);
             if (validator.errors) {
                 validator.errors.forEach(error => {
-                    const instancePath = error.instancePath || 'root';
-                    console.log(`  Error at ${instancePath}: ${error.message}`);
-                    if (error.data !== undefined && options.verbose) {
-                        console.log(`    Data: ${JSON.stringify(error.data)}`);
+                    const instancePath = error.instancePath || '';
+                    const dataPath = instancePath.replace(/^\//, '').replace(/\//g, '.');
+                    
+                    // Try to find line/column information for the error path
+                    const location = findJsonLocation(jsonContent, dataPath);
+                    const locationStr = location ? `:${location.line}:${location.column}` : '';
+                    
+                    // Format error in standard format: file:line:column: message
+                    console.log(`${relativePath}${locationStr}: ${error.message}`);
+                    
+                    if (options.verbose) {
+                        console.log(`  Path: ${instancePath || '/'}`);
+                        if (error.data !== undefined) {
+                            console.log(`  Data: ${JSON.stringify(error.data)}`);
+                        }
+                        if (error.schema !== undefined) {
+                            console.log(`  Schema: ${JSON.stringify(error.schema)}`);
+                        }
                     }
                 });
             }
@@ -234,8 +318,20 @@ function validateJsonFile(jsonFilePath, validator) {
         }
         
     } catch (error) {
-        console.log(`✗ Validation error: ${fileName}`);
-        console.log(`  Error: ${error.message}`);
+        if (error instanceof SyntaxError && error.message.includes('JSON')) {
+            // JSON parse error - try to extract line/column info
+            const match = error.message.match(/at position (\d+)/);
+            if (match) {
+                const position = parseInt(match[1]);
+                const location = findJsonLocationByPosition(fs.readFileSync(jsonFilePath, 'utf8'), position);
+                const locationStr = location ? `:${location.line}:${location.column}` : '';
+                console.log(`${relativePath}${locationStr}: JSON syntax error: ${error.message}`);
+            } else {
+                console.log(`${relativePath}: JSON syntax error: ${error.message}`);
+            }
+        } else {
+            console.log(`${relativePath}: Validation error: ${error.message}`);
+        }
         return false;
     }
 }
@@ -284,23 +380,21 @@ async function validateDirectory(dirPath, validator, category) {
     const files = findJsonFiles(dirPath, options.include, options.exclude);
     
     if (files.length === 0) {
-        console.log(`No matching JSON files found in: ${dirPath}`);
+        if (options.verbose) {
+            console.log(`No matching JSON files found in: ${dirPath}`);
+        }
         return 0;
     }
     
-    console.log(`\nValidating ${files.length} JSON files in ${category} against schema...`);
+    if (options.verbose) {
+        console.log(`\nValidating ${files.length} JSON files in ${category} against schema...`);
+    }
     
     let errors = 0;
     for (const file of files) {
         if (!validateJsonFile(file, validator)) {
             errors++;
         }
-    }
-    
-    if (errors === 0) {
-        console.log(`✓ All ${category} files are valid against schema!`);
-    } else {
-        console.log(`✗ Found ${errors} schema validation errors in ${category} files`);
     }
     
     return errors;
@@ -316,15 +410,18 @@ async function main() {
         process.exit(1);
     }
     
-    console.log(`Schema file: ${options.schema}`);
-    console.log(`Include patterns: ${options.include.join(', ')}`);
-    console.log(`Exclude patterns: ${options.exclude.join(', ')}`);
-    console.log('='.repeat(60));
+    if (options.verbose) {
+        console.log(`Schema file: ${options.schema}`);
+        console.log(`Include patterns: ${options.include.join(', ')}`);
+        console.log(`Exclude patterns: ${options.exclude.join(', ')}`);
+        console.log('='.repeat(60));
+    }
     
     // Load schema and create validator
     const validator = await loadSchema(fullSchemaPath);
     
     let totalErrors = 0;
+    let totalFiles = 0;
     
     // Validate different directories
     const directories = [
@@ -335,16 +432,26 @@ async function main() {
     ];
     
     for (const dir of directories) {
-        totalErrors += await validateDirectory(dir.path, validator, dir.category);
+        const dirFiles = findJsonFiles(dir.path, options.include, options.exclude);
+        if (dirFiles.length > 0) {
+            totalFiles += dirFiles.length;
+            const errors = await validateDirectory(dir.path, validator, dir.category);
+            totalErrors += errors;
+        }
     }
     
     // Final results
-    console.log('\n' + '='.repeat(60));
+    if (options.verbose) {
+        console.log('\n' + '='.repeat(60));
+    }
+    
     if (totalErrors === 0) {
-        console.log('🎉 All JSON files are valid against the neuro.schema.json! ✓');
+        if (options.verbose) {
+            console.log(`🎉 All ${totalFiles} JSON files are valid against the schema! ✓`);
+        }
         process.exit(0);
     } else {
-        console.log(`❌ Found ${totalErrors} total schema validation errors`);
+        console.log(`\nFound ${totalErrors} validation errors in ${totalFiles} files.`);
         process.exit(1);
     }
 }
