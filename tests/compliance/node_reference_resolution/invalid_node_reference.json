@@ -40,7 +40,7 @@
             {
               "name": "test_node",
               "type": "identity",
-              "arguments": ["@{inputs.nonexistent_input}"]
+              "arguments": ["@{arguments.nonexistent_input}"]
             }
           ]
         }
@@ -85,7 +85,7 @@
             {
               "name": "missing_def",
               "type": "nonexistent_definition",
-              "arguments": ["@{inputs.input}"]
+              "arguments": ["@{arguments.input}"]
             }
           ]
         }

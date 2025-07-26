@@ -31,7 +31,7 @@
           ],
           "inputs": [{"name": "input", "shape": [1000], "dtype": "float32"}],
           "outputs": [{"name": "output", "shape": [1000], "dtype": "float32"}],
-          "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+          "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
         },
         "parameters": {
           "imported_files": {
@@ -58,7 +58,7 @@
               "metadata": {"model": {"name": "level_20", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [1000], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [1000], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             }
           },
           "performance_expectations": {
@@ -104,7 +104,7 @@
           ],
           "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
           "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-          "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+          "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
         },
         "parameters": {
           "imported_files": {
@@ -113,70 +113,70 @@
               "metadata": {"model": {"name": "module_01", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_02.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "module_02", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_03.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "module_03", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_04.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "module_04", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_05.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "module_05", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_06.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "module_06", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_07.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "module_07", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_08.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "module_08", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_09.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "module_09", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_10.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "module_10", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             }
           },
           "performance_expectations": {
@@ -218,18 +218,18 @@
             {"name": "output_02", "shape": [512], "dtype": "float32"}
           ],
           "nodes": [
-            {"name": "node_001", "type": "linear", "arguments": ["@{inputs.input_01}"], "shape": [1024, 1024]},
+            {"name": "node_001", "type": "linear", "arguments": ["@{arguments.input_01}"], "shape": [1024, 1024]},
             {"name": "node_002", "type": "relu", "arguments": ["@{./node_001}"]},
             {"name": "node_003", "type": "linear", "arguments": ["@{./node_002}"], "shape": [1024, 512]},
             {"name": "node_004", "type": "relu", "arguments": ["@{./node_003}"]},
-            {"name": "node_005", "type": "linear", "arguments": ["@{inputs.input_02}"], "shape": [512, 512]},
+            {"name": "node_005", "type": "linear", "arguments": ["@{arguments.input_02}"], "shape": [512, 512]},
             {"name": "node_006", "type": "relu", "arguments": ["@{./node_005}"]},
-            {"name": "node_007", "type": "add", "arguments": ["@{inputs.node_004}", "@{inputs.node_006}"]},
+            {"name": "node_007", "type": "add", "arguments": ["@{arguments.node_004}", "@{arguments.node_006}"]},
             {"name": "node_008", "type": "linear", "arguments": ["@{./node_007}"], "shape": [512, 256]},
             {"name": "node_009", "type": "relu", "arguments": ["@{./node_008}"]},
-            {"name": "node_010", "type": "linear", "arguments": ["@{inputs.input_03}"], "shape": [256, 256]},
+            {"name": "node_010", "type": "linear", "arguments": ["@{arguments.input_03}"], "shape": [256, 256]},
             {"name": "node_011", "type": "relu", "arguments": ["@{./node_010}"]},
-            {"name": "node_012", "type": "concat", "arguments": ["@{inputs.node_009}", "@{inputs.node_011}"], "axis": 0},
+            {"name": "node_012", "type": "concat", "arguments": ["@{arguments.node_009}", "@{arguments.node_011}"], "axis": 0},
             {"name": "node_013", "type": "linear", "arguments": ["@{./node_012}"], "shape": [512, 1024]},
             {"name": "node_014", "type": "relu", "arguments": ["@{./node_013}"]},
             {"name": "node_015", "type": "linear", "arguments": ["@{./node_014}"], "shape": [1024, 512]},
@@ -286,7 +286,7 @@
             {"name": "massive_output", "shape": [10000, 5000], "dtype": "float32"}
           ],
           "export": [
-            {"name": "huge_linear", "type": "linear", "arguments": ["@{inputs.massive_input}"], "shape": [10000, 5000]}
+            {"name": "huge_linear", "type": "linear", "arguments": ["@{arguments.massive_input}"], "shape": [10000, 5000]}
           ]
         },
         "parameters": {
@@ -296,21 +296,21 @@
               "metadata": {"model": {"name": "large_module_1", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [5000, 5000], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [5000, 2500], "dtype": "float32"}],
-              "export": [{"name": "big_transform", "type": "linear", "arguments": ["@{inputs.input}"], "shape": [5000, 2500]}]
+              "export": [{"name": "big_transform", "type": "linear", "arguments": ["@{arguments.input}"], "shape": [5000, 2500]}]
             },
             "large_module_2.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "large_module_2", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [2500, 2500], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [2500, 1250], "dtype": "float32"}],
-              "export": [{"name": "medium_transform", "type": "linear", "arguments": ["@{inputs.input}"], "shape": [2500, 1250]}]
+              "export": [{"name": "medium_transform", "type": "linear", "arguments": ["@{arguments.input}"], "shape": [2500, 1250]}]
             },
             "large_module_3.neuro.json": {
               "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
               "metadata": {"model": {"name": "large_module_3", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [1250, 1250], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [1250, 625], "dtype": "float32"}],
-              "export": [{"name": "small_transform", "type": "linear", "arguments": ["@{inputs.input}"], "shape": [1250, 625]}]
+              "export": [{"name": "small_transform", "type": "linear", "arguments": ["@{arguments.input}"], "shape": [1250, 625]}]
             }
           },
           "performance_expectations": {

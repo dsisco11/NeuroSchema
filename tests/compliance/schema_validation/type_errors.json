@@ -40,7 +40,7 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["@{inputs.input}"]
+              "arguments": ["@{arguments.input}"]
             }
           ]
         }

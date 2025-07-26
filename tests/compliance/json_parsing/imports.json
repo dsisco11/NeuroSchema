@@ -87,7 +87,7 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["@{inputs.input}"]
+              "arguments": ["@{arguments.input}"]
             }
           ]
         }
@@ -130,7 +130,7 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": ["@{inputs.input}"]
+              "arguments": ["@{arguments.input}"]
             }
           ]
         }
@@ -164,7 +164,7 @@
           ],
           "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
           "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
-          "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+          "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
         },
         "parameters": {
           "imported_files": {
@@ -173,7 +173,7 @@
               "metadata": {"model": {"name": "parameterized_model", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             }
           }
         }
@@ -211,7 +211,7 @@
           ],
           "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
           "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
-          "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+          "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
         },
         "parameters": {
           "imported_files": {
@@ -220,7 +220,7 @@
               "metadata": {"model": {"name": "国際化_model", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
-              "export": [{"name": "identity", "type": "identity", "arguments": ["@{inputs.input}"]}]
+              "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             }
           }
         }

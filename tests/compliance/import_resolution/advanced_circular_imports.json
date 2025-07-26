@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Advanced Circular Import Tests",
@@ -59,7 +59,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -96,7 +96,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -133,7 +133,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -170,7 +170,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           }
@@ -235,7 +235,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -272,7 +272,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -309,7 +309,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -346,7 +346,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -383,7 +383,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -420,7 +420,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           }
@@ -475,7 +475,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -512,7 +512,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -549,7 +549,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           }
@@ -603,7 +603,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -640,7 +640,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -677,7 +677,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -714,7 +714,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -751,7 +751,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -788,7 +788,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -825,7 +825,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -862,7 +862,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -899,7 +899,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -936,7 +936,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           }
@@ -991,7 +991,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -1028,7 +1028,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           },
@@ -1065,7 +1065,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.input}"]
+                "arguments": ["@{arguments.input}"]
               }
             ]
           }
@@ -1120,7 +1120,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.placeholder_input}"]
+                "arguments": ["@{arguments.placeholder_input}"]
               }
             ]
           },
@@ -1157,7 +1157,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.placeholder_input}"]
+                "arguments": ["@{arguments.placeholder_input}"]
               }
             ]
           },
@@ -1194,7 +1194,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": ["@{inputs.placeholder_input}"]
+                "arguments": ["@{arguments.placeholder_input}"]
               }
             ]
           }

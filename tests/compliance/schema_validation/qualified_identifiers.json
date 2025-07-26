@@ -40,7 +40,7 @@
             {
               "name": "invalid_identifier_format",
               "type": "my_company:name:invalid",
-              "arguments": ["@{inputs.input}"]
+              "arguments": ["@{arguments.input}"]
             }
           ]
         }
@@ -85,7 +85,7 @@
             {
               "name": "invalid_ns",
               "type": "my@company:name",
-              "arguments": ["@{inputs.input}"]
+              "arguments": ["@{arguments.input}"]
             }
           ]
         }
@@ -130,7 +130,7 @@
             {
               "name": "invalid_name",
               "type": "invalid@name",
-              "arguments": ["@{inputs.input}"]
+              "arguments": ["@{arguments.input}"]
             }
           ]
         }
@@ -175,7 +175,7 @@
             {
               "name": "valid_identifier",
               "type": "my_company:name/path/to/item",
-              "arguments": ["@{inputs.input}"]
+              "arguments": ["@{arguments.input}"]
             }
           ]
         }
