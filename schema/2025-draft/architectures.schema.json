@@ -101,7 +101,7 @@
                   "type": "array",
                   "minItems": 1,
                   "items": {
-                    "$ref": "neuro.schema.json#/definitions/graph_node"
+                    "$ref": "neuro.schema.json#/definitions/node_instance"
                   }
                 }
               }

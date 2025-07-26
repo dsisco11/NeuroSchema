@@ -475,7 +475,7 @@
                   "type": "array",
                   "description": "Array of nodes that make up this graph",
                   "items": {
-                    "$ref": "#/definitions/graph_node"
+                    "$ref": "#/definitions/node_instance"
                   }
                 },
                 "metadata": {
@@ -531,66 +531,6 @@
             { "$ref": "#/definitions/hex_value" }
           ],
           "description": "Specific weights for this node instance"
-        }
-      }
-    },
-    "graph_node": {
-      "type": "object",
-      "description": "A node within a graph - can be either a definition or instance depending on context",
-      "required": ["name", "type"],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the graph node"
-        },
-        "type": {
-          "oneOf": [
-            { "$ref": "operators.schema.json#/definitions/operator_type" },
-            { "$ref": "layers.schema.json#/definitions/layer_type" },
-            {
-              "$ref": "architectures.schema.json#/definitions/architecture_type"
-            },
-            { "$ref": "#/definitions/node_reference" }
-          ],
-          "description": "Type of the operation or reference to definition"
-        },
-        "shape": {
-          "$ref": "#/definitions/tensor_shape"
-        },
-        "dtype": {
-          "$ref": "#/definitions/data_type"
-        },
-        "value": {
-          "oneOf": [
-            { "$ref": "#/definitions/qualified_ref" },
-            { "type": "array" },
-            { "type": "number" }
-          ]
-        },
-        "arguments": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/node_reference"
-          },
-          "description": "Arguments for the operation - references to input tensors, other nodes, or definitions"
-        },
-        "attributes": {
-          "type": "object",
-          "description": "Attributes for this graph node"
-        },
-        "weights": {
-          "oneOf": [
-            { "$ref": "#/definitions/qualified_ref" },
-            { "$ref": "#/definitions/hex_value" }
-          ],
-          "description": "Weights for this specific node"
-        },
-        "bias": {
-          "oneOf": [
-            { "$ref": "#/definitions/qualified_ref" },
-            { "$ref": "#/definitions/hex_value" }
-          ],
-          "description": "Bias for this specific node"
         }
       }
     }
