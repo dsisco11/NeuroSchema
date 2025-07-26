@@ -340,7 +340,7 @@
         { "$ref": "#/definitions/linear_algebra_operator" },
         { "$ref": "#/definitions/tensor_manipulation_operator" }
       ],
-      "description": "Complete specification for a node operator including inputs, outputs, and attributes"
+      "description": "Complete specification for a node operator including arguments, outputs, and attributes"
     }
   }
 }

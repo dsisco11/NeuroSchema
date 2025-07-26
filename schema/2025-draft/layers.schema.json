@@ -655,7 +655,7 @@
         { "$ref": "#/definitions/attention_layer" },
         { "$ref": "#/definitions/activation_layer" }
       ],
-      "description": "Complete specification for a neural network layer including inputs, outputs, and attributes"
+      "description": "Complete specification for a neural network layer including arguments, outputs, and attributes"
     }
   }
 }

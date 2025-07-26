@@ -433,7 +433,7 @@
         },
         "arguments": {
           "type": "array",
-          "description": "Expected input arguments for this node type (renamed from inputs)",
+          "description": "Input arguments that this node definition expects, specifying the names and types of data inputs required for operation",
           "items": {
             "type": "object",
             "required": ["name", "type"],
@@ -460,7 +460,7 @@
         },
         "attributes": {
           "type": "object",
-          "description": "Expected attributes schema for this node type"
+          "description": "Configuration attributes and parameters that control the behavior and properties of this node definition"
         },
         "implementation": {
           "type": "object",

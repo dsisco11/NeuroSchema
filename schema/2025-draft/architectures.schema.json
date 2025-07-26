@@ -42,6 +42,7 @@
         },
         "arguments": {
           "type": "array",
+          "description": "Input arguments for the sequential architecture - specifies the single input expected by this architecture type",
           "minItems": 1,
           "maxItems": 1,
           "items": {
@@ -74,6 +75,7 @@
         },
         "attributes": {
           "type": "object",
+          "description": "Configuration attributes that specify input and output shapes for the sequential architecture",
           "properties": {
             "input_shape": {
               "type": "array",
