@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Mixed Import Types Tests",

@@ -32,9 +32,7 @@
             {
               "name": "outer_layer",
               "type": "sequential",
-              "parameters": {
-                "inputs": [{"name": "x", "type": "tensor"}]
-              },
+              "arguments": [{"name": "x", "type": "tensor"}],
               "implementation": {
                 "graph": {
                   "nodes": [
@@ -50,9 +48,7 @@
             {
               "name": "inner_layer", 
               "type": "sequential",
-              "parameters": {
-                "inputs": [{"name": "y", "type": "tensor"}]
-              },
+              "arguments": [{"name": "y", "type": "tensor"}],
               "implementation": {
                 "graph": {
                   "nodes": [
@@ -102,9 +98,7 @@
             {
               "name": "encoder",
               "type": "sequential",
-              "parameters": {
-                "inputs": [{"name": "x", "type": "tensor"}]
-              },
+              "arguments": [{"name": "x", "type": "tensor"}],
               "implementation": {
                 "graph": {
                   "nodes": [
@@ -116,9 +110,7 @@
             {
               "name": "classifier",
               "type": "sequential", 
-              "parameters": {
-                "inputs": [{"name": "features", "type": "tensor"}]
-              },
+              "arguments": [{"name": "features", "type": "tensor"}],
               "implementation": {
                 "graph": {
                   "nodes": [
@@ -130,9 +122,7 @@
             {
               "name": "full_model",
               "type": "sequential",
-              "parameters": {
-                "inputs": [{"name": "input", "type": "tensor"}]
-              },
+              "arguments": [{"name": "input", "type": "tensor"}],
               "implementation": {
                 "graph": {
                   "nodes": [
@@ -178,9 +168,7 @@
             {
               "name": "layer_a",
               "type": "sequential",
-              "parameters": {
-                "inputs": [{"name": "x", "type": "tensor"}]
-              },
+              "arguments": [{"name": "x", "type": "tensor"}],
               "implementation": {
                 "graph": {
                   "nodes": [
@@ -192,9 +180,7 @@
             {
               "name": "layer_b",
               "type": "sequential",
-              "parameters": {
-                "inputs": [{"name": "y", "type": "tensor"}]
-              },
+              "arguments": [{"name": "y", "type": "tensor"}],
               "implementation": {
                 "graph": {
                   "nodes": [
@@ -241,9 +227,7 @@
             {
               "name": "level_3_block",
               "type": "sequential",
-              "parameters": {
-                "inputs": [{"name": "x", "type": "tensor"}]
-              },
+              "arguments": [{"name": "x", "type": "tensor"}],
               "implementation": {
                 "graph": {
                   "nodes": [
@@ -255,9 +239,7 @@
             {
               "name": "level_2_block",
               "type": "sequential",
-              "parameters": {
-                "inputs": [{"name": "x", "type": "tensor"}]
-              },
+              "arguments": [{"name": "x", "type": "tensor"}],
               "implementation": {
                 "graph": {
                   "nodes": [
@@ -270,9 +252,7 @@
             {
               "name": "level_1_block",
               "type": "sequential",
-              "parameters": {
-                "inputs": [{"name": "x", "type": "tensor"}]
-              },
+              "arguments": [{"name": "x", "type": "tensor"}],
               "implementation": {
                 "graph": {
                   "nodes": [
