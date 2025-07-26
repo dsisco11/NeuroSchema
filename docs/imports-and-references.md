@@ -726,12 +726,10 @@ Namespace references work seamlessly with the type system:
     {
       "name": "custom_layer",
       "type": "base_model:definitions/transformer_block",
-      "parameters": {
-        "inputs": [{ "name": "x", "type": "tensor" }],
-        "attributes": {
-          "hidden_size": "@{base_model:constants/d_model}",
-          "num_heads": "@{base_model:constants/n_heads}"
-        }
+      "arguments": [{ "name": "x", "type": "tensor" }],
+      "attributes": {
+        "hidden_size": "@{base_model:constants/d_model}",
+        "num_heads": "@{base_model:constants/n_heads}"
       }
     }
   ]
@@ -911,18 +909,16 @@ Complex fusion of different modalities:
     {
       "name": "adaptive_fusion",
       "type": "fusion_components:definitions/attention_fusion",
-      "parameters": {
-        "inputs": [
-          { "name": "text_features", "type": "tensor" },
-          { "name": "image_features", "type": "tensor" },
-          { "name": "audio_features", "type": "tensor" }
-        ],
-        "attributes": {
-          "text_dim": "@{text_encoder:constants/output_dim}",
-          "image_dim": "@{image_encoder:constants/output_dim}",
-          "audio_dim": "@{audio_encoder:constants/output_dim}",
-          "fusion_dim": "@{fusion_components:constants/unified_dim}"
-        }
+      "arguments": [
+        { "name": "text_features", "type": "tensor" },
+        { "name": "image_features", "type": "tensor" },
+        { "name": "audio_features", "type": "tensor" }
+      ],
+      "attributes": {
+        "text_dim": "@{text_encoder:constants/output_dim}",
+        "image_dim": "@{image_encoder:constants/output_dim}",
+        "audio_dim": "@{audio_encoder:constants/output_dim}",
+        "fusion_dim": "@{fusion_components:constants/unified_dim}"
       }
     }
   ],

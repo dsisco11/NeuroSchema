@@ -64,13 +64,11 @@ All nodes, regardless of complexity, follow the same structural pattern:
 {
   "name": "node_name",
   "type": "node_type",
-  "parameters": {
-    "inputs": [
-      /* input specifications */
-    ],
-    "attributes": {
-      /* node-specific parameters */
-    }
+  "arguments": [
+    /* input specifications */
+  ],
+  "attributes": {
+    /* node-specific parameters */
   },
   "implementation": {
     "graph": {
@@ -219,9 +217,7 @@ Reusable node definitions for operators, layers, and architectures:
     {
       "name": "my_sequential_classifier",
       "type": "sequential",
-      "parameters": {
-        "inputs": [{ "name": "input", "type": "tensor" }]
-      },
+      "arguments": [{ "name": "input", "type": "tensor" }],
       "implementation": {
         "graph": {
           "nodes": [
@@ -332,9 +328,7 @@ Third-party extensions are supported through namespaced types:
     {
       "name": "classifier",
       "type": "sequential",
-      "parameters": {
-        "inputs": [{ "name": "input", "type": "tensor", "shape": [784] }]
-      },
+      "arguments": [{ "name": "input", "type": "tensor", "shape": [784] }],
       "implementation": {
         "graph": {
           "nodes": [
