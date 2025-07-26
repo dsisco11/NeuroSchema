@@ -2,20 +2,29 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "NeuroSchema: Validate All JSON Files",
+			"label": "NeuroSchema: Validate JSON Schema",
 			"type": "shell",
-			"command": "pwsh",
+			"command": "node",
 			"args": [
-				"-ExecutionPolicy", "Bypass",
-				"-File", "./tools/validate_json_files.ps1",
-				"-Verbose"
+				"tools/validate-json-schema.js",
+				"--verbose"
 			],
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			},
 			"isBackground": false,
-			"problemMatcher": [],
+			"problemMatcher": {
+				"owner": "neurograph-schema",
+				"fileLocation": "relative",
+				"pattern": {
+					"regexp": "^(.+):(\\d+):(\\d+):\\s+(.+)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"message": 4
+				}
+			},
 			"presentation": {
 				"echo": true,
 				"reveal": "always",
