@@ -57,205 +57,111 @@ async function ensureDependencies() {
     }
 }
 
-async function loadSchema(schemaPath) {
+async function loadSchemaFileContent(schemaPath) {
     try {
+        console.log(`Loading schema from: ${schemaPath}`);
         const schemaContent = fs.readFileSync(schemaPath, 'utf8');
-        const schema = JSON.parse(schemaContent);
-        
-        // Try to load AJV after ensuring dependencies
-        let Ajv, addFormats;
-        try {
-            Ajv = require('ajv');
-            addFormats = require('ajv-formats');
-        } catch (error) {
-            console.error('❌ Required dependencies not found. Installing...');
-            await ensureDependencies();
-            Ajv = require('ajv');
-            addFormats = require('ajv-formats');
-        }
+        return JSON.parse(schemaContent);
+    } catch (error) {
+        console.error(`❌ Failed to load schema file: ${schemaPath}`);
+        console.error(`Error: ${error.message}`);
+        throw error;
+    }
+}
+
+async function getAjvInstance() {
+    try {
+        const Ajv = require('ajv');
+        const addFormats = require('ajv-formats');
         
         // Create AJV instance with more permissive settings
         const ajv = new Ajv({ 
             allErrors: true, 
             verbose: false,
             strict: false,
-            loadSchema: false,
+            loadSchema: loadSchemaFileContent,
             addUsedSchema: false
         });
         addFormats(ajv);
         
-        // Load additional schemas that might be referenced
-        const schemaDir = path.dirname(schemaPath);
-        const referencedSchemas = [
-            { file: 'operators.schema.json', key: 'operators.schema.json' },
-            { file: 'layers.schema.json', key: 'layers.schema.json' }, 
-            { file: 'architectures.schema.json', key: 'architectures.schema.json' }
-        ];
-        
-        // First, add the main schema to AJV so other schemas can reference it
-        const localSchema = { ...schema };
-        const originalMainId = localSchema.$id;
-        if (localSchema.$id) {
-            if (options.verbose) {
-                console.log(`Removing remote $id reference from main schema: ${localSchema.$id}`);
-            }
-            delete localSchema.$id;
-        }
-        
-        // Add the main schema with a local reference
-        ajv.addSchema(localSchema, 'neuro.schema.json');
-        if (originalMainId) {
-            ajv.addSchema(localSchema, originalMainId);
-        }
-        
-        for (const refSchema of referencedSchemas) {
-            const refSchemaPath = path.join(schemaDir, refSchema.file);
-            if (fs.existsSync(refSchemaPath)) {
-                try {
-                    const refSchemaContent = fs.readFileSync(refSchemaPath, 'utf8');
-                    const refSchemaObj = JSON.parse(refSchemaContent);
-                    
-                    // Remove remote $id to force local resolution
-                    const localRefSchema = { ...refSchemaObj };
-                    const originalRefId = localRefSchema.$id;
-                    if (localRefSchema.$id) {
-                        if (options.verbose) {
-                            console.log(`Removing remote $id reference from ${refSchema.file}: ${localRefSchema.$id}`);
-                        }
-                        delete localRefSchema.$id;
-                    }
-                    
-                    // Add schema with the exact reference key used in the main schema
-                    ajv.addSchema(localRefSchema, refSchema.key);
-                    
-                    // Also add it with the original $id for cross-references
-                    if (originalRefId) {
-                        ajv.addSchema(localRefSchema, originalRefId);
-                    }
-                    
-                    if (options.verbose) {
-                        console.log(`Loaded referenced schema: ${refSchema.file}`);
-                    }
-                } catch (error) {
-                    if (options.verbose) {
-                        console.warn(`Warning: Could not load ${refSchema.file}: ${error.message}`);
-                    }
-                }
-            }
-        }
-        
-        // Remove the $id from the main schema to prevent remote resolution attempts
-        // (already done above)
-        
-        // try {
-            return ajv.compile(localSchema);
-        // } catch (compileError) {
-        //     if (options.verbose) {
-        //         console.warn(`Schema compilation warning: ${compileError.message}`);
-        //         console.log('Attempting to validate without strict schema references...');
-        //     }
-            
-        //     // Try with a more permissive AJV instance
-        //     const permissiveAjv = new Ajv({ 
-        //         allErrors: true, 
-        //         verbose: false,
-        //         strict: false,
-        //         validateSchema: false,
-        //         addUsedSchema: false,
-        //         loadSchema: false
-        //     });
-        //     addFormats(permissiveAjv);
-            
-        //     // Re-add the referenced schemas to the permissive instance
-        //     const permissiveLocalSchema = { ...schema };
-        //     if (permissiveLocalSchema.$id) {
-        //         delete permissiveLocalSchema.$id;
-        //     }
-        //     permissiveAjv.addSchema(permissiveLocalSchema, 'neuro.schema.json');
-            
-        //     for (const refSchema of referencedSchemas) {
-        //         const refSchemaPath = path.join(schemaDir, refSchema.file);
-        //         if (fs.existsSync(refSchemaPath)) {
-        //             try {
-        //                 const refSchemaContent = fs.readFileSync(refSchemaPath, 'utf8');
-        //                 const refSchemaObj = JSON.parse(refSchemaContent);
-        //                 const localRefSchema = { ...refSchemaObj };
-        //                 if (localRefSchema.$id) {
-        //                     delete localRefSchema.$id;
-        //                 }
-        //                 permissiveAjv.addSchema(localRefSchema, refSchema.key);
-        //             } catch (error) {
-        //                 // Ignore errors in permissive mode
-        //             }
-        //         }
-        //     }
-            
-        //     return permissiveAjv.compile(localSchema);
-        // }
+        return ajv;
     } catch (error) {
-        console.error(`❌ Failed to load schema: ${schemaPath}`);
-        console.error(`Error: ${error.message}`);
-        process.exit(1);
+        console.error('❌ Required dependencies not found. Installing...');
+        await ensureDependencies();
+        return getAjvInstance();
     }
 }
 
-// Load tests schema for validating test definition files
-async function loadTestsSchema(basePath) {
-    const testsSchemaPath = path.join(basePath, 'tests', 'tests.schema.json');
-    if (!fs.existsSync(testsSchemaPath)) {
-        return null;
-    }
-    
+async function pushSchema(ajv, schemaPath, schemaId) {
     try {
-        const schemaContent = fs.readFileSync(testsSchemaPath, 'utf8');
-        const schema = JSON.parse(schemaContent);
+        const schemaContent = await loadSchemaFileContent(schemaPath);
         
-        const Ajv = require('ajv');
-        const addFormats = require('ajv-formats');
+        // Remove remote $id to force local resolution
+        const localSchema = { ...schemaContent };
+        const originalRefId = localSchema.$id;
         
-        const ajv = new Ajv({ 
-            allErrors: true, 
-            verbose: true,
-            strict: false,
-            loadSchema: true,
-            addUsedSchema: false
-        });
-        addFormats(ajv);
-        
-        // Load the main neuro schema to resolve the $ref in neuro_model
-        const neuroSchemaPath = path.join(basePath, 'schema', '2025-draft', 'neuro.schema.json');
-        const localNeuroSchema = loadSchema(neuroSchemaPath);
-        ajv.addSchema(localNeuroSchema, 'neuro.schema.json');
-        // if (fs.existsSync(neuroSchemaPath)) {
-        //     const neuroSchemaContent = fs.readFileSync(neuroSchemaPath, 'utf8');
-        //     const neuroSchema = JSON.parse(neuroSchemaContent);
-            
-        //     // Remove remote $id to force local resolution
-        //     const localNeuroSchema = { ...neuroSchema };
-        //     if (localNeuroSchema.$id) {
-        //         delete localNeuroSchema.$id;
-        //     }
-            
-        //     // Add the neuro schema with the path used in the tests schema reference
-        //     // ajv.addSchema(localNeuroSchema, '../schema/2025-draft/neuro.schema.json');
-            
-        //     if (options.verbose) {
-        //         console.log('Loaded neuro schema for tests schema reference resolution');
-        //     }
-        // }
-        
-        const localSchema = { ...schema };
         if (localSchema.$id) {
+            if (options.verbose) {
+                console.log(`Removing remote $id reference from schema: ${localSchema.$id}`);
+            }
             delete localSchema.$id;
         }
         
-        return ajv.compile(localSchema);
-    } catch (error) {
-        if (options.verbose) {
-            console.warn(`Warning: Could not load tests schema: ${error.message}`);
+        // Add the schema with the provided ID
+        if (!schemaId) {
+            schemaId = path.basename(schemaPath); // Default to file name if no ID provided
+            ajv.addSchema(localSchema, schemaId);
         }
-        return null;
+        
+        // Also add it with the original $id for cross-references
+        if (originalRefId) {
+            ajv.addSchema(localSchema, originalRefId);
+        }
+        
+        if (options.verbose) {
+            console.log(`Loaded schema: ${schemaPath} as ${schemaId}`);
+        }
+        
+        return ajv;
+    } catch (error) {
+        console.error(`❌ Failed to load schema: ${schemaPath}`);
+        console.error(`Error: ${error.message}`);
+        throw error;
     }
+}
+
+async function addNeuroSchema(ajv, schemaPath) {
+    try {
+        await pushSchema(ajv, schemaPath);
+        const schemaDir = path.dirname(schemaPath);
+        const referencedSchemas = [
+            'operators.schema.json',
+            'layers.schema.json',
+            'architectures.schema.json'
+        ];
+
+        // Load and add referenced schemas
+        for (const refSchema of referencedSchemas) {
+            const refSchemaPath = path.join(schemaDir, refSchema);
+            if (fs.existsSync(refSchemaPath)) {
+                try {
+                    await pushSchema(ajv, refSchemaPath);
+                } catch (error) {
+                    if (options.verbose) {
+                        console.warn(`Warning: Could not load ${refSchema}: ${error.message}`);
+                    }
+                }
+            } else if (options.verbose) {
+                console.warn(`Referenced schema not found: ${refSchemaPath}`);
+            }
+        }
+
+        return ajv;
+    } catch (error) {
+        console.error(`❌ Failed to load main schema: ${schemaPath}`);
+        console.error(`Error: ${error.message}`);
+        throw error;
+    }    
 }
 
 /**
@@ -469,6 +375,7 @@ async function main() {
     console.log(`Working directory: ${path.resolve(options.path)}`);
     
     const fullSchemaPath = path.join(options.path, options.schema);
+    const testsSchemaPath = path.join(options.path, 'tests', 'tests.schema.json');
     if (!fs.existsSync(fullSchemaPath)) {
         console.error(`❌ Schema file not found: ${fullSchemaPath}`);
         process.exit(1);
@@ -482,8 +389,13 @@ async function main() {
     }
     
     // Load schemas
-    const neuroValidator = await loadSchema(fullSchemaPath);
-    const testsValidator = await loadTestsSchema(options.path);
+    const neuroAjv = await getAjvInstance();
+    await addNeuroSchema(neuroAjv, fullSchemaPath);
+    const neuroSchema = await loadSchemaFileContent(fullSchemaPath);
+    const testsSchema = await loadSchemaFileContent(testsSchemaPath);
+
+    const neuroValidator = await neuroAjv.compileAsync(neuroSchema);
+    const testsValidator = await neuroAjv.compileAsync(testsSchema);
     
     let totalErrors = 0;
     let totalFiles = 0;
@@ -534,6 +446,6 @@ process.on('unhandledRejection', (reason, promise) => {
 
 // Run the main function
 main().catch(error => {
-    console.error('❌ Error:', error.message);
+    console.error('❌ Error:', error.message, error);
     process.exit(1);
 });

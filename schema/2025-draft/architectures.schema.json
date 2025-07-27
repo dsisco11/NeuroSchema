@@ -1,20 +1,19 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/architectures.schema.json",
   "title": "NeuroGraph Architectures Schema",
   "description": "Schema definitions for NeuroGraph neural network architecture compound nodes",
   "definitions": {
     "anyfloat": {
-      "$ref": "neuro.schema.json#/definitions/anyfloat"
+      "$ref": "./neuro.schema.json#/definitions/anyfloat"
     },
     "anyint": {
-      "$ref": "neuro.schema.json#/definitions/anyint"
+      "$ref": "./neuro.schema.json#/definitions/anyint"
     },
     "anyuint": {
-      "$ref": "neuro.schema.json#/definitions/anyuint"
+      "$ref": "./neuro.schema.json#/definitions/anyuint"
     },
     "anynumeric": {
-      "$ref": "neuro.schema.json#/definitions/anynumeric"
+      "$ref": "./neuro.schema.json#/definitions/anynumeric"
     },
     "architecture_type": {
       "oneOf": [
@@ -23,7 +22,7 @@
           "enum": ["sequential"]
         },
         {
-          "$ref": "neuro.schema.json#/definitions/qualified_name",
+          "$ref": "./neuro.schema.json#/definitions/qualified_name",
           "description": "Third-party architecture type in the format 'namespace:type'"
         }
       ]
@@ -101,7 +100,7 @@
                   "type": "array",
                   "minItems": 1,
                   "items": {
-                    "$ref": "neuro.schema.json#/definitions/node_instance"
+                    "$ref": "./neuro.schema.json#/definitions/node_instance"
                   }
                 }
               }

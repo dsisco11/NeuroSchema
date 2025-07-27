@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
   "title": "NeuroGraph Schema",
   "description": "JSON Schema for NeuroGraph neural network model definitions",
   "type": "object",
@@ -423,10 +422,10 @@
         },
         "type": {
           "oneOf": [
-            { "$ref": "operators.schema.json#/definitions/operator_type" },
-            { "$ref": "layers.schema.json#/definitions/layer_type" },
+            { "$ref": "./operators.schema.json#/definitions/operator_type" },
+            { "$ref": "./layers.schema.json#/definitions/layer_type" },
             {
-              "$ref": "architectures.schema.json#/definitions/architecture_type"
+              "$ref": "./architectures.schema.json#/definitions/architecture_type"
             }
           ],
           "description": "Type of the node operation - can be an operator, layer, or architecture"

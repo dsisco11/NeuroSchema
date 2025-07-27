@@ -1,20 +1,19 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/operators.schema.json",
   "title": "NeuroGraph Operators Schema",
   "description": "Schema definitions for NeuroGraph operator types and their specifications",
   "definitions": {
     "anyfloat": {
-      "$ref": "neuro.schema.json#/definitions/anyfloat"
+      "$ref": "./neuro.schema.json#/definitions/anyfloat"
     },
     "anyint": {
-      "$ref": "neuro.schema.json#/definitions/anyint"
+      "$ref": "./neuro.schema.json#/definitions/anyint"
     },
     "anyuint": {
-      "$ref": "neuro.schema.json#/definitions/anyuint"
+      "$ref": "./neuro.schema.json#/definitions/anyuint"
     },
     "anynumeric": {
-      "$ref": "neuro.schema.json#/definitions/anynumeric"
+      "$ref": "./neuro.schema.json#/definitions/anynumeric"
     },
     "operator_type": {
       "oneOf": [
@@ -55,7 +54,7 @@
           "description": "Built-in mathematical and tensor operator types"
         },
         {
-          "$ref": "neuro.schema.json#/definitions/qualified_name",
+          "$ref": "./neuro.schema.json#/definitions/qualified_name",
           "description": "Third-party extension types using namespace:operator format (e.g., 'ext:custom_operator')"
         }
       ],

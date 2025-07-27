@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/neuro-format/tests/tests.schema.json",
   "title": "NeuroFormat Compliance Tests Schema",
   "description": "JSON Schema for NeuroFormat compliance test definitions that downstream libraries must pass",
   "type": "object",
@@ -109,7 +108,7 @@
       "type": "object",
       "properties": {
         "neuro_model": {
-          "$ref": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
+          "$ref": "../schema/2025-draft/neuro.schema.json",
           "description": "Complete .neuro.json model definition to test"
         },
         "neuro_fragment": {
