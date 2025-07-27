@@ -462,37 +462,26 @@
           "type": "object",
           "description": "Configuration attributes and parameters that control the behavior and properties of this node definition"
         },
-        "implementation": {
-          "type": "object",
-          "description": "Implementation details for this node definition",
-          "properties": {
-            "graph": {
-              "type": "object",
-              "description": "Graph structure defining the internal node composition",
-              "required": ["nodes"],
-              "properties": {
-                "nodes": {
-                  "type": "array",
-                  "description": "Array of nodes that make up this graph",
-                  "items": {
-                    "$ref": "#/definitions/node_instance"
-                  }
-                },
-                "metadata": {
-                  "type": "object",
-                  "description": "Optional metadata about the graph structure"
-                }
-              }
-            },
-            "weights": {
-              "oneOf": [
-                { "$ref": "#/definitions/qualified_ref" },
-                { "$ref": "#/definitions/hex_value" }
-              ],
-              "description": "Default weights for the node definition"
-            }
+        "subgraph": {
+          "type": "array",
+          "description": "Array of nodes that define the internal subgraph implementation of this node definition. Mutually exclusive with 'weights' property.",
+          "items": {
+            "$ref": "#/definitions/node_instance"
           }
+        },
+        "weights": {
+          "oneOf": [
+            { "$ref": "#/definitions/qualified_ref" },
+            { "$ref": "#/definitions/hex_value" }
+          ],
+          "description": "Weight data for primitive node implementations. Mutually exclusive with 'subgraph' property."
         }
+      },
+      "not": {
+        "allOf": [
+          { "required": ["subgraph"] },
+          { "required": ["weights"] }
+        ]
       }
     },
     "node_instance": {

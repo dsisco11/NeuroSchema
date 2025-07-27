@@ -109,7 +109,7 @@
       "type": "object",
       "properties": {
         "neuro_model": {
-          "type": "object",
+          "$ref": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "description": "Complete .neuro.json model definition to test"
         },
         "neuro_fragment": {

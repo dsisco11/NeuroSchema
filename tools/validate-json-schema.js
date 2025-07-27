@@ -15,7 +15,7 @@ program
     .option('-p, --path <path>', 'Base path to search for files', '.')
     .option('-s, --schema <schema>', 'Path to schema file', 'schema/2025-draft/neuro.schema.json')
     .option('-v, --verbose', 'Verbose output', false)
-    .option('-i, --include <patterns...>', 'Include file patterns', ['*.neuro.json'])
+    .option('-i, --include <patterns...>', 'Include file patterns', ['*.neuro.json', '*.json'])
     .option('-e, --exclude <patterns...>', 'Exclude file patterns', ['*.schema.json'])
     .parse();
 
@@ -147,55 +147,114 @@ async function loadSchema(schemaPath) {
         // Remove the $id from the main schema to prevent remote resolution attempts
         // (already done above)
         
-        try {
+        // try {
             return ajv.compile(localSchema);
-        } catch (compileError) {
-            if (options.verbose) {
-                console.warn(`Schema compilation warning: ${compileError.message}`);
-                console.log('Attempting to validate without strict schema references...');
-            }
+        // } catch (compileError) {
+        //     if (options.verbose) {
+        //         console.warn(`Schema compilation warning: ${compileError.message}`);
+        //         console.log('Attempting to validate without strict schema references...');
+        //     }
             
-            // Try with a more permissive AJV instance
-            const permissiveAjv = new Ajv({ 
-                allErrors: true, 
-                verbose: false,
-                strict: false,
-                validateSchema: false,
-                addUsedSchema: false,
-                loadSchema: false
-            });
-            addFormats(permissiveAjv);
+        //     // Try with a more permissive AJV instance
+        //     const permissiveAjv = new Ajv({ 
+        //         allErrors: true, 
+        //         verbose: false,
+        //         strict: false,
+        //         validateSchema: false,
+        //         addUsedSchema: false,
+        //         loadSchema: false
+        //     });
+        //     addFormats(permissiveAjv);
             
-            // Re-add the referenced schemas to the permissive instance
-            const permissiveLocalSchema = { ...schema };
-            if (permissiveLocalSchema.$id) {
-                delete permissiveLocalSchema.$id;
-            }
-            permissiveAjv.addSchema(permissiveLocalSchema, 'neuro.schema.json');
+        //     // Re-add the referenced schemas to the permissive instance
+        //     const permissiveLocalSchema = { ...schema };
+        //     if (permissiveLocalSchema.$id) {
+        //         delete permissiveLocalSchema.$id;
+        //     }
+        //     permissiveAjv.addSchema(permissiveLocalSchema, 'neuro.schema.json');
             
-            for (const refSchema of referencedSchemas) {
-                const refSchemaPath = path.join(schemaDir, refSchema.file);
-                if (fs.existsSync(refSchemaPath)) {
-                    try {
-                        const refSchemaContent = fs.readFileSync(refSchemaPath, 'utf8');
-                        const refSchemaObj = JSON.parse(refSchemaContent);
-                        const localRefSchema = { ...refSchemaObj };
-                        if (localRefSchema.$id) {
-                            delete localRefSchema.$id;
-                        }
-                        permissiveAjv.addSchema(localRefSchema, refSchema.key);
-                    } catch (error) {
-                        // Ignore errors in permissive mode
-                    }
-                }
-            }
+        //     for (const refSchema of referencedSchemas) {
+        //         const refSchemaPath = path.join(schemaDir, refSchema.file);
+        //         if (fs.existsSync(refSchemaPath)) {
+        //             try {
+        //                 const refSchemaContent = fs.readFileSync(refSchemaPath, 'utf8');
+        //                 const refSchemaObj = JSON.parse(refSchemaContent);
+        //                 const localRefSchema = { ...refSchemaObj };
+        //                 if (localRefSchema.$id) {
+        //                     delete localRefSchema.$id;
+        //                 }
+        //                 permissiveAjv.addSchema(localRefSchema, refSchema.key);
+        //             } catch (error) {
+        //                 // Ignore errors in permissive mode
+        //             }
+        //         }
+        //     }
             
-            return permissiveAjv.compile(localSchema);
-        }
+        //     return permissiveAjv.compile(localSchema);
+        // }
     } catch (error) {
         console.error(`❌ Failed to load schema: ${schemaPath}`);
         console.error(`Error: ${error.message}`);
         process.exit(1);
+    }
+}
+
+// Load tests schema for validating test definition files
+async function loadTestsSchema(basePath) {
+    const testsSchemaPath = path.join(basePath, 'tests', 'tests.schema.json');
+    if (!fs.existsSync(testsSchemaPath)) {
+        return null;
+    }
+    
+    try {
+        const schemaContent = fs.readFileSync(testsSchemaPath, 'utf8');
+        const schema = JSON.parse(schemaContent);
+        
+        const Ajv = require('ajv');
+        const addFormats = require('ajv-formats');
+        
+        const ajv = new Ajv({ 
+            allErrors: true, 
+            verbose: true,
+            strict: false,
+            loadSchema: true,
+            addUsedSchema: false
+        });
+        addFormats(ajv);
+        
+        // Load the main neuro schema to resolve the $ref in neuro_model
+        const neuroSchemaPath = path.join(basePath, 'schema', '2025-draft', 'neuro.schema.json');
+        const localNeuroSchema = loadSchema(neuroSchemaPath);
+        ajv.addSchema(localNeuroSchema, 'neuro.schema.json');
+        // if (fs.existsSync(neuroSchemaPath)) {
+        //     const neuroSchemaContent = fs.readFileSync(neuroSchemaPath, 'utf8');
+        //     const neuroSchema = JSON.parse(neuroSchemaContent);
+            
+        //     // Remove remote $id to force local resolution
+        //     const localNeuroSchema = { ...neuroSchema };
+        //     if (localNeuroSchema.$id) {
+        //         delete localNeuroSchema.$id;
+        //     }
+            
+        //     // Add the neuro schema with the path used in the tests schema reference
+        //     // ajv.addSchema(localNeuroSchema, '../schema/2025-draft/neuro.schema.json');
+            
+        //     if (options.verbose) {
+        //         console.log('Loaded neuro schema for tests schema reference resolution');
+        //     }
+        // }
+        
+        const localSchema = { ...schema };
+        if (localSchema.$id) {
+            delete localSchema.$id;
+        }
+        
+        return ajv.compile(localSchema);
+    } catch (error) {
+        if (options.verbose) {
+            console.warn(`Warning: Could not load tests schema: ${error.message}`);
+        }
+        return null;
     }
 }
 
@@ -268,12 +327,17 @@ function findJsonLocationByPosition(content, position) {
     };
 }
 
-function validateJsonFile(jsonFilePath, validator) {
+function validateJsonFile(jsonFilePath, validator, testsValidator) {
     const fileName = path.basename(jsonFilePath);
     const relativePath = path.relative(process.cwd(), jsonFilePath);
     
+    // Use tests schema for files under tests/ directory
+    const isTestFile = relativePath.includes(path.sep + 'tests' + path.sep) || relativePath.startsWith('tests' + path.sep);
+    const activeValidator = (isTestFile && testsValidator) ? testsValidator : validator;
+    const schemaType = (isTestFile && testsValidator) ? 'tests' : 'neuro';
+    
     if (options.verbose) {
-        console.log(`Validating: ${fileName}`);
+        console.log(`Validating: ${fileName} (${schemaType} schema)`);
     }
     
     try {
@@ -282,17 +346,17 @@ function validateJsonFile(jsonFilePath, validator) {
         const data = JSON.parse(jsonContent);
         
         // Validate against schema
-        const valid = validator(data);
+        const valid = activeValidator(data);
         
         if (valid) {
             if (options.verbose) {
-                console.log(`✓ Valid: ${fileName}`);
+                console.log(`✅ Valid: ${fileName} (${schemaType} schema)`);
             }
             return true;
         } else {
-            console.log(`✗ Schema validation failed: ${fileName}`);
-            if (validator.errors) {
-                validator.errors.forEach(error => {
+            console.log(`❌ Schema validation failed: ${fileName} (${schemaType} schema)`);
+            if (activeValidator.errors) {
+                activeValidator.errors.forEach(error => {
                     const instancePath = error.instancePath || '';
                     const dataPath = instancePath.replace(/^\//, '').replace(/\//g, '.');
                     
@@ -376,7 +440,7 @@ function findJsonFiles(dirPath, includePatterns, excludePatterns) {
     return files;
 }
 
-async function validateDirectory(dirPath, validator, category) {
+async function validateDirectory(dirPath, validator, testsValidator, category) {
     const files = findJsonFiles(dirPath, options.include, options.exclude);
     
     if (files.length === 0) {
@@ -387,12 +451,12 @@ async function validateDirectory(dirPath, validator, category) {
     }
     
     if (options.verbose) {
-        console.log(`\nValidating ${files.length} JSON files in ${category} against schema...`);
+        console.log(`\nValidating ${files.length} JSON files in ${category}...`);
     }
     
     let errors = 0;
     for (const file of files) {
-        if (!validateJsonFile(file, validator)) {
+        if (!validateJsonFile(file, validator, testsValidator)) {
             errors++;
         }
     }
@@ -417,25 +481,26 @@ async function main() {
         console.log('='.repeat(60));
     }
     
-    // Load schema and create validator
-    const validator = await loadSchema(fullSchemaPath);
+    // Load schemas
+    const neuroValidator = await loadSchema(fullSchemaPath);
+    const testsValidator = await loadTestsSchema(options.path);
     
     let totalErrors = 0;
     let totalFiles = 0;
     
     // Validate different directories
     const directories = [
-        { path: path.join(options.path, 'docs/examples'), category: 'Example' },
-        { path: path.join(options.path, 'tests/compliance'), category: 'Compliance Test' },
-        { path: path.join(options.path, 'tests/execution'), category: 'Execution Test' },
-        { path: path.join(options.path, 'tests/runtime'), category: 'Runtime Test' }
+        { path: path.join(options.path, 'docs/examples'), category: 'Examples' },
+        { path: path.join(options.path, 'tests/compliance'), category: 'Compliance Tests' },
+        { path: path.join(options.path, 'tests/execution'), category: 'Execution Tests' },
+        { path: path.join(options.path, 'tests/runtime'), category: 'Runtime Tests' }
     ];
     
     for (const dir of directories) {
         const dirFiles = findJsonFiles(dir.path, options.include, options.exclude);
         if (dirFiles.length > 0) {
             totalFiles += dirFiles.length;
-            const errors = await validateDirectory(dir.path, validator, dir.category);
+            const errors = await validateDirectory(dir.path, neuroValidator, testsValidator, dir.category);
             totalErrors += errors;
         }
     }
@@ -447,7 +512,7 @@ async function main() {
     
     if (totalErrors === 0) {
         if (options.verbose) {
-            console.log(`🎉 All ${totalFiles} JSON files are valid against the schema! ✓`);
+            console.log(`🎉 All ${totalFiles} JSON files are valid against their schemas! ✓`);
         }
         process.exit(0);
     } else {
