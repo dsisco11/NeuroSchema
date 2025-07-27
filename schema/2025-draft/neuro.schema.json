@@ -414,6 +414,7 @@
     },
     "node_definition": {
       "type": "object",
+      "description": "Definition of a reusable node component that can be composed hierarchically. Node definitions use a flattened structure where internal composition is defined directly via 'subgraph' property (for compound nodes) or 'weights' property (for primitive nodes), eliminating the previous nested 'implementation.graph.nodes' pattern.",
       "required": ["name", "type"],
       "properties": {
         "name": {
