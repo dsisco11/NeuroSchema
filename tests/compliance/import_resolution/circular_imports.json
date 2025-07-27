@@ -20,7 +20,7 @@
       "inputs": {
         "files": {
           "model_a.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_a",
@@ -63,7 +63,7 @@
             ]
           },
           "model_b.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_b",
@@ -129,7 +129,7 @@
       "inputs": {
         "files": {
           "model_a.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_a",
@@ -190,7 +190,7 @@
                 "dtype": "float32"
               }
             ],
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "version": "1.0.0",
@@ -233,7 +233,7 @@
                 "dtype": "float32"
               }
             ],
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "version": "1.0.0",
@@ -281,7 +281,7 @@
       "inputs": {
         "files": {
           "self_referencing_model.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "self_referencing_model",
@@ -347,7 +347,7 @@
       "inputs": {
         "files": {
           "model_a.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_a",
@@ -390,7 +390,7 @@
             ]
           },
           "model_b.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_b",
@@ -433,7 +433,7 @@
             ]
           },
           "model_c.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_c",
@@ -476,7 +476,7 @@
             ]
           },
           "model_d.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_d",
@@ -541,7 +541,7 @@
       "inputs": {
         "files": {
           "model_b.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_b",
@@ -584,7 +584,7 @@
             ]
           },
           "model_a.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_a",
@@ -627,7 +627,7 @@
             ]
           },
           "model_c.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_c",

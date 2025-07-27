@@ -17,7 +17,7 @@
         "files": {
           "./model_weights.safetensors": "",
           "test_model.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "test_model",
@@ -80,7 +80,7 @@
           "./encoder.safetensors": "",
           "./decoder.safetensors": "",
           "multi_weights_model.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "multi_weights_model",
@@ -157,7 +157,7 @@
       "tags": ["imports", "safetensors", "error_handling", "path_validation"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "invalid_path_model",
@@ -208,7 +208,7 @@
       "tags": ["imports", "safetensors", "error_handling", "missing_file"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "missing_file_model",

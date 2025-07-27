@@ -21,7 +21,7 @@
       "inputs": {
         "files": {
           "./model_b.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_b",
@@ -57,7 +57,7 @@
             ]
           },
           "duplicate_names_model.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "duplicate_names_model",
@@ -105,7 +105,7 @@
             ]
           },
           "./model_a.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "model_a",
@@ -163,7 +163,7 @@
       "inputs": {
         "files": {
           "long_path_model.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "long_path_model",
@@ -206,7 +206,7 @@
             ]
           },
           "./very/deeply/nested/directory/structure/with/many/levels/and/a/really/really/really/long/path/to/the/target/model/file/that/tests/path/length/limits/final_model.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "deep_model",

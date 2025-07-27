@@ -21,7 +21,7 @@
       "inputs": {
         "files": {
           "mixed_imports_test.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "mixed_imports_test",
@@ -78,7 +78,7 @@
             ]
           },
           "./config.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "config",
@@ -117,7 +117,7 @@
           },
           "./model_weights.safetensors": {},
           "./layer_definitions.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "layer_definitions",
@@ -199,7 +199,7 @@
       "inputs": {
         "files": {
           "./decoder.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "decoder_module",
@@ -238,7 +238,7 @@
             ]
           },
           "./attention.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "attention_primitives",
@@ -277,7 +277,7 @@
             ]
           },
           "./encoder.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "encoder_module",
@@ -320,7 +320,7 @@
             ]
           },
           "complex_hierarchy_test.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "complex_hierarchy_test",
@@ -425,7 +425,7 @@
       "inputs": {
         "files": {
           "precedence_test.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "precedence_test",
@@ -503,7 +503,7 @@
             ]
           },
           "./external_definitions.neuro.json": {
-            "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+            "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
             "metadata": {
               "model": {
                 "name": "external_definitions",

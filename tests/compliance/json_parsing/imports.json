@@ -15,7 +15,7 @@
       "tags": ["parsing", "validation", "imports"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "empty_name_test",
@@ -61,7 +61,7 @@
       "tags": ["imports", "edge_case", "empty"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "standalone_model",
@@ -105,7 +105,7 @@
       "tags": ["imports", "edge_case", "missing_field"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "no_imports_model",
@@ -148,7 +148,7 @@
       "tags": ["imports", "edge_case", "query_params"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "query_import_model",
@@ -169,7 +169,7 @@
         "parameters": {
           "imported_files": {
             "model.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "parameterized_model", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
@@ -195,7 +195,7 @@
       "tags": ["imports", "edge_case", "unicode"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "unicode_test_モデル",
@@ -216,7 +216,7 @@
         "parameters": {
           "imported_files": {
             "国際化_モデル.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "国際化_model", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [10], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [1], "dtype": "float32"}],
@@ -242,7 +242,7 @@
       ],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "invalid_type_test",

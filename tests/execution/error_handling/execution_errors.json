@@ -15,7 +15,7 @@
       "tags": ["execution", "shape_mismatch", "tensors"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "shape_mismatch_test",
@@ -65,7 +65,7 @@
       "tags": ["execution", "dtype_mismatch", "tensors"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "dtype_mismatch_test",
@@ -115,7 +115,7 @@
       "tags": ["execution", "weights", "missing_data"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "missing_weights_test",
@@ -164,7 +164,7 @@
       "tags": ["execution", "attributes", "validation"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "invalid_attributes_test",
@@ -213,7 +213,7 @@
       "tags": ["execution", "runtime", "computation"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "runtime_error_test",
@@ -263,7 +263,7 @@
       "tags": ["implementation", "not_implemented", "features"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "not_implemented_test",
@@ -308,7 +308,7 @@
       "tags": ["propagation", "chain", "nested_errors"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "error_propagation_test",

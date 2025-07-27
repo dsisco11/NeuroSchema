@@ -15,7 +15,7 @@
       "tags": ["imports", "performance", "stress_test", "deep_chain"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "level_01",
@@ -54,7 +54,7 @@
             "level_18.neuro.json": {"imports": [{"name": "level_19", "type": "neuro", "path": "./level_19.neuro.json"}]},
             "level_19.neuro.json": {"imports": [{"name": "level_20", "type": "neuro", "path": "./level_20.neuro.json"}]},
             "level_20.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "level_20", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [1000], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [1000], "dtype": "float32"}],
@@ -83,7 +83,7 @@
       "tags": ["imports", "performance", "stress_test", "fan_out"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "hub_model",
@@ -109,70 +109,70 @@
         "parameters": {
           "imported_files": {
             "modules/module_01.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "module_01", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
               "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_02.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "module_02", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
               "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_03.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "module_03", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
               "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_04.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "module_04", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
               "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_05.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "module_05", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
               "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_06.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "module_06", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
               "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_07.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "module_07", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
               "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_08.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "module_08", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
               "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_09.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "module_09", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
               "export": [{"name": "identity", "type": "identity", "arguments": ["@{arguments.input}"]}]
             },
             "modules/module_10.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "module_10", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [100], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [100], "dtype": "float32"}],
@@ -201,7 +201,7 @@
       "tags": ["nodes", "performance", "stress_test", "large_model"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "large_model",
@@ -267,7 +267,7 @@
       "tags": ["memory", "performance", "stress_test", "large_tensors"],
       "inputs": {
         "neuro_model": {
-          "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
           "metadata": {
             "model": {
               "name": "memory_stress_model",
@@ -292,21 +292,21 @@
         "parameters": {
           "imported_files": {
             "large_module_1.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "large_module_1", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [5000, 5000], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [5000, 2500], "dtype": "float32"}],
               "export": [{"name": "big_transform", "type": "linear", "arguments": ["@{arguments.input}"], "shape": [5000, 2500]}]
             },
             "large_module_2.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "large_module_2", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [2500, 2500], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [2500, 1250], "dtype": "float32"}],
               "export": [{"name": "medium_transform", "type": "linear", "arguments": ["@{arguments.input}"], "shape": [2500, 1250]}]
             },
             "large_module_3.neuro.json": {
-              "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+              "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
               "metadata": {"model": {"name": "large_module_3", "version": "1.0.0"}},
               "inputs": [{"name": "input", "shape": [1250, 1250], "dtype": "float32"}],
               "outputs": [{"name": "output", "shape": [1250, 625], "dtype": "float32"}],

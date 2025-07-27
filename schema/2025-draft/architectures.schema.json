@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/neuro-graph/schemas/2025-1/architectures.schema.json",
+  "$id": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/architectures.schema.json",
   "title": "NeuroGraph Architectures Schema",
   "description": "Schema definitions for NeuroGraph neural network architecture compound nodes",
   "definitions": {

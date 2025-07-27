@@ -314,7 +314,7 @@ Third-party extensions are supported through namespaced types:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/neuro.schema.json",
+  "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
   "metadata": {
     "model": {
       "name": "mnist_classifier",

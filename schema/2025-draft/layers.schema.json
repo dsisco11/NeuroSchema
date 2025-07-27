@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/neuro-format/schemas/2025-1/layers.schema.json",
+  "$id": "https://raw.githubusercontent.com/neuro-format/schemas/latest/layers.schema.json",
   "title": "NeuroFormat Layers Schema",
   "description": "Schema definitions for NeuroFormat neural network layer types and their specifications",
   "definitions": {
