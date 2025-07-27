@@ -72,33 +72,29 @@
         "embed_dim": "@{constants/feature_dim}",
         "num_layers": "@{constants/num_layers}"
       },
-      "implementation": {
-        "graph": {
-          "nodes": [
-            {
-              "name": "patch_embedding",
-              "type": "convolution",
-              "arguments": ["@{inputs.image}"],
-              "attributes": {
-                "kernel_size": ["@{constants/patch_size}", "@{constants/patch_size}"],
-                "stride": ["@{constants/patch_size}", "@{constants/patch_size}"],
-                "in_channels": "@{constants/input_channels}",
-                "out_channels": "@{constants/feature_dim}"
-              }
-            },
-            {
-              "name": "transformer_encoder",
-              "type": "transformer",
-              "arguments": ["@{./patch_embedding}"],
-              "attributes": {
-                "num_layers": "@{constants/num_layers}",
-                "hidden_size": "@{constants/feature_dim}",
-                "num_heads": "@{constants/num_attention_heads}"
-              }
-            }
-          ]
+      "subgraph": [
+        {
+          "name": "patch_embedding",
+          "type": "convolution",
+          "arguments": ["@{inputs.image}"],
+          "attributes": {
+            "kernel_size": ["@{constants/patch_size}", "@{constants/patch_size}"],
+            "stride": ["@{constants/patch_size}", "@{constants/patch_size}"],
+            "in_channels": "@{constants/input_channels}",
+            "out_channels": "@{constants/feature_dim}"
+          }
+        },
+        {
+          "name": "transformer_encoder",
+          "type": "transformer",
+          "arguments": ["@{./patch_embedding}"],
+          "attributes": {
+            "num_layers": "@{constants/num_layers}",
+            "hidden_size": "@{constants/feature_dim}",
+            "num_heads": "@{constants/num_attention_heads}"
+          }
         }
-      }
+      ]
     }
   ],
   "export": [

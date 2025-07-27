@@ -33,34 +33,25 @@
               "name": "outer_layer",
               "type": "sequential",
               "arguments": [{"name": "x", "type": "tensor"}],
-              "implementation": {
-                "graph": {
-                  "nodes": [
-                    {
-                      "name": "inner_transform",
-                      "type": "inner_layer",
-                      "arguments": ["@{arguments.x}"]
-                    }
-                  ]
+              "subgraph": [
+                {
+                  "name": "inner_transform",
+                  "type": "inner_layer",
+                  "arguments": ["@{arguments.x}"]
                 }
-              }
+              ]
             },
             {
               "name": "inner_layer", 
               "type": "sequential",
               "arguments": [{"name": "y", "type": "tensor"}],
-              "implementation": {
-                "graph": {
-                  "nodes": [
+              "subgraph": [
                     {
                       "name": "linear1",
                       "type": "linear",
                       "arguments": ["@{arguments.y}"],
                       "attributes": {"in_features": 10, "out_features": 5}
-                    }
-                  ]
-                }
-              }
+                    }              ]
             }
           ],
           "export": [
@@ -99,38 +90,23 @@
               "name": "encoder",
               "type": "sequential",
               "arguments": [{"name": "x", "type": "tensor"}],
-              "implementation": {
-                "graph": {
-                  "nodes": [
-                    {"name": "encode", "type": "linear", "arguments": ["@{arguments.x}"], "attributes": {"in_features": 10, "out_features": 5}}
-                  ]
-                }
-              }
+              "subgraph": [
+                    {"name": "encode", "type": "linear", "arguments": ["@{arguments.x}"], "attributes": {"in_features": 10, "out_features": 5}}              ]
             },
             {
               "name": "classifier",
               "type": "sequential", 
               "arguments": [{"name": "features", "type": "tensor"}],
-              "implementation": {
-                "graph": {
-                  "nodes": [
-                    {"name": "classify", "type": "linear", "arguments": ["@{arguments.features}"], "attributes": {"in_features": 5, "out_features": 1}}
-                  ]
-                }
-              }
+              "subgraph": [
+                    {"name": "classify", "type": "linear", "arguments": ["@{arguments.features}"], "attributes": {"in_features": 5, "out_features": 1}}              ]
             },
             {
               "name": "full_model",
               "type": "sequential",
               "arguments": [{"name": "input", "type": "tensor"}],
-              "implementation": {
-                "graph": {
-                  "nodes": [
+              "subgraph": [
                     {"name": "encoded", "type": "encoder", "arguments": ["@{arguments.input}"]},
-                    {"name": "result", "type": "classifier", "arguments": ["@{./encoded}"]}
-                  ]
-                }
-              }
+                    {"name": "result", "type": "classifier", "arguments": ["@{./encoded}"]}              ]
             }
           ],
           "export": [
@@ -169,25 +145,15 @@
               "name": "layer_a",
               "type": "sequential",
               "arguments": [{"name": "x", "type": "tensor"}],
-              "implementation": {
-                "graph": {
-                  "nodes": [
-                    {"name": "hidden", "type": "linear", "arguments": ["@{arguments.x}"], "attributes": {"in_features": 10, "out_features": 5}}
-                  ]
-                }
-              }
+              "subgraph": [
+                    {"name": "hidden", "type": "linear", "arguments": ["@{arguments.x}"], "attributes": {"in_features": 10, "out_features": 5}}              ]
             },
             {
               "name": "layer_b",
               "type": "sequential",
               "arguments": [{"name": "y", "type": "tensor"}],
-              "implementation": {
-                "graph": {
-                  "nodes": [
-                    {"name": "invalid_ref", "type": "linear", "arguments": ["@{hidden}"], "attributes": {"in_features": 5, "out_features": 5}}
-                  ]
-                }
-              }
+              "subgraph": [
+                    {"name": "invalid_ref", "type": "linear", "arguments": ["@{hidden}"], "attributes": {"in_features": 5, "out_features": 5}}              ]
             }
           ],
           "export": [
@@ -228,39 +194,24 @@
               "name": "level_3_block",
               "type": "sequential",
               "arguments": [{"name": "x", "type": "tensor"}],
-              "implementation": {
-                "graph": {
-                  "nodes": [
-                    {"name": "l3_linear", "type": "linear", "arguments": ["@{arguments.x}"], "attributes": {"in_features": 4, "out_features": 2}}
-                  ]
-                }
-              }
+              "subgraph": [
+                    {"name": "l3_linear", "type": "linear", "arguments": ["@{arguments.x}"], "attributes": {"in_features": 4, "out_features": 2}}              ]
             },
             {
               "name": "level_2_block",
               "type": "sequential",
               "arguments": [{"name": "x", "type": "tensor"}],
-              "implementation": {
-                "graph": {
-                  "nodes": [
+              "subgraph": [
                     {"name": "l2_linear", "type": "linear", "arguments": ["@{arguments.x}"], "attributes": {"in_features": 8, "out_features": 4}},
-                    {"name": "l2_to_l3", "type": "level_3_block", "arguments": ["@{./l2_linear}"]}
-                  ]
-                }
-              }
+                    {"name": "l2_to_l3", "type": "level_3_block", "arguments": ["@{./l2_linear}"]}              ]
             },
             {
               "name": "level_1_block",
               "type": "sequential",
               "arguments": [{"name": "x", "type": "tensor"}],
-              "implementation": {
-                "graph": {
-                  "nodes": [
+              "subgraph": [
                     {"name": "l1_linear", "type": "linear", "arguments": ["@{arguments.x}"], "attributes": {"in_features": 16, "out_features": 8}},
-                    {"name": "l1_to_l2", "type": "level_2_block", "arguments": ["@{./l1_linear}"]}
-                  ]
-                }
-              }
+                    {"name": "l1_to_l2", "type": "level_2_block", "arguments": ["@{./l1_linear}"]}              ]
             }
           ],
           "export": [
@@ -275,3 +226,5 @@
     }
   ]
 }
+
+

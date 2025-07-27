@@ -62,31 +62,27 @@
         "hidden_size": "@{constants/hidden_size}",
         "num_layers": "@{constants/num_layers}"
       },
-      "implementation": {
-        "graph": {
-          "nodes": [
-            {
-              "name": "embeddings",
-              "type": "embedding",
-              "arguments": ["@{inputs.tokens}"],
-              "attributes": {
-                "num_embeddings": "@{constants/vocab_size}",
-                "embedding_dim": "@{constants/hidden_size}"
-              }
-            },
-            {
-              "name": "encoder_output",
-              "type": "transformer",
-              "arguments": ["@{./embeddings}"],
-              "attributes": {
-                "num_layers": "@{constants/num_layers}",
-                "hidden_size": "@{constants/hidden_size}",
-                "num_heads": "@{constants/num_attention_heads}"
-              }
-            }
-          ]
+      "subgraph": [
+        {
+          "name": "embeddings",
+          "type": "embedding",
+          "arguments": ["@{inputs.tokens}"],
+          "attributes": {
+            "num_embeddings": "@{constants/vocab_size}",
+            "embedding_dim": "@{constants/hidden_size}"
+          }
+        },
+        {
+          "name": "encoder_output",
+          "type": "transformer",
+          "arguments": ["@{./embeddings}"],
+          "attributes": {
+            "num_layers": "@{constants/num_layers}",
+            "hidden_size": "@{constants/hidden_size}",
+            "num_heads": "@{constants/num_attention_heads}"
+          }
         }
-      }
+      ]
     }
   ],
   "export": [

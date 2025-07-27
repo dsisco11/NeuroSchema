@@ -29,7 +29,7 @@
     },
     "sequential_architecture": {
       "type": "object",
-      "required": ["name", "type", "arguments", "implementation"],
+      "required": ["name", "type", "arguments", "subgraph"],
       "properties": {
         "name": {
           "type": "string",
@@ -88,24 +88,13 @@
             }
           }
         },
-        "implementation": {
-          "type": "object",
-          "required": ["graph"],
-          "properties": {
-            "graph": {
-              "type": "object",
-              "required": ["nodes"],
-              "properties": {
-                "nodes": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "$ref": "./neuro.schema.json#/definitions/node_instance"
-                  }
-                }
-              }
-            }
-          }
+        "subgraph": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "./neuro.schema.json#/definitions/node_instance"
+          },
+          "description": "Array of nodes that define the internal subgraph implementation of this sequential architecture"
         }
       }
     }

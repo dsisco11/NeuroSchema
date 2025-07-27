@@ -93,19 +93,17 @@
         {"name": "context", "type": "tensor"},
         {"name": "message", "type": "tensor"}
       ],
-      "implementation": {
-        "graph": {
-          "nodes": [
-            {
-              "name": "context_encoder",
-              "type": "transformer",
-              "arguments": ["@{inputs.context}"],
-              "attributes": {
-                "num_layers": "@{constants/encoder_layers}",
-                "hidden_size": "@{constants/hidden_size}",
-                "num_heads": "@{constants/num_attention_heads}"
-              }
-            },
+      "subgraph": [
+        {
+          "name": "context_encoder",
+          "type": "transformer",
+          "arguments": ["@{inputs.context}"],
+          "attributes": {
+            "num_layers": "@{constants/encoder_layers}",
+            "hidden_size": "@{constants/hidden_size}",
+            "num_heads": "@{constants/num_attention_heads}"
+          }
+        },
             {
               "name": "message_encoder", 
               "type": "transformer",
@@ -137,8 +135,6 @@
               }
             }
           ]
-        }
-      }
     }
   ],
   "export": [

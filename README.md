@@ -70,14 +70,10 @@ All nodes, regardless of complexity, follow the same structural pattern:
   "attributes": {
     /* node-specific parameters */
   },
-  "implementation": {
-    "graph": {
-      "nodes": [
-        /* internal node composition */
-      ]
-    },
-    "weights": "/* optional weight data */"
-  }
+  "subgraph": [
+    /* internal node composition */
+  ],
+  "weights": "/* optional weight data */"
 }
 ```
 
@@ -218,19 +214,15 @@ Reusable node definitions for operators, layers, and architectures:
       "name": "my_sequential_classifier",
       "type": "sequential",
       "arguments": [{ "name": "input", "type": "tensor" }],
-      "implementation": {
-        "graph": {
-          "nodes": [
-            {
-              "name": "fc1",
-              "type": "linear",
-              "arguments": ["@{inputs.input}"]
-            },
-            { "name": "relu1", "type": "activation", "arguments": ["@{fc1}"] },
-            { "name": "output", "type": "linear", "arguments": ["@{relu1}"] }
-          ]
-        }
-      }
+      "subgraph": [
+        {
+          "name": "fc1",
+          "type": "linear",
+          "arguments": ["@{inputs.input}"]
+        },
+        { "name": "relu1", "type": "activation", "arguments": ["@{fc1}"] },
+        { "name": "output", "type": "linear", "arguments": ["@{relu1}"] }
+      ]
     }
   ]
 }
@@ -329,20 +321,16 @@ Third-party extensions are supported through namespaced types:
       "name": "classifier",
       "type": "sequential",
       "arguments": [{ "name": "input", "type": "tensor", "shape": [784] }],
-      "implementation": {
-        "graph": {
-          "nodes": [
-            {
-              "name": "fc1",
-              "type": "linear",
-              "arguments": ["@{./inputs.input}"]
-            },
-            { "name": "relu1", "type": "activation", "arguments": ["@{fc1}"] },
-            { "name": "fc2", "type": "linear", "arguments": ["@{relu1}"] },
-            { "name": "output", "type": "activation", "arguments": ["@{fc2}"] }
-          ]
-        }
-      }
+      "subgraph": [
+        {
+          "name": "fc1",
+          "type": "linear",
+          "arguments": ["@{./inputs.input}"]
+        },
+        { "name": "relu1", "type": "activation", "arguments": ["@{fc1}"] },
+        { "name": "fc2", "type": "linear", "arguments": ["@{relu1}"] },
+        { "name": "output", "type": "activation", "arguments": ["@{fc2}"] }
+      ]
     }
   ],
   "export": [

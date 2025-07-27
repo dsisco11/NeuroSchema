@@ -50,37 +50,29 @@
         "num_heads": "@{constants/attention_heads}",
         "embed_dim": "@{constants/fusion_dimension}"
       },
-      "implementation": {
-        "graph": {
-          "nodes": [
-            {
-              "name": "attention_output",
-              "type": "multi_head_attention",
-              "arguments": ["@{inputs.query}", "@{inputs.key}"],
-              "attributes": {
-                "heads": "@{constants/num_heads}",
-                "dim": "@{constants/embed_dim}"
-              }
-            }
-          ]
+      "subgraph": [
+        {
+          "name": "attention_output",
+          "type": "multi_head_attention",
+          "arguments": ["@{inputs.query}", "@{inputs.key}"],
+          "attributes": {
+            "heads": "@{constants/num_heads}",
+            "dim": "@{constants/embed_dim}"
+          }
         }
-      }
+      ]
     },
     {
       "name": "attention_extractor",
       "type": "sequential",
       "arguments": [{"name": "features", "type": "tensor"}],
-      "implementation": {
-        "graph": {
-          "nodes": [
-            {
-              "name": "attention_weights",
-              "type": "identity",
-              "arguments": ["@{inputs.features}"]
-            }
-          ]
+      "subgraph": [
+        {
+          "name": "attention_weights",
+          "type": "identity",
+          "arguments": ["@{inputs.features}"]
         }
-      }
+      ]
     }
   ],
   "export": []

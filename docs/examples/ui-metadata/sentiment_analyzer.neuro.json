@@ -32,10 +32,7 @@
             "recommended": [
               "Consider the overall emotional tone:",
               "Provide confidence scores:",
-              "Explain key sentiment indicators:"
-            ]
-          }
-        }
+              "Explain key sentiment indicators:"        ]
       }
     }
   },
@@ -83,9 +80,7 @@
       "name": "sentiment_classifier",
       "type": "sequential",
       "arguments": [{"name": "tokens", "type": "tensor"}],
-      "implementation": {
-        "graph": {
-          "nodes": [
+      "subgraph": [
             {
               "name": "bert_encoder",
               "type": "transformer",
@@ -113,9 +108,7 @@
                 "out_features": "@{constants/num_sentiment_classes}"
               }
             }
-          ]
-        }
-      }
+        ]
     }
   ],
   "export": [

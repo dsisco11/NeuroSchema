@@ -73,9 +73,7 @@
       "name": "resnet_classifier",
       "type": "sequential",
       "arguments": [{"name": "x", "type": "tensor"}],
-      "implementation": {
-        "graph": {
-          "nodes": [
+      "subgraph": [
             {
               "name": "conv1",
               "type": "convolution",
@@ -124,10 +122,7 @@
                 "in_features": "@{constants/final_feature_dim}",
                 "out_features": "@{constants/num_classes}"
               }
-            }
-          ]
-        }
-      }
+            }        ]
     }
   ],
   "export": [
@@ -138,3 +133,5 @@
     }
   ]
 }
+
+
