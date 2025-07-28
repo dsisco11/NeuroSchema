@@ -414,7 +414,7 @@
     },
     "node_definition": {
       "type": "object",
-      "description": "Definition of a reusable node component that can be composed hierarchically. Node definitions use a flattened structure where internal composition is defined directly via 'subgraph' property (for compound nodes) or 'weights' property (for primitive nodes), eliminating the previous nested 'implementation.graph.nodes' pattern.",
+      "description": "Definition of a reusable node component that can be composed hierarchically. Node definitions use a flattened structure where internal composition is defined directly via 'subgraph' property (for compound nodes) and/or 'weights' property (for parameter data), eliminating the previous nested 'implementation.graph.nodes' pattern.",
       "required": ["name", "type"],
       "properties": {
         "name": {
@@ -464,7 +464,7 @@
         },
         "subgraph": {
           "type": "array",
-          "description": "Array of nodes that define the internal subgraph implementation of this node definition. Mutually exclusive with 'weights' property.",
+          "description": "Array of nodes that define the internal subgraph implementation of this node definition.",
           "items": {
             "$ref": "#/definitions/node_instance"
           }
@@ -474,14 +474,8 @@
             { "$ref": "#/definitions/qualified_ref" },
             { "$ref": "#/definitions/hex_value" }
           ],
-          "description": "Weight data for primitive node implementations. Mutually exclusive with 'subgraph' property."
+          "description": "Weight data for this node definition."
         }
-      },
-      "not": {
-        "allOf": [
-          { "required": ["subgraph"] },
-          { "required": ["weights"] }
-        ]
       }
     },
     "node_instance": {
