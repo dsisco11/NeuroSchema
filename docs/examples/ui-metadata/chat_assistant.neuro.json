@@ -134,7 +134,14 @@
                 "generation_mode": "autoregressive"
               }
             }
-          ]
+          ],
+      "outputs": [
+        {
+          "name": "response",
+          "description": "Generated response from the chat model",
+          "source": "@{response_generator}"
+        }
+      ]
     }
   ],
   "export": [

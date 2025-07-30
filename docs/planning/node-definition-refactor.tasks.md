@@ -8,7 +8,7 @@ Implementation tasks for adding the required "outputs" field to `node_definition
 
 ### 1.1 Update Primary Schema
 
-- [ ] **Update `schema/2025-draft/neuro.schema.json`**
+- [x] **Update `schema/2025-draft/neuro.schema.json`**
   - Add "outputs" field to `node_definition` with required status
   - Update `node_definition.required` array to include "outputs"
   - Add proper schema definition for outputs structure
@@ -18,7 +18,7 @@ Implementation tasks for adding the required "outputs" field to `node_definition
 
 ### 1.2 Validate Schema Changes
 
-- [ ] **Run schema validation tools**
+- [x] **Run schema validation tools**
   - Execute `tools/validate-json-schema.js --verbose`
   - Ensure JSON Schema is still valid
   - **Dependencies**: 1.1
@@ -29,7 +29,7 @@ Implementation tasks for adding the required "outputs" field to `node_definition
 
 ### 2.1 Identify Examples with Node Definitions
 
-- [ ] **Audit example files for node_definition usage**
+- [x] **Audit example files for node_definition usage**
   - Search through `docs/examples/` for files containing "definitions" sections
   - Create list of files that need outputs field added
   - **Dependencies**: 1.1
@@ -38,7 +38,7 @@ Implementation tasks for adding the required "outputs" field to `node_definition
 
 ### 2.2 Update Example Files
 
-- [ ] **Update `docs/examples/encoders/bert_base.neuro.json`**
+- [x] **Update `docs/examples/encoders/bert_base.neuro.json`**
 
   - Add "outputs" field to any node definitions
   - Ensure outputs reference appropriate subgraph nodes
@@ -46,7 +46,7 @@ Implementation tasks for adding the required "outputs" field to `node_definition
   - **Priority**: Medium
   - **Estimated Effort**: 1 hour
 
-- [ ] **Update `docs/examples/encoders/vision_transformer.neuro.json`**
+- [x] **Update `docs/examples/encoders/vision_transformer.neuro.json`**
 
   - Add "outputs" field to any node definitions
   - Ensure outputs reference appropriate subgraph nodes
@@ -54,7 +54,7 @@ Implementation tasks for adding the required "outputs" field to `node_definition
   - **Priority**: Medium
   - **Estimated Effort**: 1 hour
 
-- [ ] **Update other example files as identified in 2.1**
+- [x] **Update other example files as identified in 2.1**
   - Apply same pattern to remaining example files
   - **Dependencies**: 2.1
   - **Priority**: Medium

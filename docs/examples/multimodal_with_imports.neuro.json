@@ -137,7 +137,14 @@
               "type": "add",
               "arguments": ["@{text_projection}", "@{cross_attention}"]
             }
-          ]
+          ],
+      "outputs": [
+        {
+          "name": "fused_representation",
+          "description": "Cross-attention fused text and image features",
+          "source": "@{fusion_output}"
+        }
+      ]
     },
     {
       "name": "classification_head",
@@ -166,6 +173,13 @@
             "in_features": "@{config:constants/fusion_dimension}",
             "out_features": "@{config:constants/output_classes}"
           }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "logits",
+          "description": "Classification logits for each class",
+          "source": "@{classifier}"
         }
       ]
     }

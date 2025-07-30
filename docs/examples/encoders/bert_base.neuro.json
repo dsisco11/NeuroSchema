@@ -82,6 +82,13 @@
             "num_heads": "@{constants/num_attention_heads}"
           }
         }
+      ],
+      "outputs": [
+        {
+          "name": "encoded_sequence",
+          "description": "The final encoded representation from the transformer layers",
+          "source": "@{encoder_output}"
+        }
       ]
     }
   ],

@@ -108,7 +108,14 @@
                 "out_features": "@{constants/num_sentiment_classes}"
               }
             }
-        ]
+        ],
+      "outputs": [
+        {
+          "name": "sentiment_scores",
+          "description": "Sentiment classification scores",
+          "source": "@{classifier}"
+        }
+      ]
     }
   ],
   "export": [

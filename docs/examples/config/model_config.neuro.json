@@ -60,6 +60,13 @@
             "dim": "@{constants/embed_dim}"
           }
         }
+      ],
+      "outputs": [
+        {
+          "name": "attended_features",
+          "description": "Multi-head attention output",
+          "source": "@{attention_output}"
+        }
       ]
     },
     {
@@ -71,6 +78,13 @@
           "name": "attention_weights",
           "type": "identity",
           "arguments": ["@{inputs.features}"]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "extracted_features",
+          "description": "Identity-transformed features for attention extraction",
+          "source": "@{attention_weights}"
         }
       ]
     }

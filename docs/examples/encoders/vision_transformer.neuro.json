@@ -94,6 +94,13 @@
             "num_heads": "@{constants/num_attention_heads}"
           }
         }
+      ],
+      "outputs": [
+        {
+          "name": "image_features",
+          "description": "Encoded image features from the vision transformer",
+          "source": "@{transformer_encoder}"
+        }
       ]
     }
   ],

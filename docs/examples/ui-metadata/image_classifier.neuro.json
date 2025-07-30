@@ -122,7 +122,14 @@
                 "in_features": "@{constants/final_feature_dim}",
                 "out_features": "@{constants/num_classes}"
               }
-            }        ]
+            }        ],
+      "outputs": [
+        {
+          "name": "class_logits",
+          "description": "Classification logits for image categories",
+          "source": "@{classifier}"
+        }
+      ]
     }
   ],
   "export": [
