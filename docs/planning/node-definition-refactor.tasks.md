@@ -1,0 +1,179 @@
+# Node Definition Refactor - Task List
+
+## Overview
+
+Implementation tasks for adding the required "outputs" field to `node_definition` in the NeuroSchema.
+
+## Phase 1: Schema Updates (Core Changes)
+
+### 1.1 Update Primary Schema
+
+- [ ] **Update `schema/2025-draft/neuro.schema.json`**
+  - Add "outputs" field to `node_definition` with required status
+  - Update `node_definition.required` array to include "outputs"
+  - Add proper schema definition for outputs structure
+  - **Dependencies**: None
+  - **Priority**: High
+  - **Estimated Effort**: 1-2 hours
+
+### 1.2 Validate Schema Changes
+
+- [ ] **Run schema validation tools**
+  - Execute `tools/validate-json-schema.js --verbose`
+  - Ensure JSON Schema is still valid
+  - **Dependencies**: 1.1
+  - **Priority**: High
+  - **Estimated Effort**: 30 minutes
+
+## Phase 2: Example File Updates
+
+### 2.1 Identify Examples with Node Definitions
+
+- [ ] **Audit example files for node_definition usage**
+  - Search through `docs/examples/` for files containing "definitions" sections
+  - Create list of files that need outputs field added
+  - **Dependencies**: 1.1
+  - **Priority**: Medium
+  - **Estimated Effort**: 1 hour
+
+### 2.2 Update Example Files
+
+- [ ] **Update `docs/examples/encoders/bert_base.neuro.json`**
+
+  - Add "outputs" field to any node definitions
+  - Ensure outputs reference appropriate subgraph nodes
+  - **Dependencies**: 2.1
+  - **Priority**: Medium
+  - **Estimated Effort**: 1 hour
+
+- [ ] **Update `docs/examples/encoders/vision_transformer.neuro.json`**
+
+  - Add "outputs" field to any node definitions
+  - Ensure outputs reference appropriate subgraph nodes
+  - **Dependencies**: 2.1
+  - **Priority**: Medium
+  - **Estimated Effort**: 1 hour
+
+- [ ] **Update other example files as identified in 2.1**
+  - Apply same pattern to remaining example files
+  - **Dependencies**: 2.1
+  - **Priority**: Medium
+  - **Estimated Effort**: 2-4 hours
+
+### 2.3 Create New Example
+
+- [ ] **Create example showcasing outputs field**
+  - Create `docs/examples/node-definition-outputs-example.neuro.json`
+  - Demonstrate multiple output aliases from subgraph nodes
+  - Show best practices for output naming and referencing
+  - **Dependencies**: 1.1
+  - **Priority**: Medium
+  - **Estimated Effort**: 2 hours
+
+## Phase 3: Test Updates
+
+### 3.1 Update Compliance Tests
+
+- [ ] **Update minimal model tests**
+
+  - Update `tests/compliance/schema_validation/minimal_model.json`
+  - Add minimal "outputs" field to pass validation
+  - **Dependencies**: 1.1
+  - **Priority**: High
+  - **Estimated Effort**: 30 minutes
+
+- [ ] **Update existing compliance tests with node definitions**
+  - Search `tests/compliance/` for files with definitions sections
+  - Add required "outputs" field to prevent validation failures
+  - **Dependencies**: 1.1
+  - **Priority**: High
+  - **Estimated Effort**: 2-3 hours
+
+### 3.2 Create New Compliance Tests
+
+- [ ] **Create outputs validation tests**
+  - Create `tests/compliance/schema_validation/node_definition_outputs.json`
+  - Test valid and invalid outputs structures
+  - Test missing outputs field (should fail)
+  - Test invalid qualified-ref in source (should fail)
+  - **Dependencies**: 1.1
+  - **Priority**: Medium
+  - **Estimated Effort**: 3 hours
+
+### 3.3 Update Test Infrastructure
+
+- [ ] **Update `tests/tests.schema.json` if needed**
+  - Ensure test schema supports new outputs validation tests
+  - **Dependencies**: 3.2
+  - **Priority**: Low
+  - **Estimated Effort**: 30 minutes
+
+## Phase 4: Documentation Updates
+
+### 4.1 Update Schema Documentation
+
+- [ ] **Update inline documentation**
+  - Review and update descriptions in `neuro.schema.json`
+  - Ensure "outputs" field has clear, comprehensive description
+  - **Dependencies**: 1.1
+  - **Priority**: Medium
+  - **Estimated Effort**: 1 hour
+
+### 4.2 Update Reference Documentation
+
+- [ ] **Update imports and references documentation**
+  - Update `docs/imports-and-references.md` to mention outputs
+  - Add examples of qualified-ref usage in outputs
+  - **Dependencies**: 1.1, 2.3
+  - **Priority**: Medium
+  - **Estimated Effort**: 1 hour
+
+## Phase 5: Implementation Support
+
+### 5.1 Update Error Codes Documentation
+
+- [ ] **Update `docs/error-codes.md`**
+  - Add error codes for missing outputs field
+  - Add error codes for invalid outputs structure
+  - **Dependencies**: 3.2
+  - **Priority**: Low
+  - **Estimated Effort**: 30 minutes
+
+### 5.2 Validation and Testing
+
+- [ ] **Run full test suite**
+  - Execute all tests to ensure no regressions
+  - Fix any failing tests discovered
+  - **Dependencies**: All previous phases
+  - **Priority**: High
+  - **Estimated Effort**: 2-3 hours
+
+### 5.3 Review and Polish
+
+- [ ] **Code review and final polish**
+  - Review all changes for consistency
+  - Ensure naming conventions are followed
+  - Check for typos in documentation
+  - **Dependencies**: All previous phases
+  - **Priority**: Medium
+  - **Estimated Effort**: 1-2 hours
+
+## Summary
+
+**Total Estimated Effort**: 15-25 hours
+**Critical Path**: Phase 1 → Phase 3.1 → Phase 5.2
+**Breaking Change Impact**: High - All existing models with node definitions will need updates
+
+## Risk Mitigation
+
+- **Schema Validation**: Run validation early and often
+- **Testing**: Comprehensive test coverage for new functionality
+- **Examples**: Provide clear examples of new functionality
+
+## Success Criteria
+
+- [ ] All schema files pass validation
+- [ ] All test files pass validation
+- [ ] All example files pass validation
+- [ ] Documentation is updated and consistent
+- [ ] No regressions in existing functionality
