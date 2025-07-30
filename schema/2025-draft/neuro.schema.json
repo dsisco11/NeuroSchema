@@ -415,7 +415,7 @@
     "node_definition": {
       "type": "object",
       "description": "Definition of a reusable node component that can be composed hierarchically. Node definitions use a flattened structure where internal composition is defined directly via 'subgraph' property (for compound nodes) and/or 'weights' property (for parameter data), eliminating the previous nested 'implementation.graph.nodes' pattern.",
-      "required": ["name", "type"],
+      "required": ["name", "type", "outputs"],
       "properties": {
         "name": {
           "type": "string",
@@ -475,6 +475,28 @@
             { "$ref": "#/definitions/hex_value" }
           ],
           "description": "Weight data for this node definition."
+        },
+        "outputs": {
+          "type": "array",
+          "description": "Named output aliases that reference subgraph node outputs",
+          "items": {
+            "type": "object",
+            "required": ["name", "source"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the output alias"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the output"
+              },
+              "source": {
+                "$ref": "#/definitions/qualified_ref",
+                "description": "Reference to the source subgraph node output"
+              }
+            }
+          }
         }
       }
     },
