@@ -1,0 +1,395 @@
+{
+  "$schema": "../../tests.schema.json",
+  "metadata": {
+    "name": "Node Definition Outputs Validation Tests",
+    "version": "1.0.0",
+    "description": "Tests for validating the required outputs field in node definitions",
+    "category": "schema_validation"
+  },
+  "tests": [
+    {
+      "id": "valid_single_output",
+      "title": "Valid Single Output",
+      "description": "Verify that a node definition with a single valid output passes validation",
+      "feature": "schema_validation",
+      "tags": ["outputs", "validation", "node_definition"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "single_output_test",
+              "version": "1.0.0",
+              "modalities": ["test"]
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [10], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [5], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "simple_layer",
+              "type": "sequential",
+              "arguments": [{"name": "x", "type": "tensor"}],
+              "subgraph": [
+                {
+                  "name": "linear",
+                  "type": "linear",
+                  "arguments": ["@{arguments.x}"],
+                  "attributes": {"in_features": 10, "out_features": 5}
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "result",
+                  "description": "Linear transformation result",
+                  "source": "@{linear}"
+                }
+              ]
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "simple_layer", "arguments": ["@{inputs.input}"]}
+          ]
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      }
+    },
+    {
+      "id": "valid_multiple_outputs",
+      "title": "Valid Multiple Outputs",
+      "description": "Verify that a node definition with multiple valid outputs passes validation",
+      "feature": "schema_validation",
+      "tags": ["outputs", "validation", "node_definition", "multiple"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "multiple_outputs_test",
+              "version": "1.0.0",
+              "modalities": ["test"]
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [10], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [3], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "multi_output_layer",
+              "type": "sequential",
+              "arguments": [{"name": "x", "type": "tensor"}],
+              "subgraph": [
+                {
+                  "name": "hidden",
+                  "type": "linear",
+                  "arguments": ["@{arguments.x}"],
+                  "attributes": {"in_features": 10, "out_features": 5}
+                },
+                {
+                  "name": "output",
+                  "type": "linear",
+                  "arguments": ["@{./hidden}"],
+                  "attributes": {"in_features": 5, "out_features": 3}
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "final_result",
+                  "description": "Final output from the second linear layer",
+                  "source": "@{output}"
+                },
+                {
+                  "name": "intermediate_features",
+                  "description": "Intermediate features from the first linear layer",
+                  "source": "@{hidden}"
+                }
+              ]
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "multi_output_layer", "arguments": ["@{inputs.input}"]}
+          ]
+        }
+      },
+      "expected": {
+        "success": true,
+        "validation_result": true
+      }
+    },
+    {
+      "id": "missing_outputs_field",
+      "title": "Missing Outputs Field",
+      "description": "Verify that a node definition missing the outputs field fails validation",
+      "feature": "schema_validation",
+      "tags": ["outputs", "validation", "error", "missing_field"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "missing_outputs_test",
+              "version": "1.0.0",
+              "modalities": ["test"]
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [10], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [5], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "incomplete_layer",
+              "type": "sequential",
+              "arguments": [{"name": "x", "type": "tensor"}],
+              "subgraph": [
+                {
+                  "name": "linear",
+                  "type": "linear",
+                  "arguments": ["@{arguments.x}"],
+                  "attributes": {"in_features": 10, "out_features": 5}
+                }
+              ]
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "incomplete_layer", "arguments": ["@{inputs.input}"]}
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.missing_required_field",
+          "message_pattern": ".*missing.*required.*outputs.*"
+        }
+      }
+    },
+    {
+      "id": "invalid_qualified_ref_in_source",
+      "title": "Invalid Qualified Reference in Source",
+      "description": "Verify that invalid qualified references in output source fields fail validation",
+      "feature": "schema_validation",
+      "tags": ["outputs", "validation", "error", "qualified_ref"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "invalid_ref_test",
+              "version": "1.0.0",
+              "modalities": ["test"]
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [10], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [5], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "invalid_ref_layer",
+              "type": "sequential",
+              "arguments": [{"name": "x", "type": "tensor"}],
+              "subgraph": [
+                {
+                  "name": "linear",
+                  "type": "linear",
+                  "arguments": ["@{arguments.x}"],
+                  "attributes": {"in_features": 10, "out_features": 5}
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "result",
+                  "description": "Invalid reference to non-existent node",
+                  "source": "@{nonexistent_node}"
+                }
+              ]
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "invalid_ref_layer", "arguments": ["@{inputs.input}"]}
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.ref.node_not_found",
+          "message_pattern": ".*nonexistent_node.*not.*found.*"
+        }
+      }
+    },
+    {
+      "id": "malformed_qualified_ref",
+      "title": "Malformed Qualified Reference",
+      "description": "Verify that malformed qualified references in output source fields fail validation",
+      "feature": "schema_validation",
+      "tags": ["outputs", "validation", "error", "qualified_ref", "malformed"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "malformed_ref_test",
+              "version": "1.0.0",
+              "modalities": ["test"]
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [10], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [5], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "malformed_ref_layer",
+              "type": "sequential",
+              "arguments": [{"name": "x", "type": "tensor"}],
+              "subgraph": [
+                {
+                  "name": "linear",
+                  "type": "linear",
+                  "arguments": ["@{arguments.x}"],
+                  "attributes": {"in_features": 10, "out_features": 5}
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "result",
+                  "description": "Malformed qualified reference",
+                  "source": "malformed_reference_without_braces"
+                }
+              ]
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "malformed_ref_layer", "arguments": ["@{inputs.input}"]}
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.invalid_qualified_ref",
+          "message_pattern": ".*qualified.*reference.*invalid.*format.*"
+        }
+      }
+    },
+    {
+      "id": "empty_outputs_array",
+      "title": "Empty Outputs Array",
+      "description": "Verify that a node definition with an empty outputs array fails validation",
+      "feature": "schema_validation",
+      "tags": ["outputs", "validation", "error", "empty"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "empty_outputs_test",
+              "version": "1.0.0",
+              "modalities": ["test"]
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [10], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [5], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "empty_outputs_layer",
+              "type": "sequential",
+              "arguments": [{"name": "x", "type": "tensor"}],
+              "subgraph": [
+                {
+                  "name": "linear",
+                  "type": "linear",
+                  "arguments": ["@{arguments.x}"],
+                  "attributes": {"in_features": 10, "out_features": 5}
+                }
+              ],
+              "outputs": []
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "empty_outputs_layer", "arguments": ["@{inputs.input}"]}
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.empty_outputs",
+          "message_pattern": ".*outputs.*array.*empty.*"
+        }
+      }
+    },
+    {
+      "id": "missing_required_output_fields",
+      "title": "Missing Required Output Fields",
+      "description": "Verify that outputs missing required fields (name, description, source) fail validation",
+      "feature": "schema_validation",
+      "tags": ["outputs", "validation", "error", "missing_fields"],
+      "inputs": {
+        "neuro_model": {
+          "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
+          "metadata": {
+            "model": {
+              "name": "missing_output_fields_test",
+              "version": "1.0.0",
+              "modalities": ["test"]
+            }
+          },
+          "inputs": [
+            {"name": "input", "shape": [10], "dtype": "float32"}
+          ],
+          "outputs": [
+            {"name": "output", "shape": [5], "dtype": "float32"}
+          ],
+          "definitions": [
+            {
+              "name": "incomplete_output_layer",
+              "type": "sequential",
+              "arguments": [{"name": "x", "type": "tensor"}],
+              "subgraph": [
+                {
+                  "name": "linear",
+                  "type": "linear",
+                  "arguments": ["@{arguments.x}"],
+                  "attributes": {"in_features": 10, "out_features": 5}
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "result"
+                }
+              ]
+            }
+          ],
+          "export": [
+            {"name": "main", "type": "incomplete_output_layer", "arguments": ["@{inputs.input}"]}
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "neuro.schema.missing_required_field",
+          "message_pattern": ".*missing.*required.*description.*source.*"
+        }
+      }
+    }
+  ]
+}
