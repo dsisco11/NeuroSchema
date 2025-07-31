@@ -14,6 +14,7 @@ program
     .description('Validate JSON files against NeuroSchema')
     .option('-p, --path <path>', 'Base path to search for files', '.')
     .option('-s, --schema <schema>', 'Path to schema file', 'schema/2025-draft/neuro.schema.json')
+    .option('-t, --target <files...>', 'Specific target files to validate (relative to path)')
     .option('-v, --verbose', 'Verbose output', false)
     .option('-i, --include <patterns...>', 'Include file patterns', ['*.neuro.json', '*.json'])
     .option('-e, --exclude <patterns...>', 'Exclude file patterns', ['*.schema.json'])
@@ -402,20 +403,44 @@ async function main() {
     let totalErrors = 0;
     let totalFiles = 0;
     
-    // Validate different directories
-    const directories = [
-        { path: path.join('docs/examples'), category: 'Examples' },
-        { path: path.join('tests/compliance'), category: 'Compliance Tests' },
-        { path: path.join('tests/execution'), category: 'Execution Tests' },
-        { path: path.join('tests/runtime'), category: 'Runtime Tests' }
-    ];
-    
-    for (const dir of directories) {
-        const dirFiles = findJsonFiles(dir.path, options.include, options.exclude);
-        if (dirFiles.length > 0) {
-            totalFiles += dirFiles.length;
-            const errors = await validateDirectory(dir.path, neuroValidator, testsValidator, dir.category);
-            totalErrors += errors;
+    // Check if specific target files are specified
+    if (options.target && options.target.length > 0) {
+        console.log(`Validating ${options.target.length} target file(s)...`);
+        for (const targetFile of options.target) {
+            const fullPath = path.resolve(targetFile);
+            if (!fs.existsSync(fullPath)) {
+                console.error(`❌ Target file not found: ${fullPath}`);
+                totalErrors++;
+                continue;
+            }
+            
+            totalFiles++;
+            const isTestFile = targetFile.includes('tests/');
+            const validator = isTestFile ? testsValidator : neuroValidator;
+            const schemaName = isTestFile ? 'tests schema' : 'neuro schema';
+            
+            console.log(`Validating: ${path.basename(targetFile)} (${schemaName})`);
+            const isValid = await validateJsonFile(fullPath, validator, schemaName);
+            if (!isValid) {
+                totalErrors++;
+            }
+        }
+    } else {
+        // Validate different directories (original logic)
+        const directories = [
+            { path: path.join('docs/examples'), category: 'Examples' },
+            { path: path.join('tests/compliance'), category: 'Compliance Tests' },
+            { path: path.join('tests/execution'), category: 'Execution Tests' },
+            { path: path.join('tests/runtime'), category: 'Runtime Tests' }
+        ];
+        
+        for (const dir of directories) {
+            const dirFiles = findJsonFiles(dir.path, options.include, options.exclude);
+            if (dirFiles.length > 0) {
+                totalFiles += dirFiles.length;
+                const errors = await validateDirectory(dir.path, neuroValidator, testsValidator, dir.category);
+                totalErrors += errors;
+            }
         }
     }
     

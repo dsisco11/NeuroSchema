@@ -4,6 +4,7 @@
   "description": "NeuroFormat JSON Schema validation and testing",
   "scripts": {
     "validate": "node tools/validate-json-schema.js",
+    "validate-target": "node tools/validate-json-schema.js --target",
     "install-tools": "cd tools && npm install"
   },
   "keywords": ["neuroformat", "schema", "validation", "json-schema"],
