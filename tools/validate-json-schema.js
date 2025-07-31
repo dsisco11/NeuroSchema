@@ -372,10 +372,12 @@ async function validateDirectory(dirPath, validator, testsValidator, category) {
 
 async function main() {
     console.log('NeuroSchema JSON Schema Validation (Node.js + AJV)');
-    console.log(`Working directory: ${path.resolve(options.path)}`);
+    // Change current working directory to the specified path
+    process.chdir(options.path);
+    console.log(`Working directory: ${process.cwd()}`);
     
-    const fullSchemaPath = path.join(options.path, options.schema);
-    const testsSchemaPath = path.join(options.path, 'tests', 'tests.schema.json');
+    const fullSchemaPath = path.join(options.schema);
+    const testsSchemaPath = path.join('tests', 'tests.schema.json');
     if (!fs.existsSync(fullSchemaPath)) {
         console.error(`❌ Schema file not found: ${fullSchemaPath}`);
         process.exit(1);
@@ -402,10 +404,10 @@ async function main() {
     
     // Validate different directories
     const directories = [
-        { path: path.join(options.path, 'docs/examples'), category: 'Examples' },
-        { path: path.join(options.path, 'tests/compliance'), category: 'Compliance Tests' },
-        { path: path.join(options.path, 'tests/execution'), category: 'Execution Tests' },
-        { path: path.join(options.path, 'tests/runtime'), category: 'Runtime Tests' }
+        { path: path.join('docs/examples'), category: 'Examples' },
+        { path: path.join('tests/compliance'), category: 'Compliance Tests' },
+        { path: path.join('tests/execution'), category: 'Execution Tests' },
+        { path: path.join('tests/runtime'), category: 'Runtime Tests' }
     ];
     
     for (const dir of directories) {
