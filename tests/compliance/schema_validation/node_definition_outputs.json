@@ -282,7 +282,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.schema.invalid_qualified_ref",
+          "code": "neuro.schema.validation_failed",
           "message_pattern": ".*qualified.*reference.*invalid.*format.*"
         }
       }
@@ -332,7 +332,7 @@
       },
       "expected": {
         "error": {
-          "code": "neuro.schema.empty_outputs",
+          "code": "neuro.schema.missing_required_field",
           "message_pattern": ".*outputs.*array.*empty.*"
         }
       }

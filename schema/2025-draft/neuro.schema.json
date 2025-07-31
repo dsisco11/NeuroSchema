@@ -414,7 +414,7 @@
     },
     "node_definition": {
       "type": "object",
-      "description": "Definition of a reusable node component that can be composed hierarchically. Node definitions use a flattened structure where internal composition is defined directly via 'subgraph' property (for compound nodes) and/or 'weights' property (for parameter data), eliminating the previous nested 'implementation.graph.nodes' pattern.",
+      "description": "Definition of a reusable node component that can be composed hierarchically.",
       "required": ["name", "type", "outputs"],
       "properties": {
         "name": {
@@ -478,22 +478,24 @@
         },
         "outputs": {
           "type": "array",
-          "description": "Named output aliases that reference subgraph node outputs",
+          "description": "Required array of named output aliases that define the interface for accessing results from this node definition. Each output creates a named reference point that external nodes can use to access specific outputs from the internal subgraph implementation. The 'source' field must reference a valid node within the node definition's subgraph using qualified reference syntax.",
+          "minItems": 1,
           "items": {
             "type": "object",
             "required": ["name", "source"],
             "properties": {
               "name": {
                 "type": "string",
-                "description": "Name of the output alias"
+                "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+                "description": "Unique name for this output alias. Must be a valid identifier that can be referenced by external nodes when using this node definition."
               },
               "description": {
                 "type": "string",
-                "description": "Description of the output"
+                "description": "Human-readable description explaining what this output represents, its purpose, and any relevant details about the data it provides."
               },
               "source": {
                 "$ref": "#/definitions/qualified_ref",
-                "description": "Reference to the source subgraph node output"
+                "description": "Qualified reference to the specific subgraph node output that this alias represents. Must use the format '@{node_name}' to reference a node within this definition's subgraph. The referenced node must exist and be reachable within the current scope."
               }
             }
           }

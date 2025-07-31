@@ -106,8 +106,10 @@ Implementation tasks for adding the required "outputs" field to `node_definition
 
 ### 3.3 Update Test Infrastructure
 
-- [ ] **Update `tests/tests.schema.json` if needed**
+- [x] **Update `tests/tests.schema.json` if needed**
   - Ensure test schema supports new outputs validation tests
+  - **COMPLETED**: Verified test schema already supports required error codes - no updates needed
+  - **NOTE**: Used existing error codes (`neuro.schema.missing_required_field`, `neuro.schema.validation_failed`, `neuro.ref.node_not_found`) instead of creating new ones
   - **Dependencies**: 3.2
   - **Priority**: Low
   - **Estimated Effort**: 30 minutes
@@ -116,18 +118,20 @@ Implementation tasks for adding the required "outputs" field to `node_definition
 
 ### 4.1 Update Schema Documentation
 
-- [ ] **Update inline documentation**
+- [x] **Update inline documentation**
   - Review and update descriptions in `neuro.schema.json`
   - Ensure "outputs" field has clear, comprehensive description
+  - **COMPLETED**: Enhanced documentation for outputs field and node_definition with comprehensive descriptions, usage examples, and validation constraints
   - **Dependencies**: 1.1
   - **Priority**: Medium
   - **Estimated Effort**: 1 hour
 
 ### 4.2 Update Reference Documentation
 
-- [ ] **Update imports and references documentation**
+- [x] **Update imports and references documentation**
   - Update `docs/imports-and-references.md` to mention outputs
   - Add examples of qualified-ref usage in outputs
+  - **COMPLETED**: Added comprehensive section on "Qualified References in Node Definition Outputs" with examples of subgraph node referencing and import integration
   - **Dependencies**: 1.1, 2.3
   - **Priority**: Medium
   - **Estimated Effort**: 1 hour

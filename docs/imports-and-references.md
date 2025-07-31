@@ -87,9 +87,11 @@ All sections of the imported model become accessible via namespace syntax: `impo
 The namespace syntax works for any section in the imported model:
 
 - `encoder:constants/value_name` - Access constants
-- `encoder:definitions/node_name` - Access node definitions
+- `encoder:definitions/node_name` - Access node definitions  
 - `encoder:inputs/tensor_name` - Reference input specifications
 - `encoder:outputs/tensor_name` - Reference output specifications
+
+**Note**: When accessing imported definitions, remember that each definition has its own `outputs` field that specifies which nodes from its subgraph are exposed as outputs. These outputs use qualified references (e.g., `@{node_name}`) to reference nodes within the definition's scope.
 
 ## Safetensors Imports
 
@@ -141,6 +143,88 @@ For referencing weights, use the object format:
 
 ```json
 "weights": "@{weights/embedding_matrix}"
+```
+
+### Qualified References in Node Definition Outputs
+
+Node definitions use qualified references in their `outputs` field to specify which subgraph nodes produce the final outputs. The qualified reference format `@{node_name}` or `@{./node_name}` allows you to reference nodes within the definition's subgraph:
+
+```json
+{
+  "definitions": [
+    {
+      "name": "encoder_block",
+      "type": "sequential",
+      "arguments": [{"name": "input", "type": "tensor"}],
+      "subgraph": [
+        {
+          "name": "attention",
+          "type": "multi_head_attention",
+          "arguments": ["@{arguments.input}"]
+        },
+        {
+          "name": "feedforward",
+          "type": "linear",
+          "arguments": ["@{./attention}"]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "encoded_features",
+          "description": "Final encoded representation",
+          "source": "@{feedforward}"  // References the feedforward node
+        },
+        {
+          "name": "attention_output",
+          "description": "Intermediate attention features",
+          "source": "@{attention}"    // References the attention node
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### Import Integration with Node Definition Outputs
+
+When using imported definitions, their outputs can be accessed through namespace syntax:
+
+```json
+{
+  "imports": [
+    {
+      "name": "transformer_lib",
+      "type": "neuro", 
+      "path": "./lib/transformers.neuro.json"
+    }
+  ],
+  "definitions": [
+    {
+      "name": "custom_encoder",
+      "type": "sequential",
+      "arguments": [{"name": "x", "type": "tensor"}],
+      "subgraph": [
+        {
+          "name": "base_transform",
+          "type": "transformer_lib:definitions/encoder_layer",
+          "arguments": ["@{arguments.x}"]
+        },
+        {
+          "name": "projection",
+          "type": "linear",
+          "arguments": ["@{./base_transform}"]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "final_encoding",
+          "description": "Projected encoding result",
+          "source": "@{projection}"
+        }
+      ]
+    }
+  ]
+}
 ```
 
 ## Practical Examples
