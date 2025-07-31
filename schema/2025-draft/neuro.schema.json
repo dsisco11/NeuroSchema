@@ -185,7 +185,7 @@
         "required": ["name", "type", "path"],
         "properties": {
           "name": {
-            "type": "string",
+            "$ref": "#/definitions/qualified_name",
             "description": "Name identifier for the imported resource. For 'neuro' imports, this name can be used as a node type or namespace for accessing the imported model's contents (e.g., 'name:constants/value')"
           },
           "type": {
@@ -208,7 +208,7 @@
         "required": ["name", "type"],
         "properties": {
           "name": {
-            "type": "string",
+            "$ref": "#/definitions/qualified_name",
             "description": "Name identifier for the constant"
           },
           "type": {
@@ -335,7 +335,7 @@
       "required": ["name", "shape", "dtype"],
       "properties": {
         "name": {
-          "type": "string",
+          "$ref": "#/definitions/qualified_name",
           "description": "Name of the tensor"
         },
         "description": {
@@ -360,8 +360,13 @@
     },
     "qualified_name": {
       "type": "string",
+      "pattern": "^\\w+$",
+      "description": "A valid name for a referenceable entity such as a node, constant, or input/output tensor. Must contain only alphanumeric characters and underscores."
+    },
+    "qualified_identifier": {
+      "type": "string",
       "pattern": "^(\\w+:)?(\\.\\.?/|/)?[\\w./]+(\\.[\\w]+)?$",
-      "description": "A qualified name that can optionally include a namespace, relative path segments (./,../), path segments, and trailing property access. Examples: 'name', 'namespace:name', './path/name', '../parent/name.property', 'inputs.text_features'"
+      "description": "A qualified identifier that can optionally include a namespace, relative path segments (./,../), path segments, and trailing property access. Examples: 'name', 'namespace:name', './path/name', '../parent/name.property', 'inputs.text_features'"
     },
     "qualified_ref": {
       "type": "string",
@@ -370,7 +375,7 @@
     },
     "node_reference": {
       "oneOf": [
-        { "$ref": "#/definitions/qualified_name" },
+        { "$ref": "#/definitions/qualified_identifier" },
         { "$ref": "#/definitions/qualified_ref" }
       ],
       "description": "Path reference to a named node (input, definition, or local node within a graph). Can be a simple name for local references, or path-like notation for nested references. Supports namespace syntax 'import_name:section/item' for accessing imported model contents. Can also use @{} syntax for explicit references."
@@ -395,7 +400,7 @@
       "required": ["name", "type", "value"],
       "properties": {
         "name": {
-          "type": "string"
+          "$ref": "#/definitions/qualified_name"
         },
         "type": {
           "type": "string",
@@ -418,7 +423,7 @@
       "required": ["name", "type", "outputs"],
       "properties": {
         "name": {
-          "type": "string",
+          "$ref": "#/definitions/qualified_name",
           "description": "Name of the node definition"
         },
         "type": {
@@ -439,7 +444,7 @@
             "required": ["name", "type"],
             "properties": {
               "name": {
-                "type": "string",
+                "$ref": "#/definitions/qualified_name",
                 "description": "Name of the input argument"
               },
               "type": {
@@ -485,8 +490,7 @@
             "required": ["name", "source"],
             "properties": {
               "name": {
-                "type": "string",
-                "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+                "$ref": "#/definitions/qualified_name",
                 "description": "Unique name for this output alias. Must be a valid identifier that can be referenced by external nodes when using this node definition."
               },
               "description": {
@@ -507,7 +511,7 @@
       "required": ["name"],
       "properties": {
         "name": {
-          "type": "string",
+          "$ref": "#/definitions/qualified_name",
           "description": "Name of this node instance"
         },
         "type": {

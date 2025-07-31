@@ -21,8 +21,8 @@ Error codes follow the format: `neuro.category.specific_error`
 ### neuro.schema.validation_failed
 
 **Description**: JSON is valid but does not conform to NeuroFormat schema  
-**When to use**: Missing required fields, invalid field types, constraint violations  
-**Example**: `"Schema validation failed: missing required field 'metadata.model.name'"`
+**When to use**: Missing required fields, invalid field types, constraint violations, malformed qualified references  
+**Example**: `"Schema validation failed: missing required field 'metadata.model.name'" or "Invalid qualified reference format in output source field"`
 
 ### neuro.schema.unsupported_version
 
@@ -46,15 +46,15 @@ Error codes follow the format: `neuro.category.specific_error`
 
 **Description**: A required field or section is missing from the model  
 **When to use**: Missing required fields, missing required sections, empty required sections  
-**Example**: `"Missing required field 'metadata.model.name'" or "Missing required section: 'export'"`
+**Example**: `"Missing required field 'metadata.model.name'" or "Missing required section: 'export'" or "Missing required field 'outputs' in node definition 'my_layer'"`
 
 ## Reference Resolution Errors
 
 ### neuro.ref.node_not_found
 
 **Description**: Referenced node does not exist in the current scope  
-**When to use**: Node arguments reference non-existent inputs, definitions, or local nodes  
-**Example**: `"Node reference 'nonexistent_input' not found in current scope"`
+**When to use**: Node arguments reference non-existent inputs, definitions, or local nodes; output source fields reference non-existent subgraph nodes  
+**Example**: `"Node reference 'nonexistent_input' not found in current scope" or "Output source reference '@{nonexistent_node}' not found in subgraph"`
 
 ### neuro.ref.definition_not_found
 

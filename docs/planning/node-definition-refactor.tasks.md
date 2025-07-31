@@ -140,9 +140,10 @@ Implementation tasks for adding the required "outputs" field to `node_definition
 
 ### 5.1 Update Error Codes Documentation
 
-- [ ] **Update `docs/error-codes.md`**
+- [x] **Update `docs/error-codes.md`**
   - Add error codes for missing outputs field
   - Add error codes for invalid outputs structure
+  - **COMPLETED**: Enhanced existing error code descriptions to include outputs field validation examples. Used existing error codes: `neuro.schema.missing_required_field`, `neuro.schema.validation_failed`, and `neuro.ref.node_not_found`
   - **Dependencies**: 3.2
   - **Priority**: Low
   - **Estimated Effort**: 30 minutes
