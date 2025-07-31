@@ -416,11 +416,9 @@ async function main() {
             
             totalFiles++;
             const isTestFile = targetFile.includes('tests/');
-            const validator = isTestFile ? testsValidator : neuroValidator;
-            const schemaName = isTestFile ? 'tests schema' : 'neuro schema';
             
-            console.log(`Validating: ${path.basename(targetFile)} (${schemaName})`);
-            const isValid = await validateJsonFile(fullPath, validator, schemaName);
+            console.log(`Validating: ${path.basename(targetFile)} (${isTestFile ? 'tests' : 'neuro'} schema)`);
+            const isValid = validateJsonFile(fullPath, neuroValidator, testsValidator);
             if (!isValid) {
                 totalErrors++;
             }
