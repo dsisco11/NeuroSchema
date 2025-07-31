@@ -516,10 +516,10 @@
         },
         "type": {
           "oneOf": [
-            { "$ref": "operators.schema.json#/definitions/operator_type" },
-            { "$ref": "layers.schema.json#/definitions/layer_type" },
+            { "$ref": "./operators.schema.json#/definitions/operator_type" },
+            { "$ref": "./layers.schema.json#/definitions/layer_type" },
             {
-              "$ref": "architectures.schema.json#/definitions/architecture_type"
+              "$ref": "./architectures.schema.json#/definitions/architecture_type"
             },
             { "$ref": "#/definitions/node_reference" }
           ],
