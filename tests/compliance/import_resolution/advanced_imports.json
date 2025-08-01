@@ -3,6 +3,10 @@
   "metadata": {
     "name": "Import Security and Validation Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for security validation and error handling in import resolution",
     "category": "error_handling"
   },
@@ -24,7 +28,11 @@
             "metadata": {
               "model": {
                 "name": "module_1",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "definitions": [
@@ -60,7 +68,11 @@
             "metadata": {
               "model": {
                 "name": "large_chain_test",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -143,7 +155,11 @@
             "metadata": {
               "model": {
                 "name": "module_2",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "definitions": [
@@ -181,7 +197,11 @@
             "metadata": {
               "model": {
                 "name": "module_3",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "definitions": [

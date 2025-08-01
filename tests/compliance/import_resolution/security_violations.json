@@ -1,8 +1,12 @@
-﻿{
+{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Path Escaping and Security Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for validating path escaping, directory traversal prevention, and import security",
     "category": "security"
   },
@@ -23,7 +27,11 @@
           "metadata": {
             "model": {
               "name": "malicious_import_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "imports": [
@@ -84,7 +92,11 @@
           "metadata": {
             "model": {
               "name": "complex_traversal_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "imports": [
@@ -145,7 +157,11 @@
           "metadata": {
             "model": {
               "name": "absolute_path_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "imports": [
@@ -206,7 +222,11 @@
           "metadata": {
             "model": {
               "name": "null_byte_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "imports": [
@@ -269,7 +289,11 @@
             "metadata": {
               "model": {
                 "name": "encoder",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "inputs": [
@@ -305,7 +329,11 @@
             "metadata": {
               "model": {
                 "name": "valid_path_test",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -359,7 +387,11 @@
             "metadata": {
               "model": {
                 "name": "encoder",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "inputs": [
@@ -421,7 +453,11 @@
           "metadata": {
             "model": {
               "name": "windows_traversal_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "imports": [
@@ -482,7 +518,11 @@
           "metadata": {
             "model": {
               "name": "special_chars_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "imports": [

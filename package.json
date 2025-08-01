@@ -5,6 +5,7 @@
   "scripts": {
     "validate": "node tools/validate-json-schema.js",
     "validate-target": "node tools/validate-json-schema.js --target",
+    "validate-filter": "node tools/validate-json-schema.js | findstr",
     "install-tools": "cd tools && npm install"
   },
   "keywords": ["neuroformat", "schema", "validation", "json-schema"],

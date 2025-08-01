@@ -3,6 +3,10 @@
   "metadata": {
     "name": "Missing Data Tests",
     "version": "0.0.1",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for validating basic NeuroFormat schema compliance"
   },
   "tests": [
@@ -39,7 +43,11 @@
           "metadata": {
             "model": {
               "name": "missing_section_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "outputs": [
@@ -77,7 +85,11 @@
           "metadata": {
             "model": {
               "name": "missing_section_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -115,7 +127,11 @@
           "metadata": {
             "model": {
               "name": "missing_section_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -143,3 +159,4 @@
     }
   ]
 }
+

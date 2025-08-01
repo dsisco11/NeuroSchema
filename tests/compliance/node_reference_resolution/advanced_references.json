@@ -3,6 +3,10 @@
   "metadata": {
     "name": "Advanced Reference Resolution Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for complex reference resolution scenarios including nested scopes and cross-references",
     "category": "linking"
   },
@@ -19,7 +23,11 @@
           "metadata": {
             "model": {
               "name": "nested_references",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -90,7 +98,11 @@
           "metadata": {
             "model": {
               "name": "cross_references",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -166,7 +178,11 @@
           "metadata": {
             "model": {
               "name": "invalid_scope_ref",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -229,7 +245,11 @@
           "metadata": {
             "model": {
               "name": "deep_nested",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -296,5 +316,6 @@
     }
   ]
 }
+
 
 

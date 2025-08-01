@@ -3,6 +3,10 @@
   "metadata": {
     "name": "Safetensors Import Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for importing and handling safetensors files as external data references",
     "category": "import_resolution"
   },
@@ -21,7 +25,11 @@
             "metadata": {
               "model": {
                 "name": "test_model",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -84,7 +92,11 @@
             "metadata": {
               "model": {
                 "name": "multi_weights_model",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -161,7 +173,11 @@
           "metadata": {
             "model": {
               "name": "invalid_path_model",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "imports": [
@@ -212,7 +228,11 @@
           "metadata": {
             "model": {
               "name": "missing_file_model",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "imports": [
@@ -254,3 +274,4 @@
     }
   ]
 }
+

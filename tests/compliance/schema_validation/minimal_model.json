@@ -3,6 +3,10 @@
   "metadata": {
     "name": "Minimal Model Validation",
     "version": "0.0.1",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for validating basic NeuroFormat schema compliance"
   },
   "tests": [
@@ -18,7 +22,11 @@
           "metadata": {
             "model": {
               "name": "test_model",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -51,3 +59,4 @@
     }
   ]
 }
+

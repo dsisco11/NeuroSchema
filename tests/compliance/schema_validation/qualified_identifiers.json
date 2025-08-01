@@ -3,6 +3,10 @@
   "metadata": {
     "name": "Schema Validation Identifier Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for validating qualified identifiers in NeuroSchema",
     "category": "validation"
   },
@@ -19,7 +23,11 @@
           "metadata": {
             "model": {
               "name": "identifier_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -64,7 +72,11 @@
           "metadata": {
             "model": {
               "name": "namespace_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -109,7 +121,11 @@
           "metadata": {
             "model": {
               "name": "name_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -154,7 +170,11 @@
           "metadata": {
             "model": {
               "name": "name_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -186,3 +206,4 @@
     }
   ]
 }
+

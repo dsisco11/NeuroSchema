@@ -3,6 +3,10 @@
   "metadata": {
     "name": "Mixed Import Types Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for handling mixed import types (neuro + safetensors) in the same model",
     "category": "import_resolution"
   },
@@ -25,7 +29,11 @@
             "metadata": {
               "model": {
                 "name": "mixed_imports_test",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -82,7 +90,11 @@
             "metadata": {
               "model": {
                 "name": "config",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "constants": [
@@ -121,7 +133,11 @@
             "metadata": {
               "model": {
                 "name": "layer_definitions",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "definitions": [
@@ -203,7 +219,11 @@
             "metadata": {
               "model": {
                 "name": "decoder_module",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "definitions": [
@@ -242,7 +262,11 @@
             "metadata": {
               "model": {
                 "name": "attention_primitives",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "definitions": [
@@ -281,7 +305,11 @@
             "metadata": {
               "model": {
                 "name": "encoder_module",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -324,7 +352,11 @@
             "metadata": {
               "model": {
                 "name": "complex_hierarchy_test",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -429,7 +461,11 @@
             "metadata": {
               "model": {
                 "name": "precedence_test",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "constants": [
@@ -507,7 +543,11 @@
             "metadata": {
               "model": {
                 "name": "external_definitions",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "constants": [

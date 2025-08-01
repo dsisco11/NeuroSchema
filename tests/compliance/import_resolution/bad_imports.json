@@ -1,8 +1,12 @@
-﻿{
+{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Import and Reference Error Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for proper handling of import and reference resolution errors",
     "category": "error_handling"
   },
@@ -42,6 +46,10 @@
             "metadata": {
               "model": {
                 "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
                 "name": "module2.neuro"
               }
             },
@@ -60,7 +68,11 @@
             "metadata": {
               "model": {
                 "name": "duplicate_import_test",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -126,6 +138,10 @@
             "metadata": {
               "model": {
                 "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
                 "name": "module1.neuro"
               }
             },
@@ -165,7 +181,11 @@
           "metadata": {
             "model": {
               "name": "import_not_found_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "imports": [

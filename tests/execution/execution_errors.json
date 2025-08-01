@@ -3,6 +3,10 @@
   "metadata": {
     "name": "Execution Error Handling Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for proper handling of execution-time errors and edge cases",
     "category": "execution"
   },
@@ -19,7 +23,11 @@
           "metadata": {
             "model": {
               "name": "shape_mismatch_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -69,7 +77,11 @@
           "metadata": {
             "model": {
               "name": "dtype_mismatch_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -119,7 +131,11 @@
           "metadata": {
             "model": {
               "name": "missing_weights_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -168,7 +184,11 @@
           "metadata": {
             "model": {
               "name": "invalid_attributes_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -217,7 +237,11 @@
           "metadata": {
             "model": {
               "name": "runtime_error_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -267,7 +291,11 @@
           "metadata": {
             "model": {
               "name": "not_implemented_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -312,7 +340,11 @@
           "metadata": {
             "model": {
               "name": "error_propagation_test",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "definitions": {
@@ -387,3 +419,4 @@
     }
   ]
 }
+

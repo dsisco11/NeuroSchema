@@ -3,6 +3,10 @@
   "metadata": {
     "name": "Qualified Name Resolution Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for proper resolution of qualified names in imports",
     "category": "import_resolution"
   },
@@ -24,7 +28,11 @@
             "metadata": {
               "model": {
                 "name": "config_module",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "constants": [
@@ -62,7 +70,11 @@
             "metadata": {
               "model": {
                 "name": "qualified_constant_test",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -135,7 +147,11 @@
             "metadata": {
               "model": {
                 "name": "layer_definitions",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "definitions": [
@@ -174,7 +190,11 @@
             "metadata": {
               "model": {
                 "name": "qualified_definition_test",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -245,7 +265,11 @@
             "metadata": {
               "model": {
                 "name": "collision_test",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "constants": [
@@ -309,7 +333,11 @@
             "metadata": {
               "model": {
                 "name": "config_module",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "constants": [
@@ -382,7 +410,11 @@
             "metadata": {
               "model": {
                 "name": "decoder_module",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "constants": [
@@ -426,7 +458,11 @@
             "metadata": {
               "model": {
                 "name": "encoder_module",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "constants": [
@@ -470,7 +506,11 @@
             "metadata": {
               "model": {
                 "name": "multi_namespace_test",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [

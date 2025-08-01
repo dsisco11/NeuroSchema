@@ -3,6 +3,10 @@
   "metadata": {
     "name": "Advanced Circular Import Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Advanced tests for complex circular import scenarios and edge cases",
     "category": "validation"
   },
@@ -26,7 +30,11 @@
             "metadata": {
               "model": {
                 "name": "root",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -68,7 +76,11 @@
             "metadata": {
               "model": {
                 "name": "left",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -105,7 +117,11 @@
             "metadata": {
               "model": {
                 "name": "right",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -142,7 +158,11 @@
             "metadata": {
               "model": {
                 "name": "shared",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -202,7 +222,11 @@
             "metadata": {
               "model": {
                 "name": "entry1",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -244,7 +268,11 @@
             "metadata": {
               "model": {
                 "name": "path_a",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -281,7 +309,11 @@
             "metadata": {
               "model": {
                 "name": "path_b",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -318,7 +350,11 @@
             "metadata": {
               "model": {
                 "name": "cycle_start",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -355,7 +391,11 @@
             "metadata": {
               "model": {
                 "name": "cycle_middle",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -392,7 +432,11 @@
             "metadata": {
               "model": {
                 "name": "cycle_end",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -447,7 +491,11 @@
             "metadata": {
               "model": {
                 "name": "conditional_model",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -484,7 +532,11 @@
             "metadata": {
               "model": {
                 "name": "feature_a",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -521,7 +573,11 @@
             "metadata": {
               "model": {
                 "name": "feature_b",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -575,7 +631,11 @@
             "metadata": {
               "model": {
                 "name": "model_09",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -612,7 +672,11 @@
             "metadata": {
               "model": {
                 "name": "model_05",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -649,7 +713,11 @@
             "metadata": {
               "model": {
                 "name": "model_02",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -686,7 +754,11 @@
             "metadata": {
               "model": {
                 "name": "model_06",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -723,7 +795,11 @@
             "metadata": {
               "model": {
                 "name": "model_10",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -760,7 +836,11 @@
             "metadata": {
               "model": {
                 "name": "model_07",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -797,7 +877,11 @@
             "metadata": {
               "model": {
                 "name": "model_03",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -834,7 +918,11 @@
             "metadata": {
               "model": {
                 "name": "model_04",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -871,7 +959,11 @@
             "metadata": {
               "model": {
                 "name": "model_01",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -908,7 +1000,11 @@
             "metadata": {
               "model": {
                 "name": "model_08",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -963,7 +1059,11 @@
             "metadata": {
               "model": {
                 "name": "modelname_01",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -1000,7 +1100,11 @@
             "metadata": {
               "model": {
                 "name": "modelname_02",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -1037,7 +1141,11 @@
             "metadata": {
               "model": {
                 "name": "modelname_03",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -1092,7 +1200,11 @@
             "metadata": {
               "model": {
                 "name": "circular_b",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -1129,7 +1241,11 @@
             "metadata": {
               "model": {
                 "name": "circular_a",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -1166,7 +1282,11 @@
             "metadata": {
               "model": {
                 "name": "circular_c",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -1210,3 +1330,4 @@
     }
   ]
 }
+

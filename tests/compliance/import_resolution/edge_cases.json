@@ -1,8 +1,12 @@
-﻿{
+{
   "$schema": "../../tests.schema.json",
   "metadata": {
     "name": "Edge Cases and Cross-Format Tests",
     "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              },
     "description": "Tests for edge cases, unusual scenarios, and cross-format import handling",
     "category": "validation"
   },
@@ -25,7 +29,11 @@
             "metadata": {
               "model": {
                 "name": "model_b",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "inputs": [
@@ -61,7 +69,11 @@
             "metadata": {
               "model": {
                 "name": "duplicate_names_model",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -109,7 +121,11 @@
             "metadata": {
               "model": {
                 "name": "model_a",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "inputs": [
@@ -167,7 +183,11 @@
             "metadata": {
               "model": {
                 "name": "long_path_model",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "imports": [
@@ -210,7 +230,11 @@
             "metadata": {
               "model": {
                 "name": "deep_model",
-                "version": "1.0.0"
+                "version": "1.0.0",
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
               }
             },
             "inputs": [
