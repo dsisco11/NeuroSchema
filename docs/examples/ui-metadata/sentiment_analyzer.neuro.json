@@ -121,7 +121,7 @@
   "export": [
     {
       "name": "sentiment_classifier",
-      "type": "sentiment_classifier",
+      "type": "@{sentiment_classifier}",
       "arguments": ["@{inputs.text_input}"]
     }
   ]

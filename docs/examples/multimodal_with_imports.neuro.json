@@ -187,12 +187,12 @@
   "export": [
     {
       "name": "text_features",
-      "type": "text_encoder",
+      "type": "@{text_encoder}",
       "arguments": ["@{inputs.text_tokens}"]
     },
     {
       "name": "image_features",
-      "type": "image_encoder",
+      "type": "@{image_encoder}",
       "arguments": ["@{inputs.image}"]
     },
     {

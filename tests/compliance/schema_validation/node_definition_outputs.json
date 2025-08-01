@@ -20,7 +20,10 @@
             "model": {
               "name": "single_output_test",
               "version": "1.0.0",
-              "modalities": ["test"]
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -52,7 +55,7 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "simple_layer", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "@{simple_layer}", "arguments": ["@{inputs.input}"]}
           ]
         }
       },
@@ -74,7 +77,10 @@
             "model": {
               "name": "multiple_outputs_test",
               "version": "1.0.0",
-              "modalities": ["test"]
+              "modalities": {
+                "inputs": ["custom"],
+                "outputs": ["custom"]
+              }
             }
           },
           "inputs": [
@@ -117,7 +123,7 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "multi_output_layer", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "@{multi_output_layer}", "arguments": ["@{inputs.input}"]}
           ]
         }
       },
@@ -139,7 +145,7 @@
             "model": {
               "name": "missing_outputs_test",
               "version": "1.0.0",
-              "modalities": ["test"]
+              "modalities": {"inputs": ["custom"], "outputs": ["custom"]}
             }
           },
           "inputs": [
@@ -164,7 +170,7 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "incomplete_layer", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "@{incomplete_layer}", "arguments": ["@{inputs.input}"]}
           ]
         }
       },
@@ -188,7 +194,7 @@
             "model": {
               "name": "invalid_ref_test",
               "version": "1.0.0",
-              "modalities": ["test"]
+              "modalities": {"inputs": ["custom"], "outputs": ["custom"]}
             }
           },
           "inputs": [
@@ -220,7 +226,7 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "invalid_ref_layer", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "@{invalid_ref_layer}", "arguments": ["@{inputs.input}"]}
           ]
         }
       },
@@ -244,7 +250,7 @@
             "model": {
               "name": "malformed_ref_test",
               "version": "1.0.0",
-              "modalities": ["test"]
+              "modalities": {"inputs": ["custom"], "outputs": ["custom"]}
             }
           },
           "inputs": [
@@ -276,7 +282,7 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "malformed_ref_layer", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "@{malformed_ref_layer}", "arguments": ["@{inputs.input}"]}
           ]
         }
       },
@@ -300,7 +306,7 @@
             "model": {
               "name": "empty_outputs_test",
               "version": "1.0.0",
-              "modalities": ["test"]
+              "modalities": {"inputs": ["custom"], "outputs": ["custom"]}
             }
           },
           "inputs": [
@@ -326,7 +332,7 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "empty_outputs_layer", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "@{empty_outputs_layer}", "arguments": ["@{inputs.input}"]}
           ]
         }
       },
@@ -350,7 +356,7 @@
             "model": {
               "name": "missing_output_fields_test",
               "version": "1.0.0",
-              "modalities": ["test"]
+              "modalities": {"inputs": ["custom"], "outputs": ["custom"]}
             }
           },
           "inputs": [
@@ -380,7 +386,7 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "incomplete_output_layer", "arguments": ["@{inputs.input}"]}
+            {"name": "main", "type": "@{incomplete_output_layer}", "arguments": ["@{inputs.input}"]}
           ]
         }
       },

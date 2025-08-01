@@ -374,11 +374,8 @@
       "description": "A qualified reference using @{qualified-identifier} syntax. Examples: '@{name}', '@{namespace:name}', '@{./path/name}', '@{inputs.text_features}', '@{../parent/name.property}'"
     },
     "node_reference": {
-      "oneOf": [
-        { "$ref": "#/definitions/qualified_identifier" },
-        { "$ref": "#/definitions/qualified_ref" }
-      ],
-      "description": "Path reference to a named node (input, definition, or local node within a graph). Can be a simple name for local references, or path-like notation for nested references. Supports namespace syntax 'import_name:section/item' for accessing imported model contents. Can also use @{} syntax for explicit references."
+      "$ref": "#/definitions/qualified_ref",
+      "description": "Path reference to a named node (input, definition, or local node within a graph) using @{qualified-identifier} syntax. Supports namespace syntax '@{import_name:section/item}' for accessing imported model contents and path notation like '@{./relative/path}' or '@{inputs.tensor_name}' for structured references."
     },
     "base64_value": {
       "type": "object",
