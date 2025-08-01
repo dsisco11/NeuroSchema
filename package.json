@@ -6,9 +6,19 @@
     "validate": "node tools/validate-json-schema.js",
     "validate-target": "node tools/validate-json-schema.js --target",
     "validate-filter": "node tools/validate-json-schema.js | findstr",
+    "format": "prettier --write \"**/*\"",
+    "format-check": "prettier --check \"**/*\"",
     "install-tools": "cd tools && npm install"
   },
-  "keywords": ["neuroformat", "schema", "validation", "json-schema"],
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  },
+  "keywords": [
+    "neuroformat",
+    "schema",
+    "validation",
+    "json-schema"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",

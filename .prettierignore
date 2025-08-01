@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+tools/node_modules/
+
+# Build outputs
+*.min.js
+*.min.css
+
+# Test results
+TestResults/
+
+# Generated files
+*.generated.*
+
+# Large data files
+*.safetensors
+*.bin
+*.dat
+
+# PowerShell files
+*.ps1
