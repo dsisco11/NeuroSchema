@@ -3,10 +3,10 @@
   "metadata": {
     "name": "Missing Data Tests",
     "version": "0.0.1",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+    "modalities": {
+      "inputs": ["custom"],
+      "outputs": ["custom"]
+    },
     "description": "Tests for validating basic NeuroFormat schema compliance"
   },
   "tests": [
@@ -159,4 +159,3 @@
     }
   ]
 }
-

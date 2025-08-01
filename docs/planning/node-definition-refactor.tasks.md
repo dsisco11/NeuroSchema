@@ -39,7 +39,6 @@ Implementation tasks for adding the required "outputs" field to `node_definition
 ### 2.2 Update Example Files
 
 - [x] **Update `docs/examples/encoders/bert_base.neuro.json`**
-
   - Add "outputs" field to any node definitions
   - Ensure outputs reference appropriate subgraph nodes
   - **Dependencies**: 2.1
@@ -47,7 +46,6 @@ Implementation tasks for adding the required "outputs" field to `node_definition
   - **Estimated Effort**: 1 hour
 
 - [x] **Update `docs/examples/encoders/vision_transformer.neuro.json`**
-
   - Add "outputs" field to any node definitions
   - Ensure outputs reference appropriate subgraph nodes
   - **Dependencies**: 2.1
@@ -76,7 +74,6 @@ Implementation tasks for adding the required "outputs" field to `node_definition
 ### 3.1 Update Compliance Tests
 
 - [x] **Update minimal model tests**
-
   - Update `tests/compliance/schema_validation/minimal_model.json`
   - Add minimal "outputs" field to pass validation
   - **COMPLETED**: Minimal model test didn't have node definitions, so no update needed

@@ -24,7 +24,7 @@
     },
     {
       "name": "output_classes",
-      "type": "scalar", 
+      "type": "scalar",
       "value": 1000
     },
     {
@@ -43,8 +43,8 @@
       "name": "multihead_attention",
       "type": "sequential",
       "arguments": [
-        {"name": "query", "type": "tensor"},
-        {"name": "key", "type": "tensor"}
+        { "name": "query", "type": "tensor" },
+        { "name": "key", "type": "tensor" }
       ],
       "attributes": {
         "num_heads": "@{constants/attention_heads}",
@@ -72,7 +72,7 @@
     {
       "name": "attention_extractor",
       "type": "sequential",
-      "arguments": [{"name": "features", "type": "tensor"}],
+      "arguments": [{ "name": "features", "type": "tensor" }],
       "subgraph": [
         {
           "name": "attention_weights",

@@ -3,10 +3,10 @@
   "metadata": {
     "name": "Edge Cases and Cross-Format Tests",
     "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+    "modalities": {
+      "inputs": ["custom"],
+      "outputs": ["custom"]
+    },
     "description": "Tests for edge cases, unusual scenarios, and cross-format import handling",
     "category": "validation"
   },
@@ -16,12 +16,7 @@
       "title": "Duplicate Import Names",
       "description": "Test error handling when multiple imports have the same name",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "edge_case",
-        "duplicate_names",
-        "validation"
-      ],
+      "tags": ["imports", "edge_case", "duplicate_names", "validation"],
       "inputs": {
         "files": {
           "./model_b.neuro.json": {
@@ -30,27 +25,23 @@
               "model": {
                 "name": "model_b",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -58,9 +49,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -70,10 +59,10 @@
               "model": {
                 "name": "duplicate_names_model",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -91,18 +80,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -110,9 +95,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -122,27 +105,23 @@
               "model": {
                 "name": "model_a",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -150,9 +129,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }
@@ -171,11 +148,7 @@
       "title": "Very Long Import Path",
       "description": "Test handling of extremely long import paths",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "edge_case",
-        "long_path"
-      ],
+      "tags": ["imports", "edge_case", "long_path"],
       "inputs": {
         "files": {
           "long_path_model.neuro.json": {
@@ -184,10 +157,10 @@
               "model": {
                 "name": "long_path_model",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -200,18 +173,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -219,9 +188,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -231,27 +198,23 @@
               "model": {
                 "name": "deep_model",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -259,9 +222,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }

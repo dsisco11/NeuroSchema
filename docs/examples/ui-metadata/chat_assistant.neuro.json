@@ -15,7 +15,7 @@
       "ui": {
         "display_name": "GPT Chat Assistant",
         "description": "An intelligent conversational AI that can help with a wide variety of tasks",
-        "icon": "https://assets.airc.org/models/chat-gpt.svg", 
+        "icon": "https://assets.airc.org/models/chat-gpt.svg",
         "colors": {
           "light": {
             "primary": "#10A37F",
@@ -90,8 +90,8 @@
       "name": "chat_model",
       "type": "sequential",
       "arguments": [
-        {"name": "context", "type": "tensor"},
-        {"name": "message", "type": "tensor"}
+        { "name": "context", "type": "tensor" },
+        { "name": "message", "type": "tensor" }
       ],
       "subgraph": [
         {
@@ -104,37 +104,37 @@
             "num_heads": "@{constants/num_attention_heads}"
           }
         },
-            {
-              "name": "message_encoder", 
-              "type": "transformer",
-              "arguments": ["@{inputs.message}"],
-              "attributes": {
-                "num_layers": "@{constants/encoder_layers}",
-                "hidden_size": "@{constants/hidden_size}",
-                "num_heads": "@{constants/num_attention_heads}"
-              }
-            },
-            {
-              "name": "fusion",
-              "type": "cross_attention",
-              "arguments": ["@{context_encoder}", "@{message_encoder}"],
-              "attributes": {
-                "num_heads": "@{constants/num_attention_heads}",
-                "hidden_size": "@{constants/hidden_size}"
-              }
-            },
-            {
-              "name": "response_generator",
-              "type": "transformer",
-              "arguments": ["@{./fusion}"],
-              "attributes": {
-                "num_layers": "@{constants/generator_layers}",
-                "hidden_size": "@{constants/hidden_size}",
-                "num_heads": "@{constants/num_attention_heads}",
-                "generation_mode": "autoregressive"
-              }
-            }
-          ],
+        {
+          "name": "message_encoder",
+          "type": "transformer",
+          "arguments": ["@{inputs.message}"],
+          "attributes": {
+            "num_layers": "@{constants/encoder_layers}",
+            "hidden_size": "@{constants/hidden_size}",
+            "num_heads": "@{constants/num_attention_heads}"
+          }
+        },
+        {
+          "name": "fusion",
+          "type": "cross_attention",
+          "arguments": ["@{context_encoder}", "@{message_encoder}"],
+          "attributes": {
+            "num_heads": "@{constants/num_attention_heads}",
+            "hidden_size": "@{constants/hidden_size}"
+          }
+        },
+        {
+          "name": "response_generator",
+          "type": "transformer",
+          "arguments": ["@{./fusion}"],
+          "attributes": {
+            "num_layers": "@{constants/generator_layers}",
+            "hidden_size": "@{constants/hidden_size}",
+            "num_heads": "@{constants/num_attention_heads}",
+            "generation_mode": "autoregressive"
+          }
+        }
+      ],
       "outputs": [
         {
           "name": "response",

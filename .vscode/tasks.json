@@ -1,41 +1,38 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "NeuroSchema: Validate JSON Schema",
-			"type": "shell",
-			"command": "node",
-			"args": [
-				"tools/validate-json-schema.js",
-				"--verbose"
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"isBackground": false,
-			"problemMatcher": {
-				"owner": "neurograph-schema",
-				"fileLocation": "relative",
-				"pattern": {
-					"regexp": "^(.+):(\\d+):(\\d+):\\s+(.+)$",
-					"file": 1,
-					"line": 2,
-					"column": 3,
-					"message": 4
-				}
-			},
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": true,
-				"panel": "shared",
-				"showReuseMessage": false,
-				"clear": true
-			},
-			"options": {
-				"cwd": "${workspaceFolder}"
-			}
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "NeuroSchema: Validate JSON Schema",
+      "type": "shell",
+      "command": "node",
+      "args": ["tools/validate-json-schema.js", "--verbose"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBackground": false,
+      "problemMatcher": {
+        "owner": "neurograph-schema",
+        "fileLocation": "relative",
+        "pattern": {
+          "regexp": "^(.+):(\\d+):(\\d+):\\s+(.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    }
+  ]
 }

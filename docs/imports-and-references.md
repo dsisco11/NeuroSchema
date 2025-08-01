@@ -87,7 +87,7 @@ All sections of the imported model become accessible via namespace syntax: `impo
 The namespace syntax works for any section in the imported model:
 
 - `encoder:constants/value_name` - Access constants
-- `encoder:definitions/node_name` - Access node definitions  
+- `encoder:definitions/node_name` - Access node definitions
 - `encoder:inputs/tensor_name` - Reference input specifications
 - `encoder:outputs/tensor_name` - Reference output specifications
 
@@ -155,7 +155,7 @@ Node definitions use qualified references in their `outputs` field to specify wh
     {
       "name": "encoder_block",
       "type": "sequential",
-      "arguments": [{"name": "input", "type": "tensor"}],
+      "arguments": [{ "name": "input", "type": "tensor" }],
       "subgraph": [
         {
           "name": "attention",
@@ -172,12 +172,12 @@ Node definitions use qualified references in their `outputs` field to specify wh
         {
           "name": "encoded_features",
           "description": "Final encoded representation",
-          "source": "@{feedforward}"  // References the feedforward node
+          "source": "@{feedforward}" // References the feedforward node
         },
         {
           "name": "attention_output",
           "description": "Intermediate attention features",
-          "source": "@{attention}"    // References the attention node
+          "source": "@{attention}" // References the attention node
         }
       ]
     }
@@ -194,7 +194,7 @@ When using imported definitions, their outputs can be accessed through namespace
   "imports": [
     {
       "name": "transformer_lib",
-      "type": "neuro", 
+      "type": "neuro",
       "path": "./lib/transformers.neuro.json"
     }
   ],
@@ -202,7 +202,7 @@ When using imported definitions, their outputs can be accessed through namespace
     {
       "name": "custom_encoder",
       "type": "sequential",
-      "arguments": [{"name": "x", "type": "tensor"}],
+      "arguments": [{ "name": "x", "type": "tensor" }],
       "subgraph": [
         {
           "name": "base_transform",

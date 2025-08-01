@@ -3,10 +3,10 @@
   "metadata": {
     "name": "Execution Error Handling Tests",
     "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+    "modalities": {
+      "inputs": ["custom"],
+      "outputs": ["custom"]
+    },
     "description": "Tests for proper handling of execution-time errors and edge cases",
     "category": "error_handling"
   },
@@ -37,7 +37,7 @@
               "dtype": "float32"
             },
             {
-              "name": "input2", 
+              "name": "input2",
               "shape": [10, 3],
               "dtype": "float32"
             }
@@ -107,7 +107,10 @@
             {
               "name": "incompatible_mul",
               "type": "mul",
-              "arguments": ["@{arguments.float_input}", "@{arguments.int_input}"]
+              "arguments": [
+                "@{arguments.float_input}",
+                "@{arguments.int_input}"
+              ]
             }
           ]
         }
@@ -367,7 +370,10 @@
                 {
                   "name": "division_by_zero",
                   "type": "div",
-                  "arguments": ["@{arguments.input}", "@{arguments.zero_constant}"]
+                  "arguments": [
+                    "@{arguments.input}",
+                    "@{arguments.zero_constant}"
+                  ]
                 }
               ],
               "constants": [
@@ -419,4 +425,3 @@
     }
   ]
 }
-

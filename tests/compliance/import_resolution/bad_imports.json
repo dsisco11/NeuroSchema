@@ -3,10 +3,10 @@
   "metadata": {
     "name": "Import and Reference Error Tests",
     "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+    "modalities": {
+      "inputs": ["custom"],
+      "outputs": ["custom"]
+    },
     "description": "Tests for proper handling of import and reference resolution errors",
     "category": "error_handling"
   },
@@ -16,29 +16,21 @@
       "title": "Duplicate Import Names",
       "description": "Verify that duplicate import names produce the correct error code",
       "feature": "error_handling",
-      "tags": [
-        "imports",
-        "duplicates",
-        "validation"
-      ],
+      "tags": ["imports", "duplicates", "validation"],
       "inputs": {
         "files": {
           "./module2.neuro.json": {
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
@@ -46,18 +38,16 @@
             "metadata": {
               "model": {
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                },
                 "name": "module2.neuro"
               }
             },
             "export": [
               {
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "name": "identity",
                 "type": "identity"
               }
@@ -69,10 +59,10 @@
               "model": {
                 "name": "duplicate_import_test",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -90,18 +80,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
@@ -109,9 +95,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -119,18 +103,14 @@
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
@@ -138,18 +118,16 @@
             "metadata": {
               "model": {
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                },
                 "name": "module1.neuro"
               }
             },
             "export": [
               {
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "name": "identity",
                 "type": "identity"
               }
@@ -170,11 +148,7 @@
       "title": "Import Not Found",
       "description": "Verify that missing import files produce the correct error code",
       "feature": "error_handling",
-      "tags": [
-        "imports",
-        "file_not_found",
-        "validation"
-      ],
+      "tags": ["imports", "file_not_found", "validation"],
       "inputs": {
         "neuro_model": {
           "$schema": "https://raw.githubusercontent.com/neuro-graph/schemas/latest/neuro.schema.json",
@@ -198,18 +172,14 @@
           "inputs": [
             {
               "name": "input",
-              "shape": [
-                10
-              ],
+              "shape": [10],
               "dtype": "float32"
             }
           ],
           "outputs": [
             {
               "name": "output",
-              "shape": [
-                10
-              ],
+              "shape": [10],
               "dtype": "float32"
             }
           ],
@@ -217,9 +187,7 @@
             {
               "name": "identity",
               "type": "identity",
-              "arguments": [
-                "input"
-              ]
+              "arguments": ["input"]
             }
           ]
         }

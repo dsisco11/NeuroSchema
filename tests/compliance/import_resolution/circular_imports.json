@@ -3,10 +3,10 @@
   "metadata": {
     "name": "Circular Import Tests",
     "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+    "modalities": {
+      "inputs": ["custom"],
+      "outputs": ["custom"]
+    },
     "description": "Tests for detecting and handling circular import dependencies",
     "category": "validation"
   },
@@ -16,11 +16,7 @@
       "title": "Direct Circular Import",
       "description": "Verify that direct circular imports (A imports B, B imports A) are detected",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "circular_dependency",
-        "validation"
-      ],
+      "tags": ["imports", "circular_dependency", "validation"],
       "inputs": {
         "files": {
           "model_a.neuro.json": {
@@ -29,10 +25,10 @@
               "model": {
                 "name": "model_a",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -45,18 +41,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -64,9 +56,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -76,10 +66,10 @@
               "model": {
                 "name": "model_b",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -92,18 +82,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -111,9 +97,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }
@@ -132,12 +116,7 @@
       "title": "Indirect Circular Import",
       "description": "Verify that indirect circular imports (A -> B -> C -> A) are detected",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "circular_dependency",
-        "validation",
-        "complex"
-      ],
+      "tags": ["imports", "circular_dependency", "validation", "complex"],
       "inputs": {
         "files": {
           "model_a.neuro.json": {
@@ -146,10 +125,10 @@
               "model": {
                 "name": "model_a",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -162,18 +141,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -181,9 +156,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -191,18 +164,14 @@
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
@@ -210,10 +179,10 @@
             "metadata": {
               "model": {
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                },
                 "name": "model_c.neuro"
               }
             },
@@ -226,9 +195,7 @@
             ],
             "export": [
               {
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "name": "identity",
                 "type": "identity"
               }
@@ -238,18 +205,14 @@
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
@@ -257,10 +220,10 @@
             "metadata": {
               "model": {
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                },
                 "name": "model_b.neuro"
               }
             },
@@ -273,9 +236,7 @@
             ],
             "export": [
               {
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "name": "identity",
                 "type": "identity"
               }
@@ -310,10 +271,10 @@
               "model": {
                 "name": "self_referencing_model",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -326,18 +287,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -345,9 +302,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }
@@ -366,12 +321,7 @@
       "title": "Complex Circular Import Chain",
       "description": "Verify that complex circular import chains (A -> B -> C -> D -> B) are detected",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "circular_dependency",
-        "validation",
-        "complex_chain"
-      ],
+      "tags": ["imports", "circular_dependency", "validation", "complex_chain"],
       "inputs": {
         "files": {
           "model_a.neuro.json": {
@@ -380,10 +330,10 @@
               "model": {
                 "name": "model_a",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -396,18 +346,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -415,9 +361,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -427,10 +371,10 @@
               "model": {
                 "name": "model_b",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -443,18 +387,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -462,9 +402,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -474,10 +412,10 @@
               "model": {
                 "name": "model_c",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -490,18 +428,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -509,9 +443,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -521,10 +453,10 @@
               "model": {
                 "name": "model_d",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -537,18 +469,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -556,9 +484,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }
@@ -577,11 +503,7 @@
       "title": "Valid Import Chain",
       "description": "Verify that valid linear import chains (A -> B -> C) work correctly",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "validation",
-        "positive_test"
-      ],
+      "tags": ["imports", "validation", "positive_test"],
       "inputs": {
         "files": {
           "model_b.neuro.json": {
@@ -590,10 +512,10 @@
               "model": {
                 "name": "model_b",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -606,18 +528,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -625,9 +543,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -637,10 +553,10 @@
               "model": {
                 "name": "model_a",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -653,18 +569,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -672,9 +584,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           },
@@ -684,27 +594,23 @@
               "model": {
                 "name": "model_c",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -712,9 +618,7 @@
               {
                 "name": "identity",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }

@@ -95,6 +95,7 @@ A resource link (URL or relative path) to an icon representing the model. The ic
 Color theming configuration that supports both light and dark themes with primary and secondary color variants.
 
 **Structure:**
+
 ```json
 {
   "ui": {
@@ -104,7 +105,7 @@ Color theming configuration that supports both light and dark themes with primar
         "secondary": "#34A853"
       },
       "dark": {
-        "primary": "#5A9BF8", 
+        "primary": "#5A9BF8",
         "secondary": "#4CAF50"
       }
     }
@@ -117,11 +118,12 @@ Color theming configuration that supports both light and dark themes with primar
 - **`light`** (Optional): Colors for light theme
   - **`primary`** (Optional): Primary color for light theme (hex format: `#RRGGBB`)
   - **`secondary`** (Optional): Secondary color for light theme (hex format: `#RRGGBB`)
-- **`dark`** (Optional): Colors for dark theme  
+- **`dark`** (Optional): Colors for dark theme
   - **`primary`** (Optional): Primary color for dark theme (hex format: `#RRGGBB`)
   - **`secondary`** (Optional): Secondary color for dark theme (hex format: `#RRGGBB`)
 
 **Usage examples:**
+
 ```json
 {
   "ui": {
@@ -140,6 +142,7 @@ Color theming configuration that supports both light and dark themes with primar
 ```
 
 **Common use cases:**
+
 - Model cards and listings with theme-aware styling
 - Progress indicators and status displays
 - Category groupings and visual organization
@@ -302,32 +305,44 @@ When updating models with UI metadata:
 
 ```typescript
 interface NeuroMetadata {
-    ui?: {
-        colors?: {
-            light?: {
-                primary?: string;
-                secondary?: string;
-            };
-            dark?: {
-                primary?: string;
-                secondary?: string;
-            };
-        };
+  ui?: {
+    colors?: {
+      light?: {
+        primary?: string;
+        secondary?: string;
+      };
+      dark?: {
+        primary?: string;
+        secondary?: string;
+      };
     };
+  };
 }
 
 function resolveColors(metadata: NeuroMetadata) {
-    const colors = metadata.ui?.colors;
-    return {
-        light: {
-            primary: colors?.light?.primary || colors?.dark?.primary || yourapp.theme.light.primary,
-            secondary: colors?.light?.secondary || colors?.dark?.secondary || yourapp.theme.light.secondary
-        },
-        dark: {
-            primary: colors?.dark?.primary || colors?.light?.primary || yourapp.theme.dark.primary,
-            secondary: colors?.dark?.secondary || colors?.light?.secondary || yourapp.theme.dark.secondary
-        }
-    };
+  const colors = metadata.ui?.colors;
+  return {
+    light: {
+      primary:
+        colors?.light?.primary ||
+        colors?.dark?.primary ||
+        yourapp.theme.light.primary,
+      secondary:
+        colors?.light?.secondary ||
+        colors?.dark?.secondary ||
+        yourapp.theme.light.secondary,
+    },
+    dark: {
+      primary:
+        colors?.dark?.primary ||
+        colors?.light?.primary ||
+        yourapp.theme.dark.primary,
+      secondary:
+        colors?.dark?.secondary ||
+        colors?.light?.secondary ||
+        yourapp.theme.dark.secondary,
+    },
+  };
 }
 ```
 
@@ -369,7 +384,7 @@ An array of modality types that describes the kinds of data this model produces 
 The following modality types are supported:
 
 - **`vision`**: 2D image, video, or visual data processing
-- **`text`**: Natural language text processing  
+- **`text`**: Natural language text processing
 - **`audio`**: Speech, music, or audio signal processing
 - **`tabular`**: Structured data, features, numerical datasets (without temporal dependencies)
 - **`timeseries`**: Sequential numerical data with temporal dependencies (finance, IoT, weather)

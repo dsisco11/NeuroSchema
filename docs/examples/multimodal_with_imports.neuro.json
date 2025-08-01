@@ -111,33 +111,33 @@
             "out_features": "@{config:constants/fusion_dimension}"
           }
         },
-            {
-              "name": "image_projection",
-              "type": "linear",
-              "arguments": ["@{inputs.image_features}"],
-              "weights": "@{pretrained_weights/image_proj_weight}",
-              "bias": "@{pretrained_weights/image_proj_bias}",
-              "attributes": {
-                "in_features": "@{image_encoder:constants/feature_dim}",
-                "out_features": "@{config:constants/fusion_dimension}"
-              }
-            },
-            {
-              "name": "cross_attention",
-              "type": "config:definitions/multihead_attention",
-              "arguments": ["@{text_projection}", "@{image_projection}"],
-              "weights": "@{pretrained_weights/attention_weights}",
-              "attributes": {
-                "num_heads": "@{config:constants/attention_heads}",
-                "embed_dim": "@{config:constants/fusion_dimension}"
-              }
-            },
-            {
-              "name": "fusion_output",
-              "type": "add",
-              "arguments": ["@{text_projection}", "@{cross_attention}"]
-            }
-          ],
+        {
+          "name": "image_projection",
+          "type": "linear",
+          "arguments": ["@{inputs.image_features}"],
+          "weights": "@{pretrained_weights/image_proj_weight}",
+          "bias": "@{pretrained_weights/image_proj_bias}",
+          "attributes": {
+            "in_features": "@{image_encoder:constants/feature_dim}",
+            "out_features": "@{config:constants/fusion_dimension}"
+          }
+        },
+        {
+          "name": "cross_attention",
+          "type": "config:definitions/multihead_attention",
+          "arguments": ["@{text_projection}", "@{image_projection}"],
+          "weights": "@{pretrained_weights/attention_weights}",
+          "attributes": {
+            "num_heads": "@{config:constants/attention_heads}",
+            "embed_dim": "@{config:constants/fusion_dimension}"
+          }
+        },
+        {
+          "name": "fusion_output",
+          "type": "add",
+          "arguments": ["@{text_projection}", "@{cross_attention}"]
+        }
+      ],
       "outputs": [
         {
           "name": "fused_representation",

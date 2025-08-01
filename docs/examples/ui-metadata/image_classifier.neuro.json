@@ -72,57 +72,58 @@
     {
       "name": "resnet_classifier",
       "type": "sequential",
-      "arguments": [{"name": "x", "type": "tensor"}],
+      "arguments": [{ "name": "x", "type": "tensor" }],
       "subgraph": [
-            {
-              "name": "conv1",
-              "type": "convolution",
-              "arguments": ["@{inputs.x}"],
-              "attributes": {
-                "kernel_size": [7, 7],
-                "stride": [2, 2],
-                "padding": [3, 3],
-                "in_channels": "@{constants/input_channels}",
-                "out_channels": "@{constants/conv1_out_channels}"
-              }
-            },
-            {
-              "name": "bn1",
-              "type": "batch_norm",
-              "arguments": ["@{./conv1}"],
-              "attributes": {
-                "num_features": "@{constants/conv1_out_channels}"
-              }
-            },
-            {
-              "name": "relu1",
-              "type": "relu",
-              "arguments": ["@{./bn1}"]
-            },
-            {
-              "name": "maxpool",
-              "type": "max_pool",
-              "arguments": ["@{./relu1}"],
-              "attributes": {
-                "kernel_size": [3, 3],
-                "stride": [2, 2],
-                "padding": [1, 1]
-              }
-            },
-            {
-              "name": "global_avgpool",
-              "type": "global_avg_pool",
-              "arguments": ["@{./maxpool}"]
-            },
-            {
-              "name": "classifier",
-              "type": "linear",
-              "arguments": ["@{./global_avgpool}"],
-              "attributes": {
-                "in_features": "@{constants/final_feature_dim}",
-                "out_features": "@{constants/num_classes}"
-              }
-            }        ],
+        {
+          "name": "conv1",
+          "type": "convolution",
+          "arguments": ["@{inputs.x}"],
+          "attributes": {
+            "kernel_size": [7, 7],
+            "stride": [2, 2],
+            "padding": [3, 3],
+            "in_channels": "@{constants/input_channels}",
+            "out_channels": "@{constants/conv1_out_channels}"
+          }
+        },
+        {
+          "name": "bn1",
+          "type": "batch_norm",
+          "arguments": ["@{./conv1}"],
+          "attributes": {
+            "num_features": "@{constants/conv1_out_channels}"
+          }
+        },
+        {
+          "name": "relu1",
+          "type": "relu",
+          "arguments": ["@{./bn1}"]
+        },
+        {
+          "name": "maxpool",
+          "type": "max_pool",
+          "arguments": ["@{./relu1}"],
+          "attributes": {
+            "kernel_size": [3, 3],
+            "stride": [2, 2],
+            "padding": [1, 1]
+          }
+        },
+        {
+          "name": "global_avgpool",
+          "type": "global_avg_pool",
+          "arguments": ["@{./maxpool}"]
+        },
+        {
+          "name": "classifier",
+          "type": "linear",
+          "arguments": ["@{./global_avgpool}"],
+          "attributes": {
+            "in_features": "@{constants/final_feature_dim}",
+            "out_features": "@{constants/num_classes}"
+          }
+        }
+      ],
       "outputs": [
         {
           "name": "class_logits",
@@ -135,10 +136,8 @@
   "export": [
     {
       "name": "resnet_classifier",
-      "type": "resnet_classifier", 
+      "type": "resnet_classifier",
       "arguments": ["@{inputs.image}"]
     }
   ]
 }
-
-

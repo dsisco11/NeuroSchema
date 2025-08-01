@@ -3,10 +3,10 @@
   "metadata": {
     "name": "Qualified Name Resolution Tests",
     "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+    "modalities": {
+      "inputs": ["custom"],
+      "outputs": ["custom"]
+    },
     "description": "Tests for proper resolution of qualified names in imports",
     "category": "import_resolution"
   },
@@ -16,11 +16,7 @@
       "title": "Qualified Constant Resolution",
       "description": "Verify that constants imported with qualified names can be resolved correctly",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "constants",
-        "qualified_names"
-      ],
+      "tags": ["imports", "constants", "qualified_names"],
       "inputs": {
         "files": {
           "./config.neuro.json": {
@@ -29,10 +25,10 @@
               "model": {
                 "name": "config_module",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "constants": [
@@ -71,10 +67,10 @@
               "model": {
                 "name": "qualified_constant_test",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -87,18 +83,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -106,9 +98,7 @@
               {
                 "name": "linear",
                 "type": "linear",
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "parameters": {
                   "output_size": "config:hidden_size"
                 }
@@ -135,11 +125,7 @@
       "title": "Qualified Definition Resolution",
       "description": "Verify that definitions imported with qualified names can be resolved correctly",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "definitions",
-        "qualified_names"
-      ],
+      "tags": ["imports", "definitions", "qualified_names"],
       "inputs": {
         "files": {
           "./layers.neuro.json": {
@@ -148,10 +134,10 @@
               "model": {
                 "name": "layer_definitions",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "definitions": [
@@ -191,10 +177,10 @@
               "model": {
                 "name": "qualified_definition_test",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -207,18 +193,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  512
-                ],
+                "shape": [512],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  256
-                ],
+                "shape": [256],
                 "dtype": "float32"
               }
             ],
@@ -226,9 +208,7 @@
               {
                 "name": "main_layer",
                 "type": "layers:encoder_layer",
-                "arguments": [
-                  "input"
-                ]
+                "arguments": ["input"]
               }
             ]
           }
@@ -253,11 +233,7 @@
       "title": "Namespace Collision Handling",
       "description": "Verify that collisions between primary and imported names are handled correctly",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "namespace_collision",
-        "qualified_names"
-      ],
+      "tags": ["imports", "namespace_collision", "qualified_names"],
       "inputs": {
         "files": {
           "collision_test.neuro.json": {
@@ -266,10 +242,10 @@
               "model": {
                 "name": "collision_test",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "constants": [
@@ -290,18 +266,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1
-                ],
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -309,9 +281,7 @@
               {
                 "name": "test_primary",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "parameters": {
                   "rate": "learning_rate"
                 }
@@ -319,9 +289,7 @@
               {
                 "name": "test_imported",
                 "type": "identity",
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "parameters": {
                   "rate": "config:learning_rate"
                 }
@@ -334,10 +302,10 @@
               "model": {
                 "name": "config_module",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "constants": [
@@ -398,11 +366,7 @@
       "title": "Multiple Namespace Resolution",
       "description": "Verify handling of objects imported from multiple namespaces",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "multiple_namespaces",
-        "qualified_names"
-      ],
+      "tags": ["imports", "multiple_namespaces", "qualified_names"],
       "inputs": {
         "files": {
           "./decoder.neuro.json": {
@@ -411,10 +375,10 @@
               "model": {
                 "name": "decoder_module",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "constants": [
@@ -459,10 +423,10 @@
               "model": {
                 "name": "encoder_module",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "constants": [
@@ -507,10 +471,10 @@
               "model": {
                 "name": "multi_namespace_test",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -528,18 +492,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  512
-                ],
+                "shape": [512],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  256
-                ],
+                "shape": [256],
                 "dtype": "float32"
               }
             ],
@@ -547,9 +507,7 @@
               {
                 "name": "encode",
                 "type": "encoder:attention_layer",
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "parameters": {
                   "hidden_size": "encoder:hidden_size"
                 }
@@ -557,9 +515,7 @@
               {
                 "name": "decode",
                 "type": "decoder:output_layer",
-                "arguments": [
-                  "encode"
-                ],
+                "arguments": ["encode"],
                 "parameters": {
                   "output_size": "decoder:vocab_size"
                 }

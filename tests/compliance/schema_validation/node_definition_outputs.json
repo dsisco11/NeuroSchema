@@ -26,23 +26,19 @@
               }
             }
           },
-          "inputs": [
-            {"name": "input", "shape": [10], "dtype": "float32"}
-          ],
-          "outputs": [
-            {"name": "output", "shape": [5], "dtype": "float32"}
-          ],
+          "inputs": [{ "name": "input", "shape": [10], "dtype": "float32" }],
+          "outputs": [{ "name": "output", "shape": [5], "dtype": "float32" }],
           "definitions": [
             {
               "name": "simple_layer",
               "type": "sequential",
-              "arguments": [{"name": "x", "type": "tensor"}],
+              "arguments": [{ "name": "x", "type": "tensor" }],
               "subgraph": [
                 {
                   "name": "linear",
                   "type": "linear",
                   "arguments": ["@{arguments.x}"],
-                  "attributes": {"in_features": 10, "out_features": 5}
+                  "attributes": { "in_features": 10, "out_features": 5 }
                 }
               ],
               "outputs": [
@@ -55,7 +51,11 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "@{simple_layer}", "arguments": ["@{inputs.input}"]}
+            {
+              "name": "main",
+              "type": "@{simple_layer}",
+              "arguments": ["@{inputs.input}"]
+            }
           ]
         }
       },
@@ -83,29 +83,25 @@
               }
             }
           },
-          "inputs": [
-            {"name": "input", "shape": [10], "dtype": "float32"}
-          ],
-          "outputs": [
-            {"name": "output", "shape": [3], "dtype": "float32"}
-          ],
+          "inputs": [{ "name": "input", "shape": [10], "dtype": "float32" }],
+          "outputs": [{ "name": "output", "shape": [3], "dtype": "float32" }],
           "definitions": [
             {
               "name": "multi_output_layer",
               "type": "sequential",
-              "arguments": [{"name": "x", "type": "tensor"}],
+              "arguments": [{ "name": "x", "type": "tensor" }],
               "subgraph": [
                 {
                   "name": "hidden",
                   "type": "linear",
                   "arguments": ["@{arguments.x}"],
-                  "attributes": {"in_features": 10, "out_features": 5}
+                  "attributes": { "in_features": 10, "out_features": 5 }
                 },
                 {
                   "name": "output",
                   "type": "linear",
                   "arguments": ["@{./hidden}"],
-                  "attributes": {"in_features": 5, "out_features": 3}
+                  "attributes": { "in_features": 5, "out_features": 3 }
                 }
               ],
               "outputs": [
@@ -123,7 +119,11 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "@{multi_output_layer}", "arguments": ["@{inputs.input}"]}
+            {
+              "name": "main",
+              "type": "@{multi_output_layer}",
+              "arguments": ["@{inputs.input}"]
+            }
           ]
         }
       },
@@ -145,32 +145,32 @@
             "model": {
               "name": "missing_outputs_test",
               "version": "1.0.0",
-              "modalities": {"inputs": ["custom"], "outputs": ["custom"]}
+              "modalities": { "inputs": ["custom"], "outputs": ["custom"] }
             }
           },
-          "inputs": [
-            {"name": "input", "shape": [10], "dtype": "float32"}
-          ],
-          "outputs": [
-            {"name": "output", "shape": [5], "dtype": "float32"}
-          ],
+          "inputs": [{ "name": "input", "shape": [10], "dtype": "float32" }],
+          "outputs": [{ "name": "output", "shape": [5], "dtype": "float32" }],
           "definitions": [
             {
               "name": "incomplete_layer",
               "type": "sequential",
-              "arguments": [{"name": "x", "type": "tensor"}],
+              "arguments": [{ "name": "x", "type": "tensor" }],
               "subgraph": [
                 {
                   "name": "linear",
                   "type": "linear",
                   "arguments": ["@{arguments.x}"],
-                  "attributes": {"in_features": 10, "out_features": 5}
+                  "attributes": { "in_features": 10, "out_features": 5 }
                 }
               ]
             }
           ],
           "export": [
-            {"name": "main", "type": "@{incomplete_layer}", "arguments": ["@{inputs.input}"]}
+            {
+              "name": "main",
+              "type": "@{incomplete_layer}",
+              "arguments": ["@{inputs.input}"]
+            }
           ]
         }
       },
@@ -194,26 +194,22 @@
             "model": {
               "name": "invalid_ref_test",
               "version": "1.0.0",
-              "modalities": {"inputs": ["custom"], "outputs": ["custom"]}
+              "modalities": { "inputs": ["custom"], "outputs": ["custom"] }
             }
           },
-          "inputs": [
-            {"name": "input", "shape": [10], "dtype": "float32"}
-          ],
-          "outputs": [
-            {"name": "output", "shape": [5], "dtype": "float32"}
-          ],
+          "inputs": [{ "name": "input", "shape": [10], "dtype": "float32" }],
+          "outputs": [{ "name": "output", "shape": [5], "dtype": "float32" }],
           "definitions": [
             {
               "name": "invalid_ref_layer",
               "type": "sequential",
-              "arguments": [{"name": "x", "type": "tensor"}],
+              "arguments": [{ "name": "x", "type": "tensor" }],
               "subgraph": [
                 {
                   "name": "linear",
                   "type": "linear",
                   "arguments": ["@{arguments.x}"],
-                  "attributes": {"in_features": 10, "out_features": 5}
+                  "attributes": { "in_features": 10, "out_features": 5 }
                 }
               ],
               "outputs": [
@@ -226,7 +222,11 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "@{invalid_ref_layer}", "arguments": ["@{inputs.input}"]}
+            {
+              "name": "main",
+              "type": "@{invalid_ref_layer}",
+              "arguments": ["@{inputs.input}"]
+            }
           ]
         }
       },
@@ -250,26 +250,22 @@
             "model": {
               "name": "malformed_ref_test",
               "version": "1.0.0",
-              "modalities": {"inputs": ["custom"], "outputs": ["custom"]}
+              "modalities": { "inputs": ["custom"], "outputs": ["custom"] }
             }
           },
-          "inputs": [
-            {"name": "input", "shape": [10], "dtype": "float32"}
-          ],
-          "outputs": [
-            {"name": "output", "shape": [5], "dtype": "float32"}
-          ],
+          "inputs": [{ "name": "input", "shape": [10], "dtype": "float32" }],
+          "outputs": [{ "name": "output", "shape": [5], "dtype": "float32" }],
           "definitions": [
             {
               "name": "malformed_ref_layer",
               "type": "sequential",
-              "arguments": [{"name": "x", "type": "tensor"}],
+              "arguments": [{ "name": "x", "type": "tensor" }],
               "subgraph": [
                 {
                   "name": "linear",
                   "type": "linear",
                   "arguments": ["@{arguments.x}"],
-                  "attributes": {"in_features": 10, "out_features": 5}
+                  "attributes": { "in_features": 10, "out_features": 5 }
                 }
               ],
               "outputs": [
@@ -282,7 +278,11 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "@{malformed_ref_layer}", "arguments": ["@{inputs.input}"]}
+            {
+              "name": "main",
+              "type": "@{malformed_ref_layer}",
+              "arguments": ["@{inputs.input}"]
+            }
           ]
         }
       },
@@ -306,33 +306,33 @@
             "model": {
               "name": "empty_outputs_test",
               "version": "1.0.0",
-              "modalities": {"inputs": ["custom"], "outputs": ["custom"]}
+              "modalities": { "inputs": ["custom"], "outputs": ["custom"] }
             }
           },
-          "inputs": [
-            {"name": "input", "shape": [10], "dtype": "float32"}
-          ],
-          "outputs": [
-            {"name": "output", "shape": [5], "dtype": "float32"}
-          ],
+          "inputs": [{ "name": "input", "shape": [10], "dtype": "float32" }],
+          "outputs": [{ "name": "output", "shape": [5], "dtype": "float32" }],
           "definitions": [
             {
               "name": "empty_outputs_layer",
               "type": "sequential",
-              "arguments": [{"name": "x", "type": "tensor"}],
+              "arguments": [{ "name": "x", "type": "tensor" }],
               "subgraph": [
                 {
                   "name": "linear",
                   "type": "linear",
                   "arguments": ["@{arguments.x}"],
-                  "attributes": {"in_features": 10, "out_features": 5}
+                  "attributes": { "in_features": 10, "out_features": 5 }
                 }
               ],
               "outputs": []
             }
           ],
           "export": [
-            {"name": "main", "type": "@{empty_outputs_layer}", "arguments": ["@{inputs.input}"]}
+            {
+              "name": "main",
+              "type": "@{empty_outputs_layer}",
+              "arguments": ["@{inputs.input}"]
+            }
           ]
         }
       },
@@ -356,26 +356,22 @@
             "model": {
               "name": "missing_output_fields_test",
               "version": "1.0.0",
-              "modalities": {"inputs": ["custom"], "outputs": ["custom"]}
+              "modalities": { "inputs": ["custom"], "outputs": ["custom"] }
             }
           },
-          "inputs": [
-            {"name": "input", "shape": [10], "dtype": "float32"}
-          ],
-          "outputs": [
-            {"name": "output", "shape": [5], "dtype": "float32"}
-          ],
+          "inputs": [{ "name": "input", "shape": [10], "dtype": "float32" }],
+          "outputs": [{ "name": "output", "shape": [5], "dtype": "float32" }],
           "definitions": [
             {
               "name": "incomplete_output_layer",
               "type": "sequential",
-              "arguments": [{"name": "x", "type": "tensor"}],
+              "arguments": [{ "name": "x", "type": "tensor" }],
               "subgraph": [
                 {
                   "name": "linear",
                   "type": "linear",
                   "arguments": ["@{arguments.x}"],
-                  "attributes": {"in_features": 10, "out_features": 5}
+                  "attributes": { "in_features": 10, "out_features": 5 }
                 }
               ],
               "outputs": [
@@ -386,7 +382,11 @@
             }
           ],
           "export": [
-            {"name": "main", "type": "@{incomplete_output_layer}", "arguments": ["@{inputs.input}"]}
+            {
+              "name": "main",
+              "type": "@{incomplete_output_layer}",
+              "arguments": ["@{inputs.input}"]
+            }
           ]
         }
       },

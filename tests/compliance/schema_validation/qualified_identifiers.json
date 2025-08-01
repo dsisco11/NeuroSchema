@@ -3,10 +3,10 @@
   "metadata": {
     "name": "Schema Validation Identifier Tests",
     "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+    "modalities": {
+      "inputs": ["custom"],
+      "outputs": ["custom"]
+    },
     "description": "Tests for validating qualified identifiers in NeuroSchema",
     "category": "validation"
   },
@@ -206,4 +206,3 @@
     }
   ]
 }
-

@@ -3,10 +3,10 @@
   "metadata": {
     "name": "Import Security and Validation Tests",
     "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+    "modalities": {
+      "inputs": ["custom"],
+      "outputs": ["custom"]
+    },
     "description": "Tests for security validation and error handling in import resolution",
     "category": "error_handling"
   },
@@ -16,11 +16,7 @@
       "title": "Large Import Chain Validation",
       "description": "Verify that very large import chains are handled correctly",
       "feature": "import_resolution",
-      "tags": [
-        "performance",
-        "large_chains",
-        "validation"
-      ],
+      "tags": ["performance", "large_chains", "validation"],
       "inputs": {
         "files": {
           "./module_1.neuro.json": {
@@ -29,10 +25,10 @@
               "model": {
                 "name": "module_1",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "definitions": [
@@ -69,10 +65,10 @@
               "model": {
                 "name": "large_chain_test",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -105,18 +101,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  1000
-                ],
+                "shape": [1000],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
@@ -124,9 +116,7 @@
               {
                 "name": "stage_1",
                 "type": "module_1:layer_1",
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "parameters": {
                   "weights": "weights_1:data_reference"
                 }
@@ -134,9 +124,7 @@
               {
                 "name": "stage_2",
                 "type": "module_2:layer_2",
-                "arguments": [
-                  "stage_1"
-                ],
+                "arguments": ["stage_1"],
                 "parameters": {
                   "weights": "weights_2:data_reference"
                 }
@@ -144,9 +132,7 @@
               {
                 "name": "stage_3",
                 "type": "module_3:layer_3",
-                "arguments": [
-                  "stage_2"
-                ]
+                "arguments": ["stage_2"]
               }
             ]
           },
@@ -156,10 +142,10 @@
               "model": {
                 "name": "module_2",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "definitions": [
@@ -198,10 +184,10 @@
               "model": {
                 "name": "module_3",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "definitions": [

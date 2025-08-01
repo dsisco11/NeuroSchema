@@ -3,10 +3,10 @@
   "metadata": {
     "name": "Invalid Reference Tests",
     "version": "0.0.1",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+    "modalities": {
+      "inputs": ["custom"],
+      "outputs": ["custom"]
+    },
     "description": "Tests for validating basic NeuroFormat schema compliance",
     "category": "linking"
   },
@@ -40,7 +40,7 @@
           "outputs": [
             {
               "name": "output",
-              "shape": [1], 
+              "shape": [1],
               "dtype": "float32"
             }
           ],
@@ -111,4 +111,3 @@
     }
   ]
 }
-

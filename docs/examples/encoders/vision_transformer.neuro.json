@@ -66,7 +66,7 @@
     {
       "name": "vit_encoder",
       "type": "sequential",
-      "arguments": [{"name": "image", "type": "tensor"}],
+      "arguments": [{ "name": "image", "type": "tensor" }],
       "attributes": {
         "patch_size": "@{constants/patch_size}",
         "embed_dim": "@{constants/feature_dim}",
@@ -78,7 +78,10 @@
           "type": "convolution",
           "arguments": ["@{inputs.image}"],
           "attributes": {
-            "kernel_size": ["@{constants/patch_size}", "@{constants/patch_size}"],
+            "kernel_size": [
+              "@{constants/patch_size}",
+              "@{constants/patch_size}"
+            ],
             "stride": ["@{constants/patch_size}", "@{constants/patch_size}"],
             "in_channels": "@{constants/input_channels}",
             "out_channels": "@{constants/feature_dim}"
@@ -107,7 +110,7 @@
   "export": [
     {
       "name": "features",
-      "type": "vit_encoder", 
+      "type": "vit_encoder",
       "arguments": ["@{inputs.image}"]
     }
   ]

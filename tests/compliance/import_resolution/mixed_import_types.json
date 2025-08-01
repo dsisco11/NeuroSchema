@@ -3,10 +3,10 @@
   "metadata": {
     "name": "Mixed Import Types Tests",
     "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              },
+    "modalities": {
+      "inputs": ["custom"],
+      "outputs": ["custom"]
+    },
     "description": "Tests for handling mixed import types (neuro + safetensors) in the same model",
     "category": "import_resolution"
   },
@@ -16,12 +16,7 @@
       "title": "Mixed Neuro and Safetensors Imports",
       "description": "Verify that models can import both neuro definitions and safetensors data simultaneously",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "mixed_types",
-        "neuro",
-        "safetensors"
-      ],
+      "tags": ["imports", "mixed_types", "neuro", "safetensors"],
       "inputs": {
         "files": {
           "mixed_imports_test.neuro.json": {
@@ -30,10 +25,10 @@
               "model": {
                 "name": "mixed_imports_test",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -56,18 +51,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  512
-                ],
+                "shape": [512],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  10
-                ],
+                "shape": [10],
                 "dtype": "float32"
               }
             ],
@@ -75,9 +66,7 @@
               {
                 "name": "encoder",
                 "type": "layer_defs:transformer_layer",
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "parameters": {
                   "hidden_size": "config:hidden_size",
                   "weights": "weights:data_reference"
@@ -91,10 +80,10 @@
               "model": {
                 "name": "config",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "constants": [
@@ -114,7 +103,7 @@
             ],
             "outputs": [
               {
-                "name": "placeholder_output", 
+                "name": "placeholder_output",
                 "shape": [1],
                 "dtype": "float32"
               }
@@ -134,10 +123,10 @@
               "model": {
                 "name": "layer_definitions",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "definitions": [
@@ -159,7 +148,7 @@
             "outputs": [
               {
                 "name": "placeholder_output",
-                "shape": [1], 
+                "shape": [1],
                 "dtype": "float32"
               }
             ],
@@ -206,12 +195,7 @@
       "title": "Complex Mixed Import Hierarchy",
       "description": "Verify handling of complex import hierarchies with mixed types and nested imports",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "mixed_types",
-        "nested_imports",
-        "complex_hierarchy"
-      ],
+      "tags": ["imports", "mixed_types", "nested_imports", "complex_hierarchy"],
       "inputs": {
         "files": {
           "./decoder.neuro.json": {
@@ -220,10 +204,10 @@
               "model": {
                 "name": "decoder_module",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "definitions": [
@@ -263,10 +247,10 @@
               "model": {
                 "name": "attention_primitives",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "definitions": [
@@ -306,10 +290,10 @@
               "model": {
                 "name": "encoder_module",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -353,10 +337,10 @@
               "model": {
                 "name": "complex_hierarchy_test",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "imports": [
@@ -379,18 +363,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  1024
-                ],
+                "shape": [1024],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  1024
-                ],
+                "shape": [1024],
                 "dtype": "float32"
               }
             ],
@@ -398,9 +378,7 @@
               {
                 "name": "encode_stage",
                 "type": "encoder:attention_block",
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "parameters": {
                   "weights": "shared_weights:data_reference"
                 }
@@ -408,9 +386,7 @@
               {
                 "name": "decode_stage",
                 "type": "decoder:output_block",
-                "arguments": [
-                  "encode_stage"
-                ],
+                "arguments": ["encode_stage"],
                 "parameters": {
                   "weights": "shared_weights:data_reference"
                 }
@@ -449,11 +425,7 @@
       "title": "Import Precedence Validation",
       "description": "Verify that primary definitions take precedence over imported definitions with the same name",
       "feature": "import_resolution",
-      "tags": [
-        "imports",
-        "precedence",
-        "name_collision"
-      ],
+      "tags": ["imports", "precedence", "name_collision"],
       "inputs": {
         "files": {
           "precedence_test.neuro.json": {
@@ -462,10 +434,10 @@
               "model": {
                 "name": "precedence_test",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "constants": [
@@ -500,18 +472,14 @@
             "inputs": [
               {
                 "name": "input",
-                "shape": [
-                  100
-                ],
+                "shape": [100],
                 "dtype": "float32"
               }
             ],
             "outputs": [
               {
                 "name": "output",
-                "shape": [
-                  128
-                ],
+                "shape": [128],
                 "dtype": "float32"
               }
             ],
@@ -519,9 +487,7 @@
               {
                 "name": "primary_layer",
                 "type": "linear",
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "parameters": {
                   "batch_size": "batch_size"
                 }
@@ -529,9 +495,7 @@
               {
                 "name": "imported_layer",
                 "type": "external_defs:linear_layer",
-                "arguments": [
-                  "input"
-                ],
+                "arguments": ["input"],
                 "parameters": {
                   "batch_size": "external_defs:batch_size"
                 }
@@ -544,10 +508,10 @@
               "model": {
                 "name": "external_definitions",
                 "version": "1.0.0",
-              "modalities": {
-                "inputs": ["custom"],
-                "outputs": ["custom"]
-              }
+                "modalities": {
+                  "inputs": ["custom"],
+                  "outputs": ["custom"]
+                }
               }
             },
             "constants": [

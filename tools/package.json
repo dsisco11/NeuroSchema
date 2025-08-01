@@ -11,7 +11,11 @@
   "bin": {
     "validate-json-schema": "./validate-json-schema.js"
   },
-  "keywords": ["json-schema", "validation", "neurograph"],
+  "keywords": [
+    "json-schema",
+    "validation",
+    "neurograph"
+  ],
   "author": "",
   "license": "MIT"
 }
