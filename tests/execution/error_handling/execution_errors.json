@@ -350,8 +350,9 @@
               }
             }
           },
-          "definitions": {
-            "failing_layer": {
+          "definitions": [
+            {
+              "name": "failing_layer",
               "inputs": [
                 {
                   "name": "input",
@@ -386,7 +387,7 @@
               ],
               "export": ["division_by_zero"]
             }
-          },
+          ],
           "inputs": [
             {
               "name": "input",

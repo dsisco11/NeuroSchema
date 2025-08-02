@@ -394,11 +394,8 @@
     },
     "hex_value": {
       "type": "object",
-      "required": ["name", "type", "value"],
+      "required": ["type", "value"],
       "properties": {
-        "name": {
-          "$ref": "#/definitions/qualified_name"
-        },
         "type": {
           "type": "string",
           "const": "hex"
