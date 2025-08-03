@@ -8,6 +8,20 @@ const fs = require("fs");
 const path = require("path");
 const { program } = require("commander");
 
+const operatorsSchema = require("../schema/2025-draft/operators.schema.json");
+const layersSchema = require("../schema/2025-draft/layers.schema.json");
+const architecturesSchema = require("../schema/2025-draft/architectures.schema.json");
+const neuroSchema = require("../schema/2025-draft/neuro.schema.json");
+const testsSchema = require("../tests/tests.schema.json");
+
+const globalSchemaMap = {
+  "operators.schema.json": operatorsSchema,
+  "layers.schema.json": layersSchema,
+  "architectures.schema.json": architecturesSchema,
+  "neuro.schema.json": neuroSchema,
+  "tests.schema.json": testsSchema,
+};
+
 // Define command line options
 program
   .name("validate-json-schema")
@@ -75,7 +89,9 @@ async function ensureDependencies() {
 
 async function loadSchemaFileContent(schemaPath) {
   try {
-    console.log(`Loading schema from: ${schemaPath}`);
+    if (options.verbose) {
+      console.trace(`Reading schema file: ${schemaPath}`);
+    }
     const schemaContent = fs.readFileSync(schemaPath, "utf8");
     return JSON.parse(schemaContent);
   } catch (error) {
@@ -83,6 +99,22 @@ async function loadSchemaFileContent(schemaPath) {
     console.error(`Error: ${error.message}`);
     throw error;
   }
+}
+
+async function loadSchemaContent($ref) {
+  // Check if the schema is already loaded in the global map
+  if (globalSchemaMap[$ref]) {
+    return globalSchemaMap[$ref];
+  }
+  // get the file name from the $ref
+  const fileName = path.basename($ref);
+  // Check if the schema is already loaded in the global map by file name
+  if (globalSchemaMap[fileName]) {
+    return globalSchemaMap[fileName];
+  }
+
+  // If not, throw error
+  throw new Error(`Schema not found: ${$ref}. Please ensure it is loaded before use.`);  
 }
 
 async function getAjvInstance() {
@@ -95,7 +127,7 @@ async function getAjvInstance() {
       allErrors: true,
       verbose: false,
       strict: false,
-      loadSchema: loadSchemaFileContent,
+      loadSchema: loadSchemaContent,
       addUsedSchema: false,
     });
     addFormats(ajv);
@@ -110,7 +142,7 @@ async function getAjvInstance() {
 
 async function pushSchema(ajv, schemaPath, schemaId) {
   try {
-    const schemaContent = await loadSchemaFileContent(schemaPath);
+    const schemaContent = await loadSchemaContent(schemaPath);
 
     // Remove remote $id to force local resolution
     const localSchema = { ...schemaContent };
@@ -259,8 +291,8 @@ function validateJsonFile(jsonFilePath, validator, testsValidator) {
 
   // Use tests schema for files under tests/ directory
   const isTestFile =
-    relativePath.includes(path.sep + "tests" + path.sep) ||
-    relativePath.startsWith("tests" + path.sep);
+    relativePath.includes(`${path.sep}tests${path.sep}`) ||
+    relativePath.startsWith(`tests${path.sep}`);
   const activeValidator =
     isTestFile && testsValidator ? testsValidator : validator;
   const schemaType = isTestFile && testsValidator ? "tests" : "neuro";
@@ -425,9 +457,9 @@ async function main() {
 
   // Load schemas
   const neuroAjv = await getAjvInstance();
-  await addNeuroSchema(neuroAjv, fullSchemaPath);
-  const neuroSchema = await loadSchemaFileContent(fullSchemaPath);
-  const testsSchema = await loadSchemaFileContent(testsSchemaPath);
+  // await addNeuroSchema(neuroAjv, fullSchemaPath);
+  const neuroSchema = await loadSchemaContent('neuro.schema.json');//loadSchemaContent(fullSchemaPath);
+  const testsSchema = await loadSchemaContent('tests.schema.json');//loadSchemaContent(testsSchemaPath);
 
   const neuroValidator = await neuroAjv.compileAsync(neuroSchema);
   const testsValidator = await neuroAjv.compileAsync(testsSchema);
