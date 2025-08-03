@@ -3,10 +3,6 @@
   "metadata": {
     "name": "JSON Parsing Tests",
     "version": "1.0.0",
-    "modalities": {
-      "inputs": ["custom"],
-      "outputs": ["custom"]
-    },
     "description": "Tests for proper handling of JSON parsing errors at the DTO level",
     "category": "json_parsing"
   },
