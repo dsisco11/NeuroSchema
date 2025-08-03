@@ -66,6 +66,7 @@ async function ensureDependencies() {
           "ajv-formats": "^2.1.1",
           commander: "^11.0.0",
           glob: "^10.3.0",
+          "json-source-map": "^0.6.1",
         },
       };
 
@@ -216,60 +217,7 @@ async function addNeuroSchema(ajv, schemaPath) {
   }
 }
 
-/**
- * Find line and column number for a JSON path
- * @param {string} jsonContent - The JSON file content
- * @param {string} path - Dot-separated path like "definitions.0.name"
- * @returns {Object|null} - {line, column} or null if not found
- */
-function findJsonLocation(jsonContent, path) {
-  if (!path) return findJsonLocationByPosition(jsonContent, 0);
 
-  try {
-    // Parse JSON to get structure
-    const data = JSON.parse(jsonContent);
-
-    // Navigate to the path
-    const pathParts = path.split(".");
-    let current = data;
-    let jsonPath = "";
-
-    for (let i = 0; i < pathParts.length; i++) {
-      const part = pathParts[i];
-      if (current === null || current === undefined) break;
-
-      if (Array.isArray(current)) {
-        const index = parseInt(part);
-        if (isNaN(index) || index >= current.length) break;
-        current = current[index];
-        jsonPath += `[${index}]`;
-      } else if (typeof current === "object") {
-        if (!(part in current)) break;
-        current = current[part];
-        jsonPath += jsonPath ? `.${part}` : part;
-      } else {
-        break;
-      }
-    }
-
-    // Find the position of this path in the JSON string
-    // This is a simplified approach - we'll look for the key name
-    const lastPart = pathParts[pathParts.length - 1];
-    if (!lastPart) return null;
-
-    // Look for the property key in the JSON
-    const keyPattern = new RegExp(`"${lastPart}"\\s*:`);
-    const match = keyPattern.exec(jsonContent);
-
-    if (match) {
-      return findJsonLocationByPosition(jsonContent, match.index);
-    }
-
-    return null;
-  } catch (error) {
-    return null;
-  }
-}
 
 /**
  * Convert character position to line/column
@@ -283,6 +231,66 @@ function findJsonLocationByPosition(content, position) {
     line: lines.length,
     column: lines[lines.length - 1].length + 1,
   };
+}
+
+/**
+ * Get line/column position for a JSON path using source map
+ * @param {string} instancePath - AJV instance path (e.g., "/nodes/0/type")
+ * @param {Object} sourceMap - Source map from json-source-map
+ * @returns {Object|null} - {line, column} or null if not found
+ */
+function getLineColumnFromPath(instancePath, sourceMap) {
+  try {
+    if (!sourceMap || instancePath === undefined) {
+      return null;
+    }
+
+    // Convert AJV instance path to json-source-map pointer format
+    // AJV uses "/nodes/0/type", json-source-map uses "/nodes/0/type"
+    const jsonPointer = instancePath === "" ? "" : instancePath;
+    
+    // Try to get the source position for this path
+    const position = sourceMap[jsonPointer];
+    
+    if (position && position.value) {
+      return {
+        line: position.value.line + 1, // json-source-map uses 0-based lines
+        column: position.value.column + 1 // json-source-map uses 0-based columns
+      };
+    }
+
+    // If exact path not found, try parent paths
+    if (jsonPointer && jsonPointer.includes("/")) {
+      const parts = jsonPointer.split("/").filter(p => p !== "");
+      
+      // Try progressively shorter paths
+      for (let i = parts.length - 1; i >= 0; i--) {
+        const parentPath = "/" + parts.slice(0, i).join("/");
+        const parentPosition = sourceMap[parentPath];
+        
+        if (parentPosition && parentPosition.value) {
+          return {
+            line: parentPosition.value.line + 1,
+            column: parentPosition.value.column + 1
+          };
+        }
+      }
+    }
+
+    // Try root if nothing else works
+    const rootPosition = sourceMap[""];
+    if (rootPosition && rootPosition.value) {
+      return {
+        line: rootPosition.value.line + 1,
+        column: rootPosition.value.column + 1
+      };
+    }
+
+    return null;
+  } catch (error) {
+    // Silently fail and return null if source map lookup fails
+    return null;
+  }
 }
 
 function validateJsonFile(jsonFilePath, validator, testsValidator) {
@@ -302,9 +310,33 @@ function validateJsonFile(jsonFilePath, validator, testsValidator) {
   }
 
   try {
-    // Load and parse JSON file
+    // Load and parse JSON file with source map
     const jsonContent = fs.readFileSync(jsonFilePath, "utf8");
-    const data = JSON.parse(jsonContent);
+    
+    let data, sourceMap;
+    try {
+      // Try to get json-source-map
+      const jsonSourceMap = require("json-source-map");
+      const parseResult = jsonSourceMap.parse(jsonContent);
+      data = parseResult.data;
+      sourceMap = parseResult.pointers;
+      
+      if (options.verbose && sourceMap) {
+        console.log(`Source map available for ${fileName}`);
+        // Show some example mappings for debugging
+        console.log(`Available pointers:`, Object.keys(sourceMap));
+        console.log(`Root mapping:`, sourceMap[""]);
+        console.log(`Metadata mapping:`, sourceMap["/metadata"]);
+        console.log(`Metadata/name mapping:`, sourceMap["/metadata/name"]);
+      }
+    } catch (sourceMapError) {
+      // Fallback to regular JSON parsing if json-source-map is not available
+      data = JSON.parse(jsonContent);
+      sourceMap = null;
+      if (options.verbose) {
+        console.log(`Note: Source mapping not available for ${fileName}: ${sourceMapError.message}`);
+      }
+    }
 
     // Validate against schema
     const valid = activeValidator(data);
@@ -321,24 +353,24 @@ function validateJsonFile(jsonFilePath, validator, testsValidator) {
       if (activeValidator.errors) {
         activeValidator.errors.forEach(error => {
           const instancePath = error.instancePath || "";
-          const dataPath = instancePath.replace(/^\//, "").replace(/\//g, ".");
-
-          // Try to find line/column information for the error path
-          const location = findJsonLocation(jsonContent, dataPath);
-          const locationStr = location
-            ? `:${location.line}:${location.column}`
-            : "";
-
-          // Format error in standard format: file:line:column: message
+          
+          // Try to get line/column from source map
+          const location = sourceMap ? getLineColumnFromPath(instancePath, sourceMap) : null;
+          const locationStr = location ? `:${location.line}:${location.column}` : "";
+          
+          // Format error with location information
           console.log(`${relativePath}${locationStr}: ${error.message}`);
+          console.log(`  at path: ${instancePath || "/"}`);
 
           if (options.verbose) {
-            console.log(`  Path: ${instancePath || "/"}`);
             if (error.data !== undefined) {
               console.log(`  Data: ${JSON.stringify(error.data)}`);
             }
             if (error.schema !== undefined) {
               console.log(`  Schema: ${JSON.stringify(error.schema)}`);
+            }
+            if (error.schemaPath) {
+              console.log(`  Schema path: ${error.schemaPath}`);
             }
           }
         });
