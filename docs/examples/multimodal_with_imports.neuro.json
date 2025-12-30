@@ -207,7 +207,7 @@
     },
     {
       "name": "attention_weights",
-      "type": "config:definitions/attention_extractor",
+      "type": "@{config:definitions/attention_extractor}",
       "arguments": ["@{inputs.fused_features}"]
     }
   ]

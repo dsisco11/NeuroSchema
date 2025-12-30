@@ -204,7 +204,7 @@
           "outputs": [
             {
               "name": "output",
-              "shape": [10, -3],
+              "shape": [10, -1],
               "dtype": "float32"
             }
           ],
